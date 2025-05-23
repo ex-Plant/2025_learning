@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let number = 3;
+
+      // while (number < 10) {
+      //   console.log(number);
+      //   number++;
+      // }
+
+      do {
+        console.log(number);
+      } while (number < 3);
+
+      for (let i = 0; i < 10; i++) {
+        console.log(`i < 10`);
+      }
+
+      const VAR = `
+      let and const  were introduced in ES2015/2016
+
+      var is not block scoped. Declaring a var  means it is a global variable.
+      `;
+
+      var testVar = 123;
+
+      if (true) {
+        var testVar = 1;
+      }
+      console.log(testVar); // 1
+      console.log(window);
+      console.log(document);
+
+      const test = 1;
+      console.log(test);
+
+      console.log(window.test); // undefined
+      var test2 = 1;
+      console.log(window.test2); //1
+      delete window.test2;
+
+      console.log(test2); // 1
+
+      window.test3 = 11;
+      console.log(test3); //11
+
+      delete window.test3;
+      // console.log(test3); // error - not defined
+
+      for (let a = 1; a < 3; a++) {
+        console.log("a:", a);
+      }
+
+      if (true) {
+        var globalVarTests = 1;
+      }
+      console.log({ globalVarTests }); // 1
+
+      function testGlobalVars() {
+        var globalVatTests2 = "konrad";
+      }
+
+      // console.log(globalVatTests2); // not defined
+
+      if (true) {
+        let konrad = "konrad";
+      }
+
+      // console.log(konrad);
+
+      let coalescingOperatorTest = undefined;
+
+      let a = null;
+      let b = 1;
+      let c = a ?? b;
+      a ??= b; // a = a ?? b;
+
+      const operator = `
+      Asignments operators: =, +=, -=, *=, ?=, %=
+      logical && logical || logical !
+
+      `;
+
+      const testNotOperator = !"";
+      console.log(testNotOperator); // true
+      const testNotOperator2 = !" "; // false
+      console.log(testNotOperator2);
+      // Empty string with space inside is not actually empty and thus it is a truthy value!!.
+
+      const testObj = {
+        name: "konrad",
+        surname: "antonik",
+      };
+
+      console.log(testObj); //{name: 'konrad', surname: 'antonik'}
+      delete testObj.surname;
+      console.log(testObj); // name: 'konrad'}
+
+      delete testObj.test; // nothing happens
+
+      console.log("surname" in testObj); // false
+      console.log("name" in testObj); // true
+
+      for (let key in testObj) {
+        console.log(testObj[key]); // konrad
+      }
+
+      const testArr = [1, 2, 3, 4, 5];
+
+      for (let i in testArr) {
+        console.log(i);
+        console.log(testArr[i]);
+      }
+
+      let entries = Object.entries(testObj);
+      console.log(entries); // array
+
+      const keys = Object.keys(testObj);
+      console.log(keys); // ["name"];
+      console.log(Object.values(testObj)); // ['konrad']
+
+      console.log(typeof null);
+      console.log(typeof NaN); // number
+
+      let myNumber = 1234;
+      myNumber += "";
+      console.log(typeof myNumber);
+
+      const string = "1";
+
+      const numberFromString = +string;
+      console.log(numberFromString); // 1
+      console.log(typeof numberFromString); // number
+
+      let testArr = [];
+    </script>
+  </body>
+</html>
