@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hoisting</title>
+</head>
+<body>       
+    
+    <script>
+        const hoisting = `
+    Hoisting is the process of moving all variable declarations to the top of the function, while assignments
+    remain in their original place. Additionally, functions are also moved to the top of the program.
+    What does this mean?
+    For example, it means that we can call a function before its declaration.
+    In the case of var - a variable that is assigned after its usage won't throw an error;
+    it will automatically be assigned the value undefined.
+        `
+
+        function test1() {
+            console.log(a); // undefined
+            var a = 10;
+            console.log(a); // 10
+        }
+
+        function test1InPractise() {
+            var a; // undefined
+            console.log(a); // undefined
+            a = 10;
+            console.log(a); // 10
+        }
+
+        test1();
+
+
+        function test2() {
+            console.log(a); // Cannot access 'a' before initialization
+            let a = 10;
+            console.log(a); // 10
+        }
+
+        test2();
+
+        // function invoked before declaration are ok thanks to hoisting
+        test3();
+
+        function test3() {
+            console.log(a); // undefined
+            var a = 10;
+            console.log(a); // 10
+        }
+
+
+        //console.log(data); // ReferenceError: Cannot access 
+                             // 'data' before initialization
+                             // Jest hoisting ale nie przypisywane
+                             // jest undefined, więc nie możemy
+                             // odwołać się do takich let i const 
+        let data; // undefined
+        console.log(data); // undefined
+
+    </script>
+
+</body>
+</html>

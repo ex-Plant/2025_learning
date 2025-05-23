@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>var</title>
+  </head>
+  <body>
+    <script>
+      const VAR = `
+  let and const were introduced with ES2015/ES2016.
+  Before there was only var and this had many implications.
+  `;
+      const notScoped = `
+    1. Var IS NOT SCOPED!! Declaring a var means it is a global variable.
+     If you do it inside a function and use the same name it will replacing the var declared outside this function.
+  `;
+      var globalVariable = 1;
+      // create a block scope
+      if (true) {
+        var globalVariable = 23; // overwriting a global
+        console.log(globalVariable); // 23
+      }
+
+      var globalA = 10;
+
+      if (true) {
+        var globalA = 23;
+        console.log(globalA); // 23
+
+        var globalVarFromBlockScope = 100;
+      }
+
+      console.log(globalA); // 23
+      console.log(globalVarFromBlockScope); // 100 - it is accessible outside
+
+      const sameIdentifiers = `
+    2. You can use the same identifier more than once without any errors - super dangerous.
+   `;
+      var a = 12;
+      var a = 45; // no error
+
+      // let b = 12;
+      // let b = 45; // SyntaxError: Identifier 'b' has already been declared
+
+      const varWithWindowObj = `
+    3. with var we are effectively creating a global scope as we are in the window obj now and var has a function scope (window being the function)
+  `;
+
+      var b = 10;
+      console.log(window.b); // 10
+      console.log(b); // 10
+      console.log(window); // this object will have all global variables declared inside
+
+      const scope = `
+          In most programming languages, scope is defined by a block of code, but this is not the case in JavaScript.
+          In JS, there is global scope and local scope. Scope, also known as visibility, determines the accessibility of variables in different parts of the program.
+          The global scope exists for the entire lifespan of the script. Once a global variable is declared, it remains there unless we use delete on it.
+          A global variable can be used both inside and outside a function, effectively anywhere in the current document. In the browser, window is the global object.
+          Local/block scope exists within the function where the variable was declared, including the function's arguments.
+          By default, JavaScript does not have block scope with var, which can cause certain issues.
+`;
+
+      // this is scoped
+      {
+        let test2 = 33;
+        var test3 = 111;
+      }
+
+      // console.log(test2); // ReferenceError: test2 is not defined
+      console.log(test3); // 111
+
+      console.log(test3); // 111
+      console.log(window.test3); // 111 - global scope
+
+      console.log(window.g1); // undefined - block scope
+
+      // this will create a global variable
+      for (var a = 1; a < 3; a++) {
+        console.log("a:", a);
+      }
+
+      // it can be accessed outside scope
+      console.log(a); // 3
+      console.log(window.a); // 3
+
+      const scopeFunction = `
+
+        /*
+            Scope w funkcji - wszystko zadeklarowane wewnątrz
+            funkcji z var, let i const ma zakres lokalny, widoczne
+            jest tylko w funkcji. Z poziomu funkcji mamy dostęp
+            do zmiennych globalnych, możemy też te globalne
+            zmienne przesłonić.
+            Var zadeklarowany wewnątrz funkcji nie bedzie dostepny poza nia.
+        */
+`;
+
+      let data1 = 22;
+      let data2 = 33;
+
+      function foo() {
+        let data1 = 11;
+        var data2 = 44;
+
+        console.log({ data1 });
+        console.log({ data2 });
+
+        data3 = 99; // bad practice
+      }
+
+      data4 = "test"; // bad practice - global var - you could not do that with "use strict"
+      console.log({ data4 });
+      foo();
+
+      console.log({ data1 }); // 22
+      console.log({ data2 }); // 33 var declared in the scope did not overwrite let
+      console.log({ data3 }); // 99
+      console.log(window.data3); // 99
+      console.log({ data3 });
+
+      function bar() {
+        "use strict";
+        let data5 = 1;
+        //data4 = 101; // ReferenceError: data4 is not defined
+      }
+
+      bar();
+    </script>
+  </body>
+</html>
