@@ -23,3 +23,17 @@ md:grid-cols-[repeat(20,20px)]
 Check time of execution  of something 	
 Console.time
 console.timeend
+
+
+type TimeoutId = ReturnType<typeof setTimeout>
+const t = useRef<TimeoutId | null>(null)
+
+useEffect(() => {
+if (t.current) {
+clearTimeout(t.current)
+}
+
+    t.current = setTimeout(() => {
+      console.log('')
+    }, 500)
+}, [])  

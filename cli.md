@@ -73,3 +73,9 @@
 
 ## copy ##
 - cd my-project && cp .env.example .env` to copy the example environment variables
+
+# Create a file and write some content
+echo "some text " > fileName.fileExtension
+
+# List hidden files
+ls -a
