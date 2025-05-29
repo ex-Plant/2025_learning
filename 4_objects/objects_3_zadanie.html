@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<body>       
+    
+    <script>
+        
+        /*
+             Zadanie z metodami obiektu
+            1) Napisz obiekt opisujący szkołę
+               z jej nazwą, miastem oraz pustą tablicą,
+               gdzie będą studenci
+            2) Dodaj metodę do utworzenia studenta
+               na podstawie imienia i nazwiska addStudent().
+               Metoda ta doda obiekt studenta do tablicy
+               studentów.
+            3) Napisz metodę showStudents() która pokaże
+               w konsoli wszystkich studentów. Jeżeli ilość
+               studentów jest 0 to pokaż informację, że 
+               szkoła nie ma studentów
+            4) Dodaj metodę showStudentsByName() która przyjmie
+               parametr name pokazująca studentów tylko
+               z określonym imieniem w konsoli
+            5) Napisz metodę getNumStudents() która zwróci
+               ilość studentów
+            6) Dodaj metodę resetStudents() która skasuje 
+               studentów, po prostu przypisz pustą tablicę
+               do tablicy studentów
+            7) Dodaj kilku studentów (dwóch z tym samym imieniem) 
+               i pokaż wszystkich w konsoli.
+               Następnie pokaż powtarzających się studentów z tym
+               samym imieniem.
+               Pokaż ilość studentów, zresetuj ich i ponownie
+               pokaż w konsoli ich ilość. 
+        */
+
+        const school = {
+            name: "Szkoła #1",
+            city: "Gdańsk",
+            students: [],
+            addStudent: function (name, surname) {
+                const student = {
+                    name: name,
+                    surname: surname
+                };
+
+                const index = this.students.length;
+                this.students[index] = student;
+            },
+            showStudents: function () {
+                if (this.students.length == 0) {
+                    console.log("Brak studentów w szkole");
+                    return;
+                }
+
+                for (let i = 0; i < this.students.length; i++) {
+                    const s = this.students[i];
+                    console.log(s.name, s.surname);
+                }
+            },
+            showStudentsByName: function (name) {
+                if (this.students.length == 0) {
+                    console.log("Brak studentów w szkole");
+                    return;
+                }
+
+                console.log("Stdents by name", name, ":");
+
+                for (let i = 0; i < this.students.length; i++) {
+                    const s = this.students[i];
+                    if (s.name === name) console.log(s.name, s.surname);
+                }
+            },
+            getNumStudents: function() {
+                return this.students.length;
+            },
+            resetStudents: function () {
+                this.students = [];
+            }
+        };
+
+        school.addStudent("Ola", "Olska");
+        school.addStudent("Kasia", "Kowalska");
+        school.addStudent("Asia", "Asińska");
+        school.addStudent("Ola", "Asińska");
+        school.addStudent("Adam", "Adamski");
+        console.log(school.students);
+        school.showStudents();
+
+        school.showStudentsByName("Ola");
+
+        console.log(school.getNumStudents());
+        school.resetStudents()
+        console.log(school.getNumStudents());
+        
+
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </script>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+</body>
+</html>

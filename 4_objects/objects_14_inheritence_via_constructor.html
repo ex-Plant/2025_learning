@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>Objects Inheritance</title>
+</head>
+<body>
+<script>
+
+  const PROTOTYPE_CHAIN_VS_CONSTRUCTOR_CALL = `
+  Scenario 1: Prototype Chain
+  Inheritance through Prototype Chain: Here, you're establishing an inheritance chain by setting the prototype of the child constructor function
+  to an instance of the parent constructor.
+  Properties and Methods: Both properties and methods are accessed through the prototype chain.
+  This means that any instance of the child constructor can access properties and methods defined in the parent constructor's prototype.
+
+  Scenario 2: Constructor Function and Prototypes
+  Copying Properties: In this scenario, properties are copied from the parent to the child using the call method.
+  This ensures that each instance of the child constructor has its own copy of the parent's properties.
+  Prototype Methods: Methods that are added to the parent constructor's prototype are still inherited through the prototype chain.
+  You establish this by setting the child constructor's prototype to an instance of the parent constructor and then correcting the constructor property.
+
+  `
+
+  //1. We create a constructor
+  function Machine(name, vendor) {
+    this.name = name;
+    this.vendor = vendor;
+    this.printInfo = function () {
+      console.log(this.name.toUpperCase(), 'from:', this.vendor);}
+  }
+
+  // 2. This works as expected - we add properties (method in this case) to a constructor
+  Machine.prototype.getVendor = function() {return this.vendor}
+
+  const machineTest1 = new Machine(`shiny robot`, `Future labs inc.`);
+  machineTest1.printInfo();
+  const machineTest1GetTest = machineTest1.getVendor(); // SHINY ROBOT from: Future labs inc.
+  console.log({machineTest1GetTest}); // {machineTest1GetTest: 'Future labs inc.'}
+
+
+  //3. Now we add another constructor function
+  function Vehicle(name, vendor, type, numberOfWheels) {
+    // order is important!
+    // first lets copy properties from Machine constructor
+
+    // object call takes an object from witch the method is taken
+    Machine.call(this, name, vendor) // this will copy all the properties, it will not create references
+
+    // add new properties
+    this.type = type;
+    this.numberOfWheels = numberOfWheels;
+    // cover previous printFullInfo method
+    this.printFullInfo = function() {
+      console.log(this.name.toUpperCase(), 'from:', this.vendor, 'of type', this.type, `with`, this.numberOfWheels,
+        'wheels')
+    }
+  }
+
+  // 4. So far it works
+  const vehicleTest1 = new Vehicle(`shiny new vehicle`, `tesla`, `flying car`, 4)
+  console.log(vehicleTest1); //{name: 'shiny new vehicle', vendor: 'tesla', type: 'flying car', numberOfWheels: 4, printInfo: ƒ}
+  vehicleTest1.printInfo() // SHINY NEW VEHICLE from: tesla
+  vehicleTest1.printFullInfo() // SHINY NEW VEHICLE from: tesla
+
+  //5. We want to also add functionality to getVendor from machine prototype but, it doesn't work initially
+
+  // vehicleTest1.getVendor() // not a function
+
+  //6. We need to add connection to Machine to gain access to it;s prototype properties
+
+  Vehicle.prototype = new Machine();
+  // console.log(Vehicle.prototype.constructor);
+  const vehicleTest2 = new Vehicle(`shiny new vehicle`, `tesla`, `flying car`, 4)
+  const vendor = vehicleTest2.getVendor();
+  console.log(vendor); // tesla
+
+  //7. and now reconnect original constructor
+  Vehicle.prototype.constructor = Vehicle;
+
+  const vehicleTest3 = new Vehicle(`shiny new vehicle`, `tesla`, `flying car`, 4)
+  const vendor3 = vehicleTest2.getVendor();
+
+  //8. TA DA! it works again
+  console.log(vendor3); // tesla
+
+
+
+  //9 . MORE TESTS & EXAMPLES
+
+
+  Machine.prototype.getVendor = function() {return this.vendor}
+
+  function VehicleConstructor(name, vendor, type, wheels ) {
+    // Machine.call(this, name, vendor)
+    Machine.apply(this, [name, vendor] )
+
+    this.type = `Test vehicle`;
+    this.wheels = 6
+
+  }
+
+
+  const vehicle2 = new VehicleConstructor(`name`, `vendor`);
+  console.log(vehicle2)
+
+  VehicleConstructor.prototype = new Machine();
+  VehicleConstructor.prototype.constructor = VehicleConstructor;
+
+  const vehicle3 = new VehicleConstructor(`name`, `vendor`);
+
+  // const test = vehicle2.getVendor()  // not a function
+  const test = vehicle3.getVendor()
+  console.log(test); //vendor
+
+  function Truck(name, vendor, type, wheels, cargoType, weight) {
+    VehicleConstructor.call(this, name, vendor, type, wheels)
+    this.cargoType = cargoType;
+    this.weight = weight;
+  }
+
+  const truckInstance = new Truck(`monster`, `monster seller`, `monster type`, 16, `monster cargo type`, 200)
+
+  truckInstance.printInfo() // MONSTER from: monster seller
+  console.log(truckInstance);
+
+  // so to achieve the same thing without call or bind we would have to do something like
+
+  function TruckConstructor(name, vendor, type, wheels, cargoType, weight) {
+    this.name = name;
+    this.type = type;
+    this.wheels = wheels;
+    this.vendor = wheels;
+    this.cargoType = cargoType;
+    this.weight = weight;
+  }
+
+  const truckInstance2 = new TruckConstructor(`monster`, `monster seller`, `monster type`, 16, `monster cargo type`, 200)
+  console.log(truckInstance2);
+
+
+
+
+</script>
+
+</body>
+</html>

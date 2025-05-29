@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEFINE PROPERTY</title>
+
+</head>
+<body>       
+    
+    <script>
+
+        const defineProperty = `
+        Pozwala na dodanie wlasciwosci do obiektu, pozwala na ustawienie szczegolowo jak taka wlasciwosc w obiekcie ma sie zachowywac
+
+        `
+
+        // standardowe przypisanie wlasciwosc
+        let obj = {
+            a: 10,
+            b: 12
+        };
+
+        obj.c = 14;
+
+        // define property
+        Object.defineProperty(obj, "prop", {
+            value: "test",
+            writable: true,
+            configurable: false, // nie można skasować tej property z delete
+            enumerable: true
+        });
+
+        console.log(obj);
+        delete obj.prop;
+        console.log(obj);
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+</body>
+</html>

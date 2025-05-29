@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>   
+        body {
+            background: black;
+            color: white;  
+        }
+
+        * {
+            margin: 20px 2px;
+        }
+        
+    </style>
+</head>
+<body> 
+    
+    
+
+
+    <div id="joke"></div>
+
+    <script> 
+
+        const url = "https://api.chucknorris.io/jokes/random";
+
+        window.onload = function () {
+            let div = document.querySelector("#joke");
+
+            setInterval(function () {
+                getJoke(function (data) {
+                    console.log(data);
+                    div.innerHTML = data.value;
+                    div.style.fontSize = "40px"
+                });
+            }, 10000);
+        }
+
+
+        function getJoke(callback) {
+            fetch(url)
+            .then( response => response.json() )
+            .then( callback );
+        }
+        
+        
+        
+
+        
+
+
+
+        
+
+
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </script>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+</body>
+</html>

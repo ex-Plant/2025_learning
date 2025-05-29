@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SERIALIZATION</title>
+</head>
+<body>       
+    
+    <script> 
+
+        const serialization = `
+    Serialization in JavaScript refers to the process of converting an object into a format that can be easily stored or transmitted and then reconstructed later.
+    This is particularly useful for sending data over a network, saving it to a file, or storing it in a database.
+
+    In JavaScript, the most common form of serialization is converting objects to JSON (JavaScript Object Notation) format.
+    JSON is a lightweight data interchange format that is easy for humans to read and write and easy for machines to parse and generate.
+        `
+        let source = { 
+            str: "Hello",
+            a: 24,
+            data: {
+                b: 111,
+                arr: [1, 2, 3, 4, 5, 6]
+            },
+            date: new Date()
+        }
+
+        let strData = JSON.stringify(source);
+        console.log(strData);
+        /*
+            {"str":"Hello","a":24,"data":{"b":111,"arr":[1,2,3,4,5,6]},
+                "date":"2023-05-11T08:20:16.523Z"}
+        */
+
+        let otherObj = JSON.parse(strData);
+        console.log(otherObj);
+
+        otherObj.date = new Date(otherObj.date);
+        console.log(otherObj);
+        console.log(otherObj.date instanceof Date); // true
+
+        console.log(source.data === otherObj.data); // false
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+</body>
+</html>

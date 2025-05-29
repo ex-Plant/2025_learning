@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>PROTOTYPE CHAIN</title>
+</head>
+<body>
+<script>
+
+
+
+  const PROTOTYPE_CHAIN = `
+      In practice it means assigning to prototypes objects that we created ourselves.
+      `
+
+  // constructor
+  function Figure() {
+    this.name = `geometric figure`
+    // covering global Object to string function
+    this.toString = function() {
+      console.log(this.name);
+    }
+  }
+
+  const figure1 = new Figure()
+  figure1.toString() // geometric figure
+
+
+  function Figure2d() {
+    this.name = 'figure 2d'
+  }
+
+  function Rect(x, y, sideLength) {
+    this.x = x;
+    this.y = y;
+    this.sideLength = sideLength;
+    this.name = "you have been rect"
+  }
+
+
+
+  // 1. at first a prototype is an empty object and we want to add some values, methods to it
+
+  // console.log(Figure2d.prototype); // {}
+  const initialFigure2dExample = new Figure2d();
+
+  // 2. this works as expected so far
+  console.log(Figure2d.prototype.constructor );
+  console.log(initialFigure2dExample.constructor);
+  //Figure2d() {
+  //   this.name = 'figure 2d'
+  //   }
+
+  console.log(Figure2d.prototype.constructor === initialFigure2dExample.constructor ); // true
+
+
+  //3. instead of adding properties to a prototype,
+  // we can create an instance of an object with values we want to have access to and attach this object to a constructor prototype
+  Figure2d.prototype = new Figure();
+  console.log(Figure2d.prototype); // Figure {name: 'geometric figure', toString: ƒ}
+
+  //4. now we can use properties from a prototype we just assigned
+  const figure2dExample = new Figure2d();
+  figure2dExample.toString() // figure 2d
+
+  //5. The problem now is that we have lost connection to original constructor
+  // this is not correct we need to reconnect original constructor with prototype
+  console.log(Figure2d.prototype.constructor);
+  console.log(figure2dExample.constructor);
+  console.log(Figure2d.prototype.constructor === figure2dExample.constructor ); // true
+  //Figure() {
+  // this.name = `geometric figure`
+  // covering global Object to string function
+  // this.toString = function() {
+  //   console.log(this.name);
+  // }
+  // }
+
+
+  //6. We need to reestablish this connection so that we both have access to new properties via prototype while
+  // keeping access to constructor
+  Figure2d.prototype.constructor = Figure2d
+
+  // now constructor is correctly assigned to original value
+  console.log(Figure2d.prototype.constructor);
+  console.log(figure2dExample.constructor);
+  // ƒ Figure2d() {
+  // this.name = 'figure 2d'
+  // }
+
+  //7. Let's do it all over again
+  Rect.prototype = new Figure2d()
+  const rectExample = new Rect(20, 20, 30);
+
+  console.log(rectExample); // Rect {x: 20, y: 20, sideLength: 30, name: 'You have been rect'}
+
+  rectExample.toString() // you have been rect
+
+  Rect.prototype.constructor = Rect;
+
+  // correct value
+  console.log(rectExample.constructor);
+  //Rect(x, y, sideLength) {
+  // this.x = x;
+  // this.y = y;
+  // this.sideLength = sideLength;
+  // this.name = "you have been rect"
+  // }
+
+  // rect is an instance of all combined constructors
+  console.log(rectExample instanceof Rect); // true
+  console.log(rectExample instanceof Figure2d); // true
+  console.log(rectExample instanceof Figure); // true
+  console.log(rectExample instanceof Object); // true
+  console.log(rectExample instanceof Array); // false
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

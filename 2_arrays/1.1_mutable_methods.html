@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>ARRAYS POP</title>
+</head>
+<body>
+<script>
+
+  const mutableMethods = `
+        1. push
+        2. pop
+        3. unshift
+        4. shift
+        5. reverse
+        6. sort
+        7. splice
+        8. copyWithin
+        `
+
+
+  //1. push
+  const pushTab = [1, 2, 3, 4, 5];
+  pushTab.push(6);
+  pushTab.push(7);
+  console.log({ pushTab }); // [1, 2, 3, 4, 5, 6, 7]
+
+
+
+  //2. pop - removes last elements form original array and returns it
+  const popTab = [1, 2, 3, 4, 5]
+  let element = popTab.pop();
+  console.log({ element }); // 5
+  console.log({ popTab }); //[1, 2, 3, 4]
+
+
+  //3. unshift - add elements to the start of an arr
+  const unshiftTab = [1, 3, 4, 4, 8, 9, 10, 20];
+
+  unshiftTab.unshift(-3, -2, -1, 0);
+  console.log({ unshiftTab }); // [-3, -2, -1, 0, 1, 3, 4, 4, 8, 9, 10, 20]
+
+
+  //4 .shift - removes first elements from an array and returns it
+  const shiftTab = [1, 3, 4, 4, 8, 9, 10, 20];
+
+  let firstEl = shiftTab.shift();
+  console.log({ firstEl }); // 1
+  console.log(shiftTab); // [3, 4, 4, 8, 9, 10, 20]]
+
+
+  //5. reverse
+  const reverseTab = [1, 3, 4];
+  const newTab = reverseTab.reverse()
+  console.log({ newTab }); // [4, 3, 1]
+  console.log({ reverseTab }); // [4, 3, 1]
+
+
+  //6. sort without a callback sort sorts alphabetically
+  const sortTab =  ["Ania", "Ola", "Kasia", "Adam", "Karol", "Daniel", "Kasia"];
+  const sorted = sortTab.sort()
+  console.log({ sorted }); //['Adam', 'Ania', 'Daniel', 'Karol', 'Kasia', 'Kasia', 'Ola']
+
+  // this will not work as expected
+  const sortNumbersArr = [ 9, 3, 4 ,1, 8, 10, 20, 4];
+  const alphabeticallySorted = sortNumbersArr.sort()
+  console.log({ alphabeticallySorted }); // [1, 10, 20, 3, 4, 4, 8, 9]
+
+  const sortedNumbers = sortNumbersArr.sort((a, b) => a - b)
+  console.log({ sortedNumbers }); //[1, 3, 4, 4, 8, 9, 10, 20]
+
+
+  //7. splice
+  const SPLICE_METHOD = `
+  start
+  items count
+  new items
+   "spojenie, splot, złączenie"
+  `
+  const arrTobBeSpliced = [0, 1, 2, 3, 4, 5];
+  arrTobBeSpliced.splice(1,3); // start at index 1 delete 3
+
+  console.log({ arrTobBeSpliced });// [0, 4, 5]
+
+  const SPLICE_METHOD_WITH_EXTRA_ITEMS = `
+    start from index 1, delete 3 items and add some elements in place of deleted ones
+  `
+  const arrTobBeSpliced2 = [0, 1, 2, 3, 4, 5]
+  arrTobBeSpliced2.splice(1,3, "konrad", "teresa", 1, 2, 3, 4)
+
+  console.log({ arrTobBeSpliced2 }); // [0, 'konrad', 'teresa', 1, 2, 3, 4, 4, 5]
+
+
+  //8. copyWithin
+
+  const copyWithin = `
+  First argument - target element index
+  Second - Copied elements start index
+  Third - End index of copied elements - 1
+  So if i want to copy just one element of an array with index 0 and copy it toi the end of an array we would do:
+  arr.copyWithin(arr.length - 1, 0, 1)
+  -arr.length - 1 - last index so it would be copy there
+  -0 - element to be copied
+  `
+
+
+  const test = [100, 3, 45, 67, 200];
+  console.log(test);
+  console.log( test.copyWithin(1, 3) ); // [100, 67, 200, 67, 200]
+  console.log(test);
+
+  console.log( [1,2,3,4,5,6].copyWithin(1, 3, 4) );
+  [1, 4, 3, 4, 5, 6]
+
+  console.log( [1,2,3,4,5,6].copyWithin(1, 3, 5) );
+  [1, 4, 5, 4, 5, 6]
+
+  const newArr = [1,2,3,4,5,6]
+  console.log(newArr.copyWithin(newArr.length - 1, 0, 1 )) // [1, 2, 3, 4, 5, 1]
+
+  const addFirstELToTheEnd = [...newArr, newArr[0]]
+  console.log(addFirstELToTheEnd); //[1, 2, 3, 4, 5, 1, 1]
+
+  const addFirstELToTheEnd2 = [...newArr];
+  addFirstELToTheEnd2.push(newArr[0])
+  console.log(addFirstELToTheEnd2); //[1, 2, 3, 4, 5, 1, 1]
+
+
+
+
+</script>
+
+
+
+</body>
+</html>

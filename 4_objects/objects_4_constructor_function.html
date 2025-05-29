@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body>
+    <script>
+        /*
+         Objekty mogą być utworzone również dzięki konstruktorowi
+         czyli specjalnej funkcji, pewnego szablonu na bazie
+         którego powstanie obiekt. Stworzenie nowej instancji
+         obiektu, czyli nowego egzemplarza będzie wymagało
+         wykorzystanie słowa kluczowego new.
+         Nazwy konstruktorów przyjeło się pisać z dużej litery
+         dzięki czemu wszyscy programiści wiedzą że to konstruktor.
+         */
+
+        // we are using a constructor function when creating a new Date obj
+        let date = new Date();
+        // console.log(date);
+
+
+        // funkcja konstruująca
+        function Car(brand, name, color) {
+            this.brand = brand;
+            this.name = name;
+            this.color = color;
+            this.year = 2005;
+
+            this.printData = function() {
+                console.log(this.brand, this.name, this.color, this.year);
+            }
+        }
+
+        let car1 = new Car("Ford", "Mustang", "red");
+        console.log(car1);
+        car1.printData();
+
+        let car2 = new Car("Ford", "Mustang", "green");
+        console.log(car2);
+        car2.printData();
+
+
+
+        function DJ(realName, djName, genre) {
+            this.realName = realName;
+            this.djName = djName;
+            this.genre = genre;
+
+            this.printData = function() {
+                console.log(this.realName, this.djName, this.genre)
+            }
+        }
+
+        let newDj = new DJ(`konrad`, `baklazan`, `house`)
+        console.log(newDj);
+        newDj.printData()
+
+
+
+        /*
+         Zadanie
+         1. Stwórz konstruktor opisujący czasopismo
+         2. Napisz metode addAdvert() umożliwijącą dodanie reklamy
+         na konkretnej stronie w formie obiektu
+         z nazwą reklamy oraz strony do tablicy adverts
+         znajdującej się w obiekcie.
+         Skorzystaj z metody push() tablicy aby dodać obiekt
+         reklamy na koniec tablicy
+         3. Napisz zmetodę printAdverts() pokazującą wszystkie
+         reklamy
+         4. Stwórz dowolny magazyn, dodaj kilka reklam i pokaż
+         je w konsoli
+         */
+
+        function Magazine(title) {
+            this.title = title;
+            this.adverts = [];
+
+            this.addAdvert = function (name, page) {
+                this.adverts.push({
+                    name: name,
+                    page: page
+                });
+            }
+
+            this.printAdverts = function () {
+                for (let i = 0; i < this.adverts.length; i++) {
+                    const a = this.adverts[i];
+                    console.log("Advert:", a.name, a.page);
+                }
+            }
+        }
+
+        const magazine = new Magazine("It world");
+        console.log(magazine);
+
+        magazine.addAdvert("Computer", 3);
+        magazine.addAdvert("Laptop", 5);
+        magazine.addAdvert("Console", 10);
+        magazine.printAdverts();
+
+
+        function TestConstructorArrow(title) {
+            this.title = title;
+            this.showTitle = () => {
+                console.log(this.title);
+            }
+        }
+
+        const test = new TestConstructorArrow(`times`)
+        test.showTitle()
+
+
+
+
+
+
+    </script>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>functions</title>
+</head>
+<body>
+<script>
+    const functions = `
+    Functions allow multiple invocations of a given code.
+    The function can accept data when it is invoked known as parameters.
+    However, when invoking the function, the data passed to the function is called arguments.
+    PARAMETERS ONLY DURING FUNCTION DECLARATION
+    ARGUMENTS DURING FUNCTION INVOCATION
+    If a function does not return anything, it returns undefined by default.
+  `
+
+        // FUNCTION DECLARATION
+        function sumFoo(a, b, c, d) { // PARAMS
+            let sum = a + b + c + d;
+            return sum;
+        }
+
+        // FUNCTION CALL
+        let result = sumFoo(1,2,3,4); // ARGUMENTS
+        console.log({result});
+
+        function multiply(a, b) {
+            let sum = a * b;
+            return { sum };
+        }
+
+        console.log(multiply(3, 10));
+
+        const functionExpression = `
+         An anonymous function is a function that does not have a name.
+         It is defined without using the function keyword and a name.
+         Function expression - a way to define  a function and assign it to a variable.
+         `
+
+        let anonymousFoo = function (a, b) {
+            const result = a + b;
+            return { result }
+        }
+        anonymousFoo(5, 10) // 15
+
+
+        const callback = ` Callback is a function passed to another function as an argument.`
+
+        function show(txt) {
+            console.log({ txt });
+        }
+
+        function showArr(arr, callback) {
+            for (let i = 0; i < arr.length; i++) {
+                const num = arr[i];
+                callback( num);
+            }
+        }
+
+        const arr = [1,2,3,4,5];
+
+        showArr(arr, show);
+
+        function callbackFoo(el) {
+            console.log(el);
+        }
+
+        function greaterThanSix(arr, callback) {
+            for(let i = 0; i< arr.length; i++ ) {
+                let num = arr[i]
+                if (num > 6) {
+                    callback({ num })
+                }
+            }
+        }
+
+        greaterThanSix([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], callbackFoo)
+
+
+        const argumentsObject = `
+        In regular functions, the arguments object is available and contains all the arguments passed to the function when it is invoked.
+        The arguments object is not available in arrow functions.
+        When you define a regular function without any arguments, you can still access all the arguments that are passed to the function when it is invoked.
+        The arguments object provides access to these arguments.
+         `
+
+        function sumAll() {
+            let result = 0;
+            for (let i = 0; i < arguments.length; i++) {
+                result += arguments[i];
+            }
+            return result;
+        }
+
+        console.log( sumAll(1,2,3) ); // 6
+        console.log( sumAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14) ); // 105
+
+        function myFoo() {
+            console.log(arguments);
+        }
+        myFoo(1, 2, 3, 4)
+
+
+        // Attention! Objects can still be modified after being passed to a function!
+
+        function foo(num, obj) {
+            num = 12; // primitive type it doesn't do much with original number
+            obj.data = "test!"; // this will modify original object as it points to the same obj
+        }
+
+        let a = 7;
+        let data = { data: "text" };
+        foo(a, data);
+
+        console.log("a:", a); // 7 - not changed
+        // console.log("data:", data); // 'test!' - changed
+
+        let myArrToBeModified = [1, 2, 3]
+
+        // this will change the original arr
+        function multiplyBy3(arr) {
+            for (let i = 0; i < arr.length; i++) {
+                 arr[i] *= 3
+            }
+        }
+        multiplyBy3(myArrToBeModified)
+        console.log(myArrToBeModified); // [3, 6, 9]
+
+        /* NESTED FUNCTIONS */
+
+        function nestedFoo(arr) {
+            function show(data) {
+                console.log(data);
+            }
+
+            for (let i = 0; i < arr.length; i++) {
+                show(`nested: ${arr[i] * 2}`)
+            }
+        }
+
+        nestedFoo([1,2,3,4,5]); // 2, 4, 6, 8, 10
+
+        const defaultArguments = `Available since ES6 2015`
+
+        function createEmployee(name = "unknown", surname = "unknown", email = "unknown@example.com") {
+            return {
+                name: name,
+                surname: surname,
+                email: email
+            };
+        }
+
+        console.log( createEmployee() ); //{name: 'unknown', surname: 'unknown', email: 'unknown@example.com'}
+        console.log( createEmployee("Ola") ); //{name: 'Ola', surname: 'unknown', email: 'unknown@example.com'}
+        console.log( createEmployee("Ola", "Kowalska") ); //{name: 'Ola', surname: 'Kowalska', email: 'unknown@example.com'}
+
+    </script>
+
+</body>
+</html>

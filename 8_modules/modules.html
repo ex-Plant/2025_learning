@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>modules</title>
+</head>
+<body>
+<!-- first add path to a module - type=module lines are crucial for this to work!!-->
+<script type='module' src='modules.js'></script>
+
+<!-- import it here -->
+<script type='module'>
+
+  const EXPORT = `
+  MODULES ALWAYS WORK IN STRICT MODE
+  there can bem only one default export in a module if we want to export multiple things like that, we would normally export it as an object
+
+  const defaultExport = 'default export';
+
+  export default {
+    defaultExport,
+    defaultExport2,
+  }
+
+  import defaultExport  from './modules.js'
+
+
+  non default export means it is simply named export, than when imported we use square brackets
+
+  export const normal_export  = \`normal export \`
+  import {normal_export}  from './modules.js'
+
+  In some scenarios, if a file has both default and not default export we can still import the data
+  import defaultExport, {someNotDefaultExport, andAnotherOne} from './some-file-path.js'
+
+
+  `
+
+  import * as allData from './modules.js'
+  import {normal_export}  from './modules.js'
+  import defaultExport  from './modules.js'
+
+  console.log({ normal_export }); // normal export
+  console.log({defaultExport}); // default export
+  console.log(allData.default); // default export
+
+
+
+
+
+</script>
+
+</body>
+</html>

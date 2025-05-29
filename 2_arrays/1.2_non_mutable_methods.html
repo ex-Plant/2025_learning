@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>ARRAYS POP</title>
+</head>
+<body>
+<script>
+
+  const nonMutableMethods = `
+        - toReversed
+        - concat
+        - join / returns a string
+        - indexOf
+        - lastIndexOf
+        - includes
+        - toSorted()
+        - slice
+        - findIndex
+        - every
+        - some
+        - flat
+        - flatMap
+        `
+
+
+  //1. toReversed returns new arr
+  const reverseTab = [1, 2, 3, 4]
+  const newReverseTab = reverseTab.toReversed();
+  console.log({ newReverseTab }); // [4, 3, 2, 1]
+  console.log({ reverseTab }); // [1, 2, 3, 4] - not mutated!
+
+
+
+
+  //2. concat - returns new array
+  const concatTab = reverseTab.concat([10, 11, 12]);
+  console.log({ concatTab }); // [1, 2, 3, 4, 10, 11, 12]
+
+
+  //3. join - returns a string
+  let stringTab = concatTab.join(" | ");
+
+  console.log({ stringTab }); // 1 | 2 | 3 | 4 | 10 | 11 | 1
+  console.log(concatTab); // original
+
+
+  //4. indexOf / lastindexOf
+  const tab = ["Ania", "Ola", "Kasia", "Adam", "Karol", "Daniel", "Kasia"];
+  let position = tab.indexOf("Adam");
+  console.log(position); // 3
+
+
+  position = tab.indexOf("Zuza");
+  console.log(position); // -1
+
+  position = tab.indexOf("Kasia");
+  console.log(position); // 2
+
+
+  position = tab.lastIndexOf("Kasia");
+  console.log(position); // 6
+
+
+  // 5.includes
+  console.log(tab.includes("Zuza")); // false
+  console.log(tab.includes("Ola")); // true
+
+
+
+  // 6. toSorted()
+  const newtTab = tab.toSorted()
+  console.log(tab); // not sorted
+  console.log({ newtTab }) // sorted
+
+
+
+  //8. slice
+  const SLICE_METHOD = `
+  The slice() method of Array instances returns a shallow copy  of a portion of an array into a new array
+  object selected from start to end (end not included) where start and end represent the index of items in that array.
+  The original array will not be modified.
+  "kawałek, plaster"
+  `
+
+
+  //9. findIndex
+  const FIND_INDEX = `similar to indexOf but takes a callback as an argument instead of a value.`
+
+  const arr = [2,3,4,5,6,7,8];
+
+  const foundIndex = arr.findIndex( el => el > 4);
+  console.log(foundIndex); // 4 indeks
+
+  //10. every
+  const EVERY = `returns true if every element of an array satisfies a given condition`
+
+  const numbers = [2,3,4,5,6,7,8];
+  const info = numbers.every( el => el >= 1 );
+  console.log(info); // true
+
+  //11. some
+
+  const SOME = `returns true if any of arr elements satisfies the condition`
+  const atLeastOne = numbers.some( el => el > 17 );
+  console.log(atLeastOne); // false
+
+
+  //12. flat
+
+  const FLAT = `
+  flattens a nexted array, we can pass how deep the flattening should go
+  `
+
+  const arr1 = [1,2, 3, 4, 5, [`x`, `y`, `z`]]
+  console.log({ arr1 });
+  const flatTest1 = arr1.flat()
+  console.log(flatTest1); //  [1, 2, 3, 4, 5, 'x', 'y', 'z']
+  console.log(arr1); // not mutated
+
+  const arr2 = [1,2, 3, 4, 5, [`x`, `y`, `z`, [1, 2, 3]]]
+  const flatTest2 = arr2.flat()
+  console.log(flatTest2); // [1, 2, 3, 4, 5, 'x', 'y', 'z', Array(3)]
+
+  // we need to go deeper
+  const flatTest3 = arr2.flat(2)
+  console.log(flatTest3); // [1, 2, 3, 4, 5, 'x', 'y', 'z', 1, 2, 3]
+
+  //13. flatMap
+
+  const FLATMAP = `
+  works only to one level of nesting
+  faster than doing arr.map.flat
+
+  `
+  const flatTestArr = [1, 2, 3,]
+  const normalMap = flatTestArr.map(el => [el, el * 2])
+  console.log(normalMap); // [ARRAY(2), ARRAY(2), ARRAY(2)]
+  console.log(normalMap.flat()) // [1, 2, 2, 4, 3, 6]
+
+  const flatMap = flatTestArr.flatMap(el => [el, el * 2])
+  console.log(flatMap); // [1, 2, 2, 4, 3, 6]
+
+
+
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>   
+        body {
+            background: black;
+            color: white;  
+        }
+
+        * {
+            margin: 20px 2px;
+        }
+        
+    </style>
+</head>
+<body>       
+    
+    
+
+    <script> 
+        /*
+            Zdarzenie click myszy podpinamy 
+            na obiekcie document
+        */ 
+
+        let p = document.createElement("p");
+        p.innerHTML = "Click me!";
+
+        document.getElementsByTagName("body")[0].appendChild(p);
+
+        document.addEventListener("click", function (event) {
+            console.log(event);
+            console.log(event.clientX, event.clientY);
+        });
+
+
+        p.addEventListener("click", (event) => {
+            console.log("p click");
+        });
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+    </script>
+ 
+</body>
+</html>

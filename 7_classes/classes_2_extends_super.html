@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>classes</title>
+</head>
+<body>
+<script>
+
+
+  class Animal {
+    constructor(name) {
+      this.name = name;
+
+      if (Animal.count === undefined) Animal.count = 0;
+      this.id = Animal.count;
+      Animal.count++;
+
+      this._type = "animal";
+    }
+
+    set type(str) {
+      if (typeof str === "string") this._type = str;
+    }
+    get type() {
+      return this._type;
+    }
+
+    printName() {
+      console.log("Animal:", this.name);
+    }
+  }
+
+
+
+  class Human extends Animal {
+    constructor(name) {
+      // if we extend a class we need to call it's constructor and we do that by calling super
+      super(name);
+    }
+
+    // przesłania metodę printName w Animal
+    printName() {
+      super.printName();
+      console.log("Human:", this.name);
+    }
+  }
+
+  const human1 = new Human("Olek");
+  human1.printName(); // Olek
+  console.log(Animal.count); // 1
+
+
+
+  // #####################  tests
+
+
+  class TestAnimalForKonrad {
+    constructor(name) {
+      this.name = name;
+      if (TestAnimalForKonrad.count === undefined) {
+        TestAnimalForKonrad.count = 0;
+      }
+      this.id = TestAnimalForKonrad.count;
+      TestAnimalForKonrad.count++;
+      this._type = `animal`
+    }
+
+    set type(val) {
+      this._type = val
+    }
+
+    get type() {
+      return this._type
+    }
+  }
+
+  const konradsAnimal = new TestAnimalForKonrad(`palski`);
+  console.log(konradsAnimal.name);
+  console.log(konradsAnimal.type);
+  konradsAnimal.type = `Dino`
+  console.log(konradsAnimal.type);
+
+
+
+
+  // class KonradHuman extends Animal {
+//   constructor(name) {
+//     super(name);
+//   }
+//   test = () => {
+//     alert(`wtf`)
+//   }
+// }
+
+// this will also work as js will add constructor by default,
+// class KonradHuman extends Animal {
+//   test = () => {
+//     alert(`wtf`)
+//   }
+// }
+
+// if you need to extend the constructor you need to add super
+
+class KonradHuman extends Animal {
+  constructor(name, age) {
+    super(name, age);
+    this.age = age;
+
+  }
+  test = () => {
+    alert(`wtf`)
+  }
+}
+
+
+const konradTest = new KonradHuman(`123888`, 23);
+console.log(konradTest.age); // 23
+konradTest.printName()
+
+</script>
+
+</body>
+</html>

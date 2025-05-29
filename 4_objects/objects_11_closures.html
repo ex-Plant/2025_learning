@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body> 
+    <script>
+
+        const closure = `tworzenie osobnego srodowiska wewnatrz funkcji `
+        /*
+            Domknięcie tzw. closures to jest zasięg stworzony przez funkcję wraz 
+            z otaczającym ją środowiskiem czyli zmiennymi oraz innymi funkcjami, 
+            które razem oddzielone są od reszty kodu programu.
+        */
+
+        let b = 30; // zmienna globalna b
+        let c = 10;
+        function foo() {
+            let b = 5; // osobna zmienna lokalna b
+            c = -1; // zmiana globalnej zmiennej
+            console.log("b:", b); // odwołanie się do b lokalnego
+        }      
+
+        foo(); // b: 5
+
+        /*
+            Funkcja foo ma swoje własne środowisko z zmienną b, 
+            która jest oddzielona od globalnej przestrzeni nazw, 
+            nazwa zmiennej się pokrywa więc wybrana zostanie lokalna 
+            zmienna o wartości 5 dla console.log()
+            Funkcja foo jest domknięciem, bo tworzy oddzielne 
+            środowisko dla zawartych w niej zmiennych ale również 
+            i wewnętrznych funkcji jeśli takie występują.
+        */        
+
+        let d = 99;
+
+        function bar() {
+            let e = 12;
+
+            function test() {
+                let num = 45;
+                console.log(`d:${d} e:${e} num:${num}`);
+            }
+
+            return test;
+        }
+
+        let testBar = bar();
+        console.log(testBar); // function
+
+        // ciagle mamy dostep do e - funkcje pamietaja swoje srodowisko w ktorym zostala zadeklarowana
+        testBar(); // d:99 e:12 num:45
+
+
+
+        /*
+         Domknięcia pozwalają na tzw. currying czyli rozkładanie
+         funkcji z wieloma argumentami na funkcje z pojedynczymi
+         argumentami. Każda funkcja zwraca nową funkcję
+         przyjmującą jeden parametr.
+         */
+
+        function test(x) {
+            return function(y) {
+                console.log(x, y);
+            }
+        }
+
+        let show = test(12);
+
+        // show(5); // 12 5
+        // show(6); // 12 6
+        // show(7); // 12 7
+        // show(8); // 12 8
+
+
+
+
+        /*
+         Dzięki domknięciom możemy tworzyć konstrukcje gdzie
+         nasze dane staną sie prywatne, więc obejdziemy
+         ograniczenia JavaScript.
+         */
+
+        function test() {
+            let privData = "Hello!";
+
+            function showPrivData() {
+                console.log(privData);
+            }
+
+            function setData(value) {
+                privData = value;
+            }
+
+            return {
+                show: showPrivData,
+                setData: setData
+            }
+        }
+
+        const obj = test();
+        console.log({ obj });
+
+        obj.show();
+        obj.setData(67);
+        obj.show(); // 67
+
+
+        /*
+         Może pojawić się problem z domknięciami, gdyż
+         zapamiętywana jest referencja, a nie wartość
+         */
+
+        for (var i = 0; i < 3; i++) {
+            setTimeout(function () {
+                console.log(i);
+            }, 500);
+        }
+
+
+        // 3
+        // 3
+        // 3
+
+        for (let i = 0; i < 3; i++) {
+            setTimeout(function () {
+                console.log(i);
+            }, 500);
+        }
+
+        // 1
+        // 2
+        // 3
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>objects</title>
+
+</head>
+<body>
+<script>
+
+  const objects = `
+  Metody to wewnętrzne funkcje obiektu, które zwykle operują na danych tego obiektu.
+  Metoda odwołuje się do danych swojego obiektu za pomocą this.nazwaZmiennej
+  `
+
+  // object with declared methods
+
+const myObj = {
+  name: "Konrad",
+  createObj: function (surname)  {
+    const obj = {};
+    obj.name = this.name;
+    console.log(this); // in this case this is an object where we declared this method
+    return {
+      name: this.name,
+      surname: surname,
+    }
+  }
+}
+  console.log(this); // window
+
+const myObjNew = myObj.createObj(`antonik`)
+console.log({ myObjNew });
+
+
+
+  let phone = {
+    brand: "Sony",
+    model: "Xperia",
+    manufactureDate: 2023,
+    connect: function (contact) {
+      console.log("Połączenie z:", contact);
+    },
+    getInfo: function () {
+      console.log( this.brand, this.model, this.manufactureDate );
+    }
+  };
+
+  phone.connect("Kasia"); // Połączenie z: Kasia
+  phone.getInfo(); // Sony Xperia 2023
+
+
+const school = {
+  name: "School",
+  city: "Cracow",
+  students: [],
+  addStudent: function (name, surname) {
+    const newStudent = {
+      name,
+      surname,
+    }
+    this.students.push(newStudent);
+  },
+  showStudents: function () {
+    if (this.students.length >= 1) {
+      console.log(this.students);
+    } else {
+      console.log(`no students`);
+    }
+
+  },
+
+  showStudentsByName: function (name) {
+    let myArr = this.students.filter(student => student.name === name)
+    for (let i =0; myArr.length < i; i++) {
+      console.log(myArr[i]);
+    }
+  },
+  getNumStudents: function () {
+    console.log(`number of studens:`, this.students.length);
+  },
+  resetStudents: function () {
+    this.students = [];
+  },
+
+}
+
+school.addStudent("konrad", "antonik");
+school.addStudent("konrad", "antonik");
+school.addStudent("konrad", "antonik");
+school.resetStudents()
+school.getNumStudents();
+school.showStudents();
+
+
+  const tvFactory = {
+    name: "Factory",
+    city: "Krk",
+    employees: [],
+    brand: "Sharp",
+    addEmployee: function (name, surname) {
+      const obj = {
+        name: name,
+        surname: surname,
+        email: `${name.toLowerCase()}.${surname.toLowerCase()}@example.com`
+      };
+      this.employees[ this.employees.length ] = obj;
+    },
+    showEmployees: function() {
+      console.log(this.name, "employees:");
+
+      for (let i = 0; i < this.employees.length; i++) {
+        const e = this.employees[i];
+        console.log(e.name, e.surname, e.email);
+      }
+    },
+    makeTv: function (model, color) {
+      return {
+        id: `${this.brand}-${model}-${color}-TV`,
+        brand: this.brand,
+        model: model,
+        color: color
+      }
+    }
+  };
+
+  tvFactory.addEmployee("Ola", "Kowalska");
+  tvFactory.addEmployee("Adam", "Adamski");
+  console.log(tvFactory.employees);
+
+  tvFactory.showEmployees();
+
+  let tv1 = tvFactory.makeTv("X1", "silver");
+  console.log(tv1);
+  let tv2 = tvFactory.makeTv("X1", "black");
+  console.log(tv2);
+
+  tvFactory.name = "Factory Ltd.";
+  tvFactory["name"] = "TV Factory Ltd.";
+
+  console.log(tvFactory);
+
+  const factoryName = "name";
+  tvFactory[factoryName] = "Sharp TV Factory Ltd";
+  console.log(tvFactory);
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

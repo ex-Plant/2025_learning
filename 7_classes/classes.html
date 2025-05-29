@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>classes</title>
+</head>
+<body>
+<script>
+
+
+  const CLASSES = `
+  Classes were introduced with ES6 and they are used to create objects. Before we could use constructor function or object literal but classes are more convenient.
+  Hoisting is not working with classes!
+  `
+
+// creating objects using  constructor
+  function CarConstructor(name, surname, title) {
+    this.name = name;
+    this.title = title;
+    this.surname = surname;
+  }
+
+  const newCar = new CarConstructor(`newCar`, `surname`, `title`)
+  console.log(newCar.name); // newCar
+
+  // creating object using object literal
+  const newShinyCar = {
+    name: "newShinyCar",
+    surname: "surname",
+    title: "title"
+  }
+
+  console.log(newShinyCar.name); // newShinyCar
+
+
+  // creating objects using classes
+
+
+  // klasy zawsze w strict mode
+  class Car {
+    constructor(name, year) {
+      this.name = name;
+      this.year = year;
+
+      this.printInConstructor = () => {
+        console.log(this.name, this.year);
+      }
+    }
+
+    //When methods are defined outside the constructor, they are added to the prototype of the class.
+    // This means that all instances of the class share the same method.
+    // This is more memory-efficient because the method is not duplicated for each instance.
+    print() {
+      console.log(this.name, this.year);
+    }
+  }
+
+  const car1 = new Car("Dodge", "Viper");
+  car1.print(); // Dodge Viper
+  car1.printInConstructor(); // Dodge Viper
+
+
+
+//class expression - we can assign class to a variable
+
+  let Animal = class BasicAnimal {
+    #myPrivateField;
+    constructor(name) {
+      this.name = name
+      this._age = 1; // syntax for private fields - it used to be impossible to make a field private
+      this.#myPrivateField = `shhhhhhhhhh....` // you cant get it without a method
+
+      // constructor is invoked every time we are creating an instance
+      if (Animal.count === undefined) Animal.count = 0;
+      Animal.count++; // emulujemy statyczne property w ES6
+    }
+
+    revealSecret = () => {
+      console.log(this.#myPrivateField);
+  }
+
+    getName = () => {
+      return this.name;
+    }
+
+    set age(value) {
+      if (value > 0) this._age = value;
+    }
+
+    get age() {
+      return this._age;
+    }
+
+    // static methods allow us to use them without creating an instance of a class
+    static getNewAnimal() {
+      return new Animal("Default animal");
+    }
+
+    // in general
+    static getAnimalCount() {
+      return Animal.count;
+    }
+  }
+
+
+  console.log(`Animal:`, Animal); // class
+
+  const animal1 = new Animal("Tiger");
+  console.log( animal1.getName() ); // "Tiger"
+  console.log( Animal.name ); // BasicAnimal
+
+  animal1.age = 10;
+  // animal1._age = 22; // można zmodyfikować, nie ma private w ES6
+  console.log( animal1.age ); // 10
+
+
+  // static methods can be invoked on a class itself without an instance of this class
+  const animal2 = Animal.getNewAnimal();
+  console.log(animal2.getName()); // Default animal
+
+  console.dir(Animal);
+  console.log( Animal.getAnimalCount() ); // 2
+
+  const anotherAnimal = Animal.getNewAnimal();
+  console.log( Animal.getAnimalCount() ); // 3
+
+  console.log(Animal.age); // undefined -
+
+
+  console.log(animal1.myPrivateField); // undefined
+  animal1.revealSecret() // shhhhhh....
+
+
+  const animal3 = new Animal(`test animal`)
+  console.log(typeof animal3); // object
+  console.log(animal3.name); // test animal
+
+  console.dir(animal3)
+
+
+  // tests
+  const JungleAnimal = class {
+    constructor(name, worldPart, eatingHabits) {
+      this.name = name;
+      this.worldPart = worldPart;
+      this.eatingHabbits = eatingHabits;
+      this._lifeSpan = 100
+
+    }
+
+    set lifeSpan(val) {
+      if (val < 10) {
+        alert(`Life span must be greater than 10`)
+      } else {
+        this._lifeSpan = val
+      }
+    }
+
+    get lifeSpan() {
+      console.log(this._lifeSpan);
+      return this._lifeSpan
+    }
+  }
+
+  const newJungleAnimal = new JungleAnimal(`tiger`, `Asia`, "carnivore")
+  newJungleAnimal.lifeSpan = 100
+  newJungleAnimal.lifeSpan
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>object assign </title>
+</head>
+<body>       
+    
+    <script>
+
+        // shallow copy vs - deep copy
+        // shallow - pointing to the same memory place
+        // deep - complete copy with different memory allocations
+        
+        
+        let obj = { a: 1, b: 2, str: "text", arr: [1, 2, 3], info: {o: 1} };
+        let data = { test: 333 };
+
+        // copies all enumerable properties to target element
+        let result = Object.assign(data, obj);
+        let test = {
+            ...result
+        }
+        // Object.assign(data, obj);
+
+        // prymitywy to beda kopie, ale jesli chodzi o non-primitives = beda one wspoldzielone, beda wskazywac w to samo miejsce
+        // it is not a deep copy - it is a shallow copy!
+
+        console.log(result);  // { test: 333, a: 1, b: 2, str: "text", arr: [1, 2, 3], info: {o: 1} };
+        console.log(result === data); // true
+        console.log(test === result); // false
+
+        console.log(obj === data); // false
+        console.log(obj.arr === data.arr); // true // same place in memory
+        console.log(obj.info === data.info); // true // same place in memory
+        console.log(test.info === data.info); // true // same place in memory
+
+
+        let o1 = { a: 1, b: 2 };
+        let o2 = { c: 10 };
+        let o3 = { txt: "test" };
+
+        let obj2 = Object.assign({}, o1, o2, o3);
+        console.log(obj2); // {a: 1, b: 2, c: 10, txt: 'test'}
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>has own property</title>
+
+</head>
+<body>       
+    
+    <script>
+
+const propertiesEnumeration =
+        `how we can see all the properties in the object for example if we get it from API
+         We can easily use for in function
+         `
+
+        const obj = {
+            a: 12,
+            b: "text",
+            printData: function() {
+                console.log(this.a, this.b);
+            },
+            arr: [1,2,3,4,5]
+        };
+
+
+// has own property is a safeguard for us - object can have properties that were not there originally - to be explained later
+        for (const prop in obj) {
+            if (obj.hasOwnProperty(prop)) {
+                console.log(prop, obj[prop]);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+</body>
+</html>

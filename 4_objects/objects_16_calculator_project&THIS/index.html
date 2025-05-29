@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Simple Calculator</title>
+    <link rel="stylesheet" href="../../output.css" />
+  </head>
+  <body class="px-20 mt-20">
+    <div class='flex'>
+      <div class="flex flex-col">
+        <label for='input'></label>
+        <input id="input" class="bg-red-200 w-full  mb-4 p-4 outline" />
+        <div class="flex gap-x-4">
+          <div class="grid grid-cols-3 gap-2">
+            <button class="outline size-10 flex items-center justify-center">7</button>
+            <button class="outline size-10 flex items-center justify-center">8</button>
+            <button class="outline size-10 flex items-center justify-center">9</button>
+            <button class="outline size-10 flex items-center justify-center">4</button>
+            <button class="outline size-10 flex items-center justify-center">5</button>
+            <button class="outline size-10 flex items-center justify-center">6</button>
+            <button class="outline size-10 flex items-center justify-center">1</button>
+            <button class="outline size-10 flex items-center justify-center">2</button>
+            <button class="outline size-10 flex items-center justify-center">3</button>
+            <button class="outline size-10 flex items-center justify-center">0</button>
+            <button class="outline size-10 flex items-center justify-center">00</button>
+            <button class="outline size-10 flex items-center justify-center">.</button>
+          </div>
+          <div class=" space-y-2">
+            <div class="grid grid-cols-2 gap-2">
+              <button class="outline size-10 flex items-center justify-center">/</button>
+              <button class="outline size-10 flex items-center justify-center">C</button>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <button class="outline size-10 flex items-center justify-center">*</button>
+              <button class="outline size-10 flex items-center justify-center">-</button>
+            </div>
+            <div class="grid grid-cols-2 gap-2 ">
+              <button class="outline h-[88px] w-10 flex items-center justify-center">+</button>
+              <button class="outline h-[88px] w-10 flex items-center justify-center bg-green-400">=</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.0.0/math.min.js"></script>
+    <script type="module" src="code.js"></script>
+  </body>
+</html>

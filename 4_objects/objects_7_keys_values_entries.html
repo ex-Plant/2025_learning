@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KEYS VALUES ENTRIES</title>
+</head>
+<body>       
+    
+    <script> 
+        
+        let obj = {
+            num: 123,
+            str: "text",
+            printData: function() {
+                console.log("Hello!");
+            },
+            arr: [1, 2, 3, 4, 5],
+            data: {
+                a: 1,
+                b: 2
+            }
+        }; 
+
+        const objKeys = Object.keys(obj);
+        console.log(objKeys); // ['num', 'str', 'printData', 'arr', 'data']
+        
+        for (const key of objKeys) {
+            console.log("Key:", key, "value:", obj[key]);
+        }
+
+        const objValues = Object.values(obj);
+        console.log(objValues);
+
+
+        const objEntries = Object.entries(obj);
+        console.log({ objEntries }) // ARRAY OF ARRAYS
+
+        for (const [key, value] of objEntries ) {
+            console.log(key, value);
+        }  
+
+        for (const key in obj) {
+            console.log(key);
+        }
+
+        for (const key in obj) {
+            console.log(obj[key]);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+</body>
+</html>

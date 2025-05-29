@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrays</title>
+</head>
+<body>       
+    
+    <script>
+
+        const methods = `
+        - for
+        - for of
+        - for each
+        - map - new array
+        - filter - new array
+        - find - first element
+        - reduce
+        - every
+        `
+
+        let tab = ["Ania", "Ola", "Kasia", "Adam", "Karol", "Daniel", "Kasia"];
+
+        //1. FOR LOOP
+        for (let i = 0; i < tab.length; i++ ) {
+          const el = tab[i];
+          console.log(el);
+        }
+
+
+        //2. FOR OF LOOP
+        for (let el of tab) {
+          console.log(el);
+        }
+
+
+        // 3. FOR EACH
+      tab.forEach(function (item, index, arr) {
+        console.log(item);
+      });
+
+        //3. MAP
+
+        let arr = ["Ola", "Ania", "Kasia", "Ola", "Asia", "Zuza"];
+
+        let newArr = arr.map(function (value, index, arr) {
+            return value + "!";
+        });
+
+        console.log(newArr); // ['Ola!', 'Ania!', 'Kasia!', 'Ola!', 'Asia!', 'Zuza!']
+
+        newArr = arr.map( (value) => value + "!" );
+        console.log(newArr); // ['Ola!', 'Ania!', 'Kasia!', 'Ola!', 'Asia!', 'Zuza!']
+
+        newArr = [1,2,3,4,5,6,7,8].map(Math.sqrt);
+        console.log(newArr);
+
+        //4. filter
+
+        let filtered = arr.filter(function (v) {
+            return v.length >= 4
+        });
+
+        console.log(filtered); // ['Ania', 'Kasia', 'Asia', 'Zuza']
+
+
+        //5. find
+        const found = filtered.find((el) => el === `Kasia`)
+        console.log({ found }); // "Kasia"
+
+
+        //6. reduce
+
+        const arra = [1,2,3,4,5,6,7,8,9];
+        const reducedA = arra.reduce((acc, currentValue, index, arra) => {
+            return acc + currentValue
+        }, 0 )
+
+        console.log({ reducedA }); // 45
+
+        let reduced = [1,2,3,4,5,6,7,8,9].reduce(function (acc, currValue, index, arr) {
+            return acc + currValue;
+        });
+
+        console.log(reduced); // 45
+
+        //7. every
+        const every = `
+        The every() method of Array instances tests whether all elements in the array pass the test implemented by the provided function.
+        It returns a Boolean value.
+        `
+
+        const arr2 = [1,2,3,4,5];
+        console.log( arr2.every( v => v > 0 ) ); // true
+        console.log( arr2.every( v => v > 3 ) ); // false
+
+
+    </script>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>   
+        body {
+            background: black;
+            color: white;  
+        }
+
+        * {
+            margin: 20px 2px;
+        }
+        
+    </style>
+</head>
+<body>        
+
+    <script> 
+        /*
+            Format JSON czyli JavaScript Object Notation
+            to prosty i czytelny format danych, często 
+            stosowany w komunikacji internetowej.
+        */ 
+
+        let data = `
+            {
+                "user": {
+                    "name": "Ola",
+                    "surname": "Kowalska",
+                    "age": 33,
+                    "languages": ["JavaScript", "Java", "Python"],
+                    "address": {
+                        "city": "Krk",
+                        "street": "Wilcza",
+                        "country": "Poland"
+                    }
+                }
+            }
+        `;
+
+        let obj = JSON.parse(data);
+        console.log(obj);
+        console.log(obj.user.name); // Ola
+      
+        
+        let jsonStr = JSON.stringify(obj);
+        console.log(jsonStr);
+
+        let jsonStr2 = JSON.stringify(obj, null, 4);
+        console.log(jsonStr2);
+
+
+
+        
+
+
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </script>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+</body>
+</html>

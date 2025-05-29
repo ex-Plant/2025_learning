@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Prototype</title>
+  </head>
+  <body>
+    <script>
+      const PROTOTYPE = `
+      JS does not have real classes like other programming languages. It has PROTOTYPES.
+      INHERITANCE  exists only as prototype inheritance.
+      Inheriting means sharing common functionalities for example methods from other objects.
+
+      Everything in js except primitives are objects, including functions.
+      Every function have methods, like call or apply, and property PROTOTYPE.
+
+      By default a prototype is a empty object created during function definition.
+      Every instance is created thanks to the same constructor, hence it will share common prototype.
+`;
+
+      function thing() {
+        console.log(`do something`);
+      }
+
+      // console.log(thing.prototype); {}
+      // thing.call(); // do something
+      // thing.apply(); // do something
+      // console.log(toString()); [object Undefined]
+
+      const testObj = {};
+
+      // constructor Thing
+      function Thing(name) {
+        this.name = name;
+      }
+      console.dir(Thing.prototype); // obj
+
+      Thing.prototype.year = 2000;
+      console.dir(Thing.prototype.year); // 2000
+
+      // REMEMBER ABOUT THIS CONTEXT!!
+      Thing.prototype.printInfo1 = () => console.log(this.name, this.year);
+      // here we have access to own property name, but also to property from prototype, in this case year
+
+      Thing.prototype.printInfo2 = () => console.log(this);
+
+      Thing.prototype.printInfo3 = function () {
+        console.log(this.name, this.year);
+      };
+
+      Thing.prototype.printInfo4 = function () {
+        console.log(this);
+      };
+
+      // new instance of Thing
+      const thing_1 = new Thing("something weird");
+      thing_1.printInfo1(); // undefined
+      thing_1.printInfo2(); // Window
+      thing_1.printInfo3(); // something weird 2000
+      thing_1.printInfo4(); // Thing {name: 'something weird'}
+
+      const PROTOTYPE2 = `
+      After creating an instance we have access to internal properties of a constructor, in our case "name",
+      but also to all properties defined in the prototype.
+      In practice, prototype is simply a reference.
+      These properties are not copied to each instance, instances simply have access to them and this is very good for performance.
+      After adding some properties to constructor, each instance have access to them,
+      even if they were added later on, during the course of the program after instance was created.
+      `;
+
+      const thing2 = new Thing();
+
+      Thing.prototype.weight = 22;
+      console.log(thing2.weight); // 22
+
+      Thing.prototype.randomObject = { data: "random object" };
+
+      const thing3 = new Thing();
+
+      console.log(thing2.randomObject); // {data: 'random object'}
+      console.log(thing3.randomObject); // {data: 'random object'}
+
+      // reference to the same place in memory
+      console.log(thing2.randomObject === thing3.randomObject); // true
+
+      const HOW_DOES_PROTOTYPE_WORK = `
+      1. JS interpreter wants to read weight property.
+      2. It checks if it exists in example1, if it exists it will use property from this object.
+      3. In our case this object does not have weight property so interpreter checks in the constructor prototype.
+      4. If it fins it there this property will be used - example1.constructor.prototype.weight
+      `;
+
+      function Example(name) {
+        console.log(this.name);
+      }
+
+      const example1 = new Example(`first example`);
+
+      Example.prototype.weight = 50;
+
+      console.log(example1.constructor);
+      // ƒ Example(name) {
+      //   console.log(this.name);
+      // }
+
+      console.log(example1.constructor.prototype); // {weight: 50}
+
+      console.log(example1.constructor.prototype.weight); // 50
+
+      function Example2(name) {
+        this.name = name;
+      }
+      let tv = new Example2("tv");
+      let telephone = new Example2(`telephone`);
+
+      const HOW_TO_ADD_MORE_PROPERTIES = `
+      1. Extend constructor.
+      With multiple instances this is not memory efficient.
+      Usually a better idea would be to add object methods to a prototype, not include them in the constructor.
+      2. Add them to prototype.
+      3. You can also add some properties to a individual instance.
+      `;
+
+      Example2.prototype.price = 24;
+      Example2.prototype.weight = 4;
+
+      Example2.prototype.printInfo = function () {
+        console.log(this.name, this.price, this.weight);
+      };
+
+      telephone.printInfo(); // telephone 24 4
+
+      telephone.price = 220000;
+      telephone.printInfo(); // telephone 220000 4
+
+      console.log(telephone.constructor);
+      //ƒ Example2 (name) {
+      //  this.name = name
+      // }
+
+      console.log(telephone.constructor.prototype); // {price: 24, weight: 4, printInfo: ƒ}
+
+      //THE SAME REFERENCE!!
+      console.log(tv.constructor.prototype === telephone.constructor.prototype); // true
+
+      const __PROTO__ = `
+
+      __proto__ points to a prototype of a given object. If it is not found it will be searched deeper.
+      In practice __proto__ is a [[PROTOTYPE]] property, which is not accessible from js language. sic!
+      This is all simply to understand how js works under the hood, we should not be using __proto__.
+      Object will have access to prototype only if it was created using constructor, and "new" word,
+      but evey object will have access to global prototype
+
+      While accessing some property, this is what the JS interpreter does:
+      1. Instance properties: The interpreter first looks for the property directly on the object instance.
+      2. Prototype: If the property is not found on the instance, it looks in the object's prototype (which is the prototype property of the constructor function that created the object).
+      3. Prototype Chain: If still not found, the search continues up the prototype chain. Each prototype object can have its own prototype, forming a chain.
+      4. This search goes all the way up to the Object prototype.
+      5. Global Methods: Methods like toString, hasOwnProperty, etc., arv e available because they are defined on Object.prototype, making them accessible to all objects.
+
+      `;
+
+      const obj = {
+        test: 'test'
+      }
+
+      console.log(obj.__proto__);
+      console.log(obj.__proto__.toString()); // [object Object]
+
+
+      // this is the same
+      console.log(tv.__proto__ === telephone.constructor.prototype); // true
+
+      const COVERING_PROPERTIES = ``;
+
+      function Example3(name, weight) {
+        this.name = name;
+      }
+
+      const example3Instance = new Example3(`example`);
+
+      Example3.prototype.weight = 30;
+
+      console.log(example3Instance); // {name: 'example', weight: 30}
+
+      // this will cover value from prototype
+      example3Instance.weight = 50;
+      console.log(example3Instance); // {name: 'example', weight: 50}
+
+      // but if we delete this instances property value we still have access to value from prototype
+      delete example3Instance.weight;
+
+      console.log(example3Instance); // {name: 'example'}
+
+      function Thing2(name) {
+        this.name = name;
+      }
+      Thing2.prototype.weight = 4;
+      let tvInstance = new Thing2("tv");
+      let telephoneInstance = new Thing2(`Phone`);
+
+      console.log(tvInstance.weight); // 4
+
+      console.log(telephoneInstance.weight); // 4
+
+      // this will add printWeight to the instance
+      tvInstance.printWeight = function () {
+        console.log(this.weight);
+      };
+
+      tvInstance.printWeight() // 4
+      // telephoneInstance.printWeight(); // not a function
+
+      Thing2.prototype.printWeight = function () {
+        console.log(this.weight);
+      };
+
+      // now we have access to it via constructor
+      telephoneInstance.printWeight() // 4
+      telephoneInstance.weight = 20;
+      telephoneInstance.printWeight() // 20
+
+      delete telephoneInstance.weight;
+
+      // we deleted value from an instance but this value still exist in the prototype
+      telephoneInstance.printWeight() // 4
+
+      console.log(telephoneInstance); // Thing2 {name: 'Phone'}
+
+      // but
+
+      console.log(telephoneInstance.weight); // 4
+
+      delete Thing2.prototype.weight;
+
+      // only now it is undefined
+      console.log(telephoneInstance.weight); // undefined
+
+
+      const ENUMERATING_OBJECTS_PROPERTIES = `
+      Simply using a for in loop will list all properties from a given instance, including properties found in constructor.
+      `
+
+      for (const key in telephoneInstance) {
+        console.log(key);
+        // name
+        // printWeight
+      }
+
+      Thing2.prototype.weight = 20
+
+      // now we will see weight as well
+      for (const key in telephoneInstance) {
+        console.log(key);
+        // name
+        // printWeight
+        // weight
+      }
+
+      // in real world scenario we would typically want to enlist only properties of a given instance, without common properties from a constructor
+      // In order to do that we can use hasOwnProperty
+      // printWeigh and weight are properties from the prototype thus we can't see them
+
+      for (const key in telephoneInstance) {
+        if (telephoneInstance.hasOwnProperty(key)) {
+          console.log({ key }); // {key: name}
+        }
+      }
+
+
+      Thing2.prototype = {
+        test: `Where are all my previous values??!!`
+      }
+
+      console.log(telephoneInstance.constructor.prototype); // {test: 'Where are all my previous values??!!'}
+
+      telephoneInstance.printWeight() // 20
+
+      // it still works as it was created before but new instances will not have access to properties from prototype
+      // the whole prototype was overwritten, we have to be careful with that!
+
+      const newTelephoneInstance = new Thing2(`name`)
+
+      // newTelephoneInstance.printWeight() // this is not a function
+
+      // this is super confusing - we lost connection to a prototype
+      console.log(Thing2.prototype.constructor ); // Object - we lost connection to a prototype this is not correct
+       Thing2.prototype.constructor = Thing2
+
+      console.log(Thing2.prototype.constructor ); // Thing2 again correct value
+
+
+
+
+    </script>
+  </body>
+</html>

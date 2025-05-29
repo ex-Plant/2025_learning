@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>getters setters</title>
+
+</head> 
+<body>       
+    
+    <script>
+
+        /*
+            Jeżeli dodamy setter do obiektu dla danej zmiennej
+            to zostanie wywołany automatycznie przy zapisie wartości
+            do tej zmiennej. Podobnie będzie z getterem przy
+            pobraniu wartości.
+        */
+
+        const user = {
+            _name: null,
+            set name(newValue) {
+                // setter
+                if (newValue.length > 2) {
+                    this._name = newValue;
+                } else {
+                    console.log("Name too short");
+                }
+            },
+            get name() {
+                // getter
+                return this._name;
+            }
+        };
+
+        user.name = "Asia";
+        console.log(user.name);
+        user.name = "A";
+        console.log(user.name);
+
+
+
+        const movieExample = {
+            __title: null,
+            set title(value) {
+                if (typeof value !== "string") {
+                    alert(`has to be a string`)
+                } else {
+                    this.__title = value
+                    console.log('movie title set');
+                }
+
+            },
+            get title() {
+                console.log(this.__title);
+            }
+        }
+
+
+        movieExample.title = 22
+        movieExample.title
+
+
+
+
+        /*
+         Zadanie
+         1. Napisz literał obiektu truck opisujący ciężarówkę
+         z właściwościami: _brand, _model i _topSpeed:0
+         2. Dodaj gettery i settery dla powyższych właściwości
+         Dla topSpeed w setter sprawdż czy wartość jest większa
+         od 0 i tylko wtedy zapisz prędkość w _topSpeed,
+         w przeciwnym wypadku pokaż w konsoli "Speed to low"
+         3. Ustaw wartości brand, model i topSpeed, pokaż
+         te wartości w konsoli
+         */
+
+        const truck = {
+            _brand: null,
+            _model: null,
+            _topSpeed: 0,
+
+            set brand(newValue) {
+                this._brand = newValue;
+            },
+            get brand() {
+                return this._brand;
+            },
+
+            set model(newValue) {
+                this._model = newValue;
+            },
+            get model() {
+                return this._model;
+            },
+
+            set topSpeed(value) {
+                if (value >= 0) {
+                    this._topSpeed = value;
+                } else {
+                    console.log("Speed to low");
+                }
+            },
+            get topSpeed() {
+                return this._topSpeed;
+            }
+        };
+
+        truck.brand = "Kenworth";
+        truck.model = "w800";
+        truck.topSpeed = 120;
+
+        // console.log(truck.brand);
+        // console.log(truck.model);
+        // console.log(truck.topSpeed);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+</body>
+</html>

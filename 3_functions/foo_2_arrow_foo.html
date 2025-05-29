@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>arrow foo</title>
+</head>
+<body>
+<script>
+
+
+
+  const multiply = (a, b) => a * b;
+
+  console.log(multiply(3, 10)); // 30
+
+  // => fat arrow
+  const substract = (a, b) => {
+    return a - b;
+  }
+
+  console.log(substract(20, 4)); // 16
+
+  const arrowFoo = `It has no arguments object, but we can still access them using rest operator`
+
+  // let show = () => console.log(arguments);
+  // show(1,2,3,4,5); // ReferenceError: arguments is not defined
+
+  let show = (...params) => console.log(params);
+  show(1,2,3,4,5,6,7); // [1, 2, 3, 4, 5, 6, 7]
+
+  let getObj = (data) => {
+    return {
+      ...data,
+      info: "Some object"
+    };
+  }
+
+  const obj = {
+    a: 1,
+    b: 2
+  };
+  console.log( getObj(obj) ); // {a: 1, b: 2, info: 'Some object'}
+
+
+  let getObj2 = (data) => ({
+      ...data,
+      info: "Another object"}
+  );
+  console.log(getObj2(obj)); // {a: 1, b: 2, info: 'Another object'}
+
+
+
+  const THIS_IN_ARROW_FOO = `
+   The biggest advantage of arrow foo is that this is always pointing to the context where the function was written.
+  `
+
+  let objTest = {
+    data: "Hello",
+    foo: function() {
+      setTimeout(() => {
+        console.log(this);
+      },100)
+    }
+  }
+
+  objTest.foo() // {data: "Hello}
+
+  let objTest2 = {
+    data: "Hello",
+    foo: function() {
+      setTimeout(function() {
+        console.log(this);
+      },100)
+    }
+  }
+
+  objTest2.foo() // Window
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>       
+    
+    <script> 
+
+        const call = ` dzieki niej mozemy wskazac na jakim obiekcie chcemy wykonac metode zapozyczona z innego obiektu `
+
+        const employee = {
+            name: "Ola",
+            printInfo: function(surname, city) {
+                console.log(this.name, surname, city);
+            }
+        }
+
+        employee.printInfo("Kowalska", "Wawa"); // Ola Kowalska Wawa
+
+
+        const user = { name: "Adam" };
+
+        employee.printInfo.call(user, "Adamski", "Krk"); // Adam Adamski Krk
+
+        const apply =
+                ` dzieki niej mozemy wskazac na jakim obiekcie chcemy wykonac metode zapozyczona i przekazac argumenty w postaci tablicy nie osobnych argumentow`
+
+        
+        employee.printInfo.apply(user, ["Kowalski", "Gd"]); // Adam Kowalski Gd
+
+        const bind =
+                `tutaj na stale tworzymy stale polaczenie pomiedzy funkcja zapozyczona a obiekt na ktorym ma byc wykonwyna, zwracana jest po prostu funkcja, ktorej mozemy uzywac   `
+
+
+        let userInfo = employee.printInfo.bind(user, "Kowalski", "Szczecin");
+        userInfo(); // Adam Kowalski Szczecin
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+</body>
+</html>

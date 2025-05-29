@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Object Create</title>
+  </head>
+  <body>
+    <script>
+      const OBJECT_CREATE = `Method to create an object with a prototype.`;
+      const player = {
+        name: "unknown",
+        login: function () {
+          console.log(this.name + "logged in");
+        },
+        logout: function () {
+          console.log(this.name + "logged out");
+        },
+        printInfo() {
+          console.log(this.name, this.country, this.points);
+        },
+      };
+
+      let botWithoutPrototype = {
+        name: { value: "botWithoutPrototype player 1" },
+        country: { value: " botWithoutPrototype's country" },
+      };
+
+      let bot = Object.create(player, {
+        name: { value: "cpu player 1" },
+        country: { value: "n/a" },
+      });
+
+      bot.points = 10;
+      botWithoutPrototype.points = 10;
+
+      // console.log(bot); // {points: 10, name: 'cpu player 1', country: 'n/a'}
+      // bot.login() // cpu player 1logged in
+      // bot.logout() // cpu player 1logged out
+
+      // console.log(botWithoutPrototype); // {points: 10, name: 'cpu player 1', country: 'n/a'}
+      // botWithoutPrototype.login() // not a fun
+      // botWithoutPrototype.logout() // not a fun
+
+      bot.printInfo.call(botWithoutPrototype); // {value: 'botWithoutPrototype player 1'} {value: " botWithoutPrototype's country"} 10
+      bot.printInfo.apply(botWithoutPrototype); // {value: 'botWithoutPrototype player 1'} {value: " botWithoutPrototype's country"} 10
+      bot.printInfo.apply(botWithoutPrototype);
+
+      const test = bot.printInfo.bind(botWithoutPrototype);
+      test()
+
+    </script>
+  </body>
+</html>
