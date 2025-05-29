@@ -3,6 +3,7 @@
 
 2. HOW TO STOP TRACKING FILES
 
+**REMOVED CACHED FILES FROM GIT**
 - add file to git ignore
 - git rm --cached 'filename'
 

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>BookList</title>
+    <link rel="stylesheet" href="../../output.css" />
+  </head>
+  <body class="">
+    <div class="p-4">
+      <header class="my-4">Book list</header>
+
+      <div class="space-x-4">
+        <buttonw
+          id="addBtn" class="addBook outline rounded px-4 py-2 ">
+          add a book
+        </buttonw>
+
+
+
+        <button  popovertarget="my-popover" id="delBtn" class="deleteBook outline rounded px-4 py-2 ">
+          test popover
+        </button>
+      </div>
+    </div>
+
+    <section class='bookList mx-4 flex '>
+      <div class='min-w-[600px] '>
+      <header>My books</header>
+      <ul class='bookList outline min-h-12 min-w-12 mt-4 '>
+        <li class='grid grid-cols-12 w-full divide-y items-center'>
+          <span class='col-span-3'>
+            autor
+          </span>
+          <span class='col-span-3'>
+            tytuł
+          </span>
+          <button class='col-span-2'>
+            delete
+          </button>
+          <button class='col-span-2'>
+            up
+          </button>
+          <button class='col-span-2'>
+            down
+          </button>
+        </li>
+      </ul>
+      </div>
+
+    </section>
+
+
+    <dialog id="dialog" class="outline ">
+      <form method="dialog" class="grid">
+        <label for="author">Author</label>
+        <input id="author" type="text" class="outline" />
+        <label for="title">Title</label>
+        <input id="title" type="text" class="outline" />
+        <button  class='disabled:bg-red-500' type='submit'>ok</button>
+      </form>
+    </dialog>
+
+
+    <div popover id="my-popover">Click on a book title to remove it!</div>
+
+
+  <script src='index.js'></script>
+  </body>
+</html>

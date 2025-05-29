@@ -226,3 +226,8 @@ const mapper = new Map([
 const mapper = new Map();
 mapper.set("1", "a");
 mapper.set("2", "b");
+
+
+**RULES OF HOOKS**
+- Generally only use hooks at the top level of React components, do not use it inside loops, conditions, event 
+  handlers etc. 

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link href="../output.css" rel="stylesheet" />
+    <title>Random user</title>
+  </head>
+  <body>
+    <div class="flex justify-center mt-20">
+      <div>
+        <p class="text-3xl font-bold uppercase pb-4">random user</p>
+        <div class="text-3xl grid justify-center">
+          <p id="fullNameRef">fullName</p>
+          <p class="email">email</p>
+          <p class="countryElement">country</p>
+        </div>
+        <img class="w-20 h-20 outline rounded-full" src="" alt="" />
+      </div>
+    </div>
+
+    <script>
+      const apiUrl = `https://randomuser.me/api`;
+
+      window.onload = function () {
+        fetch(apiUrl)
+          .then((res) => res.json())
+          .then((data) => dataReady(data));
+      };
+
+      function dataReady(data) {
+        console.log(data);
+        const result = data.results[0];
+        console.log(result);
+        const fullName = result.name;
+        const { title, first, last } = fullName;
+        const name = `${title} ${first} ${last}`;
+        const img = result.picture.large;
+        console.log(img);
+        console.log(name);
+
+        const userNameRef = document.getElementById(`fullNameRef`);
+        const emailElement = document.querySelector(`.email`);
+        const countryElement = document.querySelector(".countryElement");
+        const imgEl = document.getElementsByTagName("img");
+
+        userNameRef.textContent = name;
+        emailElement.textContent = result.email;
+        countryElement.textContent = result.location.country;
+        imgEl[0].src = img;
+      }
+    </script>
+  </body>
+</html>

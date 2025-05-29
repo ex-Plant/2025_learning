@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>chars counter</title>
+  </head>
+  <body onload='alert(`start typing to see your stats`)'>
+    <textarea></textarea>
+    <div class="myDiv1"></div>
+    <div class="myDiv11"></div>
+    <div class="myDiv2"></div>
+    <div class="myDiv3"></div>
+    <script>
+      const textAreaEl = document.querySelector(`textarea`);
+      const divEl1 = document.querySelector(`.myDiv1`);
+      const divEl11 = document.querySelector(`.myDiv11`);
+      const divEl2 = document.querySelector(`.myDiv2`);
+      const divEl3 = document.querySelector(`.myDiv3`);
+
+      function resize() {
+        textAreaEl.style.height = textAreaEl.style.height = "auto";
+        textAreaEl.style.height = textAreaEl.scrollHeight + "px";
+      }
+
+      function countWords(textAreaVal) {
+        const words = textAreaVal.split(" ");
+        divEl2.innerHTML = `Words count:` + words.length;
+      }
+
+      function countSentences(textAreaVal) {
+        const sentences = textAreaVal.split(".");
+        divEl3.innerHTML = `Sentences count:` + sentences.length;
+      }
+
+      function countChars(textAreaVal) {
+
+        // alternative way to get arr from string
+        // const tests = [...textAreaVal]
+        const emptySpaces = Array.from(textAreaVal).filter(
+          (char) => char === " " || char === "\n",
+        );
+
+        const charsWithoutEmptySpaces = textAreaVal.length - emptySpaces.length
+
+        divEl1.textContent = "All chars used: " + textAreaVal.length;
+        divEl11.textContent = "Chars without empty spaces and newlines: " + charsWithoutEmptySpaces
+
+      }
+
+        function counter() {
+          const textAreaVal = textAreaEl.value;
+          countChars(textAreaVal)
+          countWords(textAreaVal);
+          countSentences(textAreaVal);
+          resize();
+        }
+
+
+      textAreaEl.addEventListener("input", counter);
+
+      let lat;
+      let long;
+
+      if (navigator.geolocation) {
+        console.log(n);
+      }
+
+    </script>
+  </body>
+</html>
