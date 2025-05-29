@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>imperative vs declarative programming</title>
+</head>
+<body>
+<script>
+
+  const IMPERATIVE = `
+  Imperative programming is about how you do something.
+   You define the steps that change the program's state. for loops are a good example of this style.
+   In this example, you are explicitly managing the loop counter (i), the loop condition (i < numbers.length), and the state of the squares array.
+   `
+
+  const numbers = [1, 2, 3, 4, 5];
+  const squares = [];
+
+  for (let i = 0; i < numbers.length; i++) {
+    squares.push(numbers[i] * numbers[i]);
+  }
+
+  console.log(squares); // Output: [1, 4, 9, 16, 25]
+
+
+  const DECLARATIVE =  `
+  Declarative programming is about what you want to achieve.
+  You describe the desired outcome without explicitly listing the steps to get there.
+  forEach is more declarative because it abstracts away the control flow.
+  Example using forEach loop (Declarative):
+  In this example, you are not concerned with the loop counter or the loop condition.
+  You simply describe that for each number in numbers, you want to push its square  to the squares array.
+  `
+
+  const numbers = [1, 2, 3, 4, 5];
+  const squares = [];
+
+  numbers.forEach(number => {
+    squares.push(number * number);
+  });
+u
+  console.log(squares); // Output: [1, 4, 9, 16, 25]
+
+  const SUMMARY = `
+Imperative: Focuses on how to achieve something by explicitly defining the steps (e.g., for loop).
+Declarative: Focuses on what you want to achieve by describing the desired outcome (e.g., forEach loop).
+  `
+
+
+</script>
+
+</body>
+</html>

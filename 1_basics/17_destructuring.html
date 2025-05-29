@@ -1,133 +1,131 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>ARRAYS POP</title>
-  </head>
-  <body>
-    <script>
-      const [num, name, obj] = [12, "Ania", { b: 6 }];
-      console.log(num);
-      console.log(name);
-      console.log(obj);
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>ARRAYS POP</title>
+</head>
+<body>
+<script>
+  const [num, name, obj] = [12, "Ania", {b:6}];
+  console.log(num);
+  console.log(name);
+  console.log(obj);
 
-      const { username, age, city = "KRK" } = { username: "Ola", age: 30 };
-      console.log(username); // Ola
-      console.log(age); // 30
-      console.log(city); // KRK
+  const {username, age, city = "KRK"} = { username: "Ola", age: 30 };
+  console.log(username); // Ola
+  console.log(age); // 30
+  console.log(city); // KRK
 
-      const [a, b, c, d = 10] = [1, 2, 3];
-      console.log(d); // 10
 
-      const [f, , h] = [9, 10, 11];
-      console.log(f); // 9
-      console.log(h); // 11
+  const [a, b, c, d = 10] = [1,2,3];
+  console.log(d); // 10
 
-      function getUserData() {
-        const userCity = "Wawa";
-        const street = "Wilcza";
+  const [f, ,h] = [9, 10, 11];
+  console.log(f); // 9
+  console.log(h); // 11
 
-        // zapis skrócony
-        return {
-          userCity,
-          street,
-        };
+  function getUserData() {
+    const userCity = "Wawa";
+    const street = "Wilcza";
+
+    // zapis skrócony
+    return {
+      userCity,
+      street
+    };
+  }
+
+  const userData1 = getUserData();
+  console.log(userData1); // {userCity: 'Wawa', street: 'Wilcza'}
+
+  const {userCity, street} = getUserData();
+  console.log(userCity, street); // Wawa Wilcza
+
+
+  const userDetails = {
+    name: "Karol",
+    age: 30,
+    city: "Gdańsk"
+  };
+
+  function printUser({city, name}) {
+    console.log(city, name); // Gdańsk Karol
+  }
+
+  printUser(userDetails);
+
+
+
+  const employee = {
+    name: "Ola",
+    id: 34,
+    employment: {
+      company: "example.com",
+      address: {
+        country: "Poland",
+        //street: "Polna"
       }
+    }
+  };
 
-      const userData1 = getUserData();
-      console.log(userData1); // {userCity: 'Wawa', street: 'Wilcza'}
 
-      const { userCity, street } = getUserData();
-      console.log(userCity, street); // Wawa Wilcza
 
-      const userDetails = {
-        name: "Karol",
-        age: 30,
-        city: "Gdańsk",
-      };
+  const {id, employment:{company} } = employee; // id, company
+  console.log(id, company); // 34 'example.com'
 
-      function printUser({ city, name }) {
-        console.log(city, name); // Gdańsk Karol
-      }
+  const { employment: {address: {country}} } = employee;
+  console.log(country); // Poland
 
-      printUser(userDetails);
+  const { employment: {address: {street: companyStreet = "Al.Ujazdowskie"}} } = employee;
+  console.log(companyStreet); // Al.Ujazdowskie
 
-      const employee = {
-        name: "Ola",
-        id: 34,
-        employment: {
-          company: "example.com",
-          address: {
-            country: "Poland",
-            //street: "Polna"
-          },
-        },
-      };
 
-      const {
-        id,
-        employment: { company },
-      } = employee; // id, company
-      console.log(id, company); // 34 'example.com'
+  function test1(v) {
+    if (typeof v === "undefined") v = 23;
+    console.log(v);
+  }
 
-      const {
-        employment: {
-          address: { country },
-        },
-      } = employee;
-      console.log(country); // Poland
+  test1(); // 23
 
-      const {
-        employment: {
-          address: { street: companyStreet = "Al.Ujazdowskie" },
-        },
-      } = employee;
-      console.log(companyStreet); // Al.Ujazdowskie
+  function test2(a, b = 44, c = {test: "text"}) {
+    console.log(a, b, c);
+  }
+  test2(10); // 10 44 {test: 'text'}
+  test2(5, 77); // 5 77 {test: 'text'}
 
-      function test1(v) {
-        if (typeof v === "undefined") v = 23;
-        console.log(v);
-      }
+  // domyślne parametry i destrukturyzacja
+  function test3([a = 1, b = 2] = []) {
+    console.log(a, b);
+  }
+  test3(); // 1, 2
+  test3([]); // 1, 2
+  test3([10, 99]); // 10, 99
 
-      test1(); // 23
+  // tablica [500, 1000] użyta domyślnie gdy nic nie przekazane do test4()
+  function test4([a = 1, b = 2] = [500, 1000]) {
+    console.log(a, b);
+  }
+  test4(); // 500, 1000
 
-      function test2(a, b = 44, c = { test: "text" }) {
-        console.log(a, b, c);
-      }
-      test2(10); // 10 44 {snake_helpers: 'text'}
-      test2(5, 77); // 5 77 {snake_helpers: 'text'}
+  function test5([a = 1, b = 2] = [500]) {
+    console.log(a, b);
+  }
+  test5(); // 500, 2
 
-      // domyślne parametry i destrukturyzacja
-      function test3([a = 1, b = 2] = []) {
-        console.log(a, b);
-      }
-      test3(); // 1, 2
-      test3([]); // 1, 2
-      test3([10, 99]); // 10, 99
 
-      // tablica [500, 1000] użyta domyślnie gdy nic nie przekazane do test4()
-      function test4([a = 1, b = 2] = [500, 1000]) {
-        console.log(a, b);
-      }
-      test4(); // 500, 1000
+  function test6({ b = 2, a = 1 } = {}) {
+    console.log(a, b);
+  }
 
-      function test5([a = 1, b = 2] = [500]) {
-        console.log(a, b);
-      }
-      test5(); // 500, 2
+  test6({a: 10, b: 20, c: 30}); // 10, 20
+  test6({a: 10}); // 10, 2
+  test6(); // 1, 2
 
-      function test6({ b = 2, a = 1 } = {}) {
-        console.log(a, b);
-      }
+</script>
 
-      test6({ a: 10, b: 20, c: 30 }); // 10, 20
-      test6({ a: 10 }); // 10, 2
-      test6(); // 1, 2
-    </script>
-  </body>
+</body>
 </html>

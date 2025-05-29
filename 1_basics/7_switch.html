@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>JavaScript kurs</title>
+  <style>
+    div {
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+
+  const switchInstruction =
+          ` allows for simple check if a certain variable has some value. if it so switch is finished `
+
+  let myNum = 55;
+
+  switch (myNum) {
+    case 5:
+      console.log("num === 5");
+      break;
+    case 12:
+      console.log("num === 12");
+      break;
+    case 18:
+      console.log("num === 18");
+      break;
+    case 22:
+      console.log("num === 22");
+      break;
+    case 26:
+      console.log("num === 26");
+      break;
+    default:
+      console.log("default code");
+  }
+  // default code
+
+
+  let switchTxt = "Kasia";
+  switch (switchTxt) {
+    case "Ola":
+      console.log("txt === Ola");
+      break;
+    case "Asia":
+      console.log("txt === Asia");
+      break;
+    case "Kasia":
+      console.log("txt === Kasia");
+      break;
+    default:
+      console.log("default");
+  }
+  // txt === Kasia
+
+  let n = 2;
+  switch (n) {
+    case 0:
+    case 2:
+    case 4:
+    case 6:
+    case 8:
+    case 10:
+      console.log(n, " is even");
+      break;
+    case 1:
+    case 3:
+    case 5:
+    case 7:
+    case 9:
+    case 11:
+      console.log(n, " is odd");
+      break;
+    default:
+      console.log(n, " beyond the scope") ;
+  }
+  // 2 is even
+
+
+  const temp = 22;
+  switch (temp) {
+    case 22:
+    case 23:
+    case 24:
+      console.log(`warm`);
+      break;
+    case 18:
+    case 19:
+    case 20:
+    case 21:
+      console.log(`cold`);
+      break;
+    default:
+      console.log(`missing data`)
+  }
+  // warm
+
+
+  const anotherSwitchTest = 1
+
+  switch (anotherSwitchTest) {
+    case 1:
+      console.log(`1 it is`);
+      break;
+
+    case 2 < anotherSwitchTest:
+      console.log(`2 it is `);
+      break
+    default:
+      console.log(`default `)
+  }
+
+  // 1 it is
+
+
+
+
+
+</script>
+</body>
+</html>

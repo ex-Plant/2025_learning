@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>Spread rest operators </title>
+</head>
+<body>
+<script>
+
+  const sumarry = `
+  Spread (...): Expands an iterable into individual elements.
+  Rest (...): Collects multiple elements into a single array.`
+
+
+  const restOperator = `
+  Takes all arguments passed to a foo into an array
+  function foo(...params) { }
+
+  The rest syntax collects multiple elements and condenses them into a single array.
+  It is typically used in function parameter definitions to handle variable numbers of arguments.`
+
+  function foo(name, ...params) {
+    console.log(params);
+    console.log(name);
+  }
+
+  foo('konrad', 1,2,3,4,5,6,7,8, ); // [1, 2, 3, 4, 5, 6, 7, 8]
+
+  function reduceSum(...args) {
+    return args.reduce((a, b) => a + b)
+  }
+
+  console.log(reduceSum(1, 2, 3, 4)); // 10
+
+
+  const spreadOperator = `
+  The spread syntax allows an iterable (like an array or a string) to be expanded in places where zero or more arguments or elements are expected. `
+
+  const myString = 'konrad'
+  const test = [...myString];
+  console.log({ test }); // ["k","o","n","r","a","d"]
+
+  function sum(a, b, c) {
+    return a + b + c;
+  }
+
+  const numbers = [1, 2, 3];
+  console.log(sum(...numbers)); // Output: 6
+
+
+  function testSpread(a, b, c, d) {
+    console.log(a, b, c, d);
+  }
+
+  const arr = [1,2,3,4];
+
+  const myArr = [...arr, 12, 3, 4 ]
+
+  testSpread(...arr); // spread operator
+
+
+  let data = {
+    name: "Kasia",
+    city: "Wawa",
+    favColor: "red"
+  };
+
+
+  let obj = {
+    ...data,
+    email: "kasia@example.com",
+    country: "Poland",
+    city: "Krk"
+  };
+
+  console.log(obj);
+
+
+  function createPC(cpu, gpu, ram, disk) {
+
+    return {
+      cpu,
+      gpu,
+      ram,
+      disk
+    }
+  }
+
+  const pc = createPC(`testcpu`, `testgpu`, 32, 250);
+  console.log({ pc });
+
+  function createLaptop(pc) {
+    return {
+      ...pc,
+      type: `laptop`,
+      weight: 2.5
+    }
+  }
+
+  const laptop = createLaptop(pc)
+  console.log(laptop);
+
+  const testObj = {
+    name : `test`,
+    surname: `surname`,
+    age: 23,
+  }
+
+  // rest operator with destructuring
+  const {name, ...rest} = testObj
+  console.log(rest); // {surname: 'surname', age: 23}
+
+  console.log(name); // test
+
+
+
+
+
+</script>
+
+</body>
+</html>

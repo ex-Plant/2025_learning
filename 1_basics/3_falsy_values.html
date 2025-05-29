@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>Falsy values</title>
+</head>
+<body>
+<script>
+
+  const FALSY_VALUES = `
+  * Falsy values *
+  After conversion t bool they will return false
+
+  - false
+  - 0
+  - "" (empty string)
+  - null
+  - undefined
+  - NaN
+  `
+
+  const NOT_FALSY_VALUES = `
+  - [] - empty arr is not falsy
+  - " " - string with space inside is not falsy
+  `
+
+  const NULLISH_COALESCING_OPERATOR = `
+  ?? - checks for null and undefined
+
+  let foo = null ?? 'default'; // 'default'
+  let bar = undefined ?? 'default'; // 'default'
+  let baz = 0 ?? 'default'; // 0
+  let qux = '' ?? 'default'; // ''
+  `
+
+  const LOGICAL_OR_OPERATOR = `
+  || - checks for falsy values, same like if statement or ternary operator
+
+  let foo = null || 'default'; // 'default'
+  let bar = undefined || 'default'; // 'default'
+  let baz = 0 || 'default'; // 'default'
+  let qux = '' || 'default'; // 'default'
+  `
+
+  // falsy values
+  if (0) console.log("will not be executed");
+  if (-0) console.log("will not be executed");
+  if ("") console.log("will not be executed");
+  if (NaN) console.log("will not be executed");
+  if (null) console.log("will not be executed");
+  if (undefined) console.log("will not be executed");
+  if (false) console.log("will not be executed");
+  if (0n) console.log("will not be executed");
+  if (-0n) console.log("will not be executed");
+
+
+  // truthy values
+  if (1) console.log("will be executed");
+  if (-1) console.log("will be executed");
+  if (654654656) console.log("will be executed");
+  if ([]) console.log("will be executed");
+  if ({}) console.log("will be executed");
+  if (" ") console.log("will be executed");
+  if (".") console.log("will be executed");
+  if ("str") console.log("will be executed");
+  if (function test(){}) console.log("will be executed");
+  if (true) console.log("will be executed");
+
+
+
+
+
+</script>
+
+</body>
+</html>

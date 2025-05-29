@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>strict mode</title>
+</head>
+<body>
+
+<script>
+  const STRICT = `
+  Strict mode helps in writing cleaner, more robust, and more secure JavaScript code.
+  It is a good practice to use strict mode in your JavaScript programs to avoid common pitfalls and errors.
+  "Strict mode" in JavaScript is a way to opt into a restricted variant of JavaScript, which helps catch common coding errors and "unsafe" actions. It can be enabled by adding the string "use strict"; at the beginning of a script or function.
+   Here are some key features and benefits of strict mode:
+
+   Elimination of Some Silent Errors: Strict mode converts some silent errors into throw errors.
+    For example, assigning a value to an undeclared variable will throw an error in strict mode.
+  `
+  x = 3.14; // Error: x is not defined
+
+  "use strict";
+  myVar = "Hello"; // Error: myVar is not defined
+
+  "use strict";
+  function sum(a, a, c) { // Error: Duplicate parameter name not allowed
+    return a + a + c;
+  }
+
+  "use strict";
+  function showThis() {
+    console.log(this); // undefined
+  }
+  showThis();
+
+  "use strict";
+  // for example, using 'with' statement is not allowed
+  with (Math) { x = cos(2); } // Error: Strict mode code may not include a with statement
+
+  "use strict";
+  var obj = {};
+  Object.defineProperty(obj, "x", { value: 0, configurable: false });
+  delete obj.x; // Error: Cannot delete property 'x' of #<Object>
+
+
+
+</script>
+</body>
+</html>

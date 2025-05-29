@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>temporal dead zone</title>
+
+</head>
+<body>       
+    
+    <script>
+        /*
+           Poza blokiem zmienna let może być używana, ale gdy 
+           wewnątrz istnieje deklaracja let z tą samą nazwą
+           to powstaje przestrzeń, gdzie zmienna z poza bloku 
+           nie może być użyta tzw. Temporal Dead Zone
+        */   
+
+        let y = 5;
+
+        // this is no ok
+        if (true) {
+            console.log(y); // Temporal Dead Zone
+                            // ReferenceError: Cannot access 'y' before initialization
+            let y = 10;
+        }
+
+        // this is OK
+             if (true) {
+
+            console.log(y); // Temporal Dead Zone
+                            // ReferenceError: Cannot access 'y' before initialization
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </script>
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+</body>
+</html>

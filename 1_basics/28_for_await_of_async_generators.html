@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>async generators</title>
+</head>
+<body>
+<script>
+
+  async function* getData() {
+    yield await Promise.resolve("ok 1");
+    yield await Promise.resolve("ok 2");
+    yield await Promise.resolve("ok 3");
+    yield await Promise.resolve("ok 4");
+    yield await Promise.resolve("ok 5");
+  }
+
+  // let iterator = getData();
+  // iterator.next().then((data) => console.log(data.value)) // ok 1
+  // iterator.next().then((data) => console.log(data.value)) // ok 2
+  // iterator.next().then((data) => console.log(data.value)) // ok 3
+  // iterator.next().then((data) => console.log(data.value)) // ok 4
+  // iterator.next().then((data) => console.log(data.value)) // ok 5
+
+
+  let iterator = getData();
+  let done = false
+  async function resolvePromises(data) {
+    while (done !== true) {
+      await iterator.next(data).then((d) => {
+        console.log(d.value)
+        console.log(d.done);
+        done = d.done
+      })
+      resolvePromises()
+    }
+  }
+  // resolvePromises();
+
+
+
+
+  let iterator2 = getData();
+
+  async function testIter() {
+    for await (let value of iterator2) {
+      console.log(value);
+    }
+  }
+
+  testIter()
+
+
+  const FOR_AWAIT_OF = `
+
+  Asynchronous Iteration Protocol
+  for await...of: Designed to handle asynchronous iteration, making it simpler to work with async iterables.
+  Async Generators: Use async function* to create functions that return async iterators.
+  To be compatible with for await...of, an object must implement the asynchronous iteration protocol. This involves having:
+  A [Symbol.asyncIterator] method that returns an iterator object.
+  The iterator object must have a next() method that returns a promise for an iteration result object, which has value and done properties.
+
+  Initialization: When you initialize iterator2 with getData(), it returns an async iterator object.
+  This object has a next() method that returns a promise resolving to the next value in the sequence.
+  Iteration: The for await...of loop is designed to work with async iterators.
+  It repeatedly calls the next() method on the iterator, waits for the promise to resolve, and then proceeds with the next iteration.
+
+  Under the Hood:
+  The loop starts by calling iterator2.next().
+  It waits (await) for the promise returned by next() to resolve.
+  Once the promise resolves, it extracts the value property from the result and assigns it to the loop variable (value in this case).
+  It checks the done property. If done is true, the loop terminates.
+  If done is false, it continues to the next iteration.
+
+  Key Points
+  Async Generator: getData is an async generator that yields promises.
+  Async Iterator: When getData is called, it returns an async iterator.
+  for await...of: This loop handles the async iteration, awaiting each promise before proceeding to the next.
+  This syntactic sugar makes the code more readable and concise, abstracting away the manual handling of promises and iterator methods.
+
+  Here's a simplified version of what happens under the hood:
+  `
+
+  async function testIter() {
+    let result;
+
+    while (!(result = await iterator2.next()).done) {
+      let value = result.value;
+      console.log(value);
+    }
+  }
+
+
+
+
+</script>
+
+</body>
+</html>

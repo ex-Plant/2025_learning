@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>date api</title>
+  </head>
+  <body>
+    <script>
+      const DATE = `See project 9_projects/10_countdown_index.html`;
+
+      const nowDate = new Date();
+      console.log(`new Date(): `, new Date()); // Wed Sep 18 2024 11:14:34 GMT+0200 (czas środkowoeuropejski letni)
+
+      console.log(`toISOString`, nowDate.toISOString()); // 2024-09-18T09:18:32.172Z
+
+      console.log(`toDateString`, nowDate.toDateString()); // Wed Sep 18 2024
+
+      console.log(`toTimeString`, nowDate.toTimeString()); // 11:19:55 GMT+0200 (czas środkowoeuropejski letni)
+
+      console.log(`getUTCHours`, new Date().getUTCHours()); // 9 = UTC is universal time
+
+      const GET_DATE = ` returns day of the month as integer`;
+      console.log(`GET_DATE: `, nowDate.getDate()); // 18
+
+      const GET_MONTH = `
+      returns month as integer starting from 0 meaning
+      JANUARY - 0
+      FEB = 1
+      ... and so on
+      `;
+
+      console.log(`getMonth: `, nowDate.getMonth()); // 8 - September
+
+      const GET_TIME = `get date value in milliseconds since October 1 1970 00:00:00 `;
+      console.log(`getTime:`, new Date().getTime()); // 1726650902428
+
+      console.log(`getFullYear:`, new Date().getFullYear()); // 2024
+
+      console.log(`getDay:`, new Date().getDay()); // 3 - WEDNESDAY
+
+      console.log(`getHours:`, new Date().getHours()); // 11 - works as expected
+
+      console.log(`getMinutes:`, new Date().getMinutes()); // 11 - works as expected
+
+      // how to get remaining time
+
+      console.log(
+        `new Date from string`,
+        new Date("Wed Sep 19 2024 11:14:34 "),
+      ); //  Thu Sep 19 2024 11:14:34 GMT+0200 (czas środkowoeuropejski letni)
+
+      function printRemainingTime(target) {
+        const targetDate = new Date(target);
+
+        if ((!targetDate) instanceof Date) {
+          alert(`wrong date format detected, aborting...`);
+          console.log(`targetDate: `, targetDate);
+          return;
+        }
+
+        const targetDateInMs = targetDate.getTime();
+        const nowDateInMs = new Date().getTime();
+        let remainingTime = (targetDateInMs - nowDateInMs) / 1000;
+        //
+        // const daysLeft = Math.floor(remainingTime / 60 / 60 / 24);
+        // remainingTime -= daysLeft * 60 * 60 * 24;
+        //
+        // const hoursLeft = Math.floor(remainingTime / 60 / 60);
+        // remainingTime -= hoursLeft * 60 * 60;
+        //
+        // const minutesLeft = Math.floor(remainingTime / 60);
+        // remainingTime -= minutesLeft * 60;
+        //
+        // const secondsLeft = Math.floor(remainingTime);
+        //
+
+        const daysLeft = Math.floor(remainingTime / 60 / 60 / 24);
+        remainingTime %= 60 * 60 * 24;
+
+        const hoursLeft = Math.floor(remainingTime / 60 / 60);
+        remainingTime %= 60 * 60;
+
+        const minutesLeft = Math.floor(remainingTime / 60);
+        remainingTime %= 60;
+
+        const secondsLeft = Math.floor(remainingTime);
+
+        console.log({
+          secondsLeft,
+          minutesLeft,
+          hoursLeft,
+          daysLeft,
+        });
+      }
+
+      setInterval(() => {
+        console.log("executing");
+        printRemainingTime("Sep 20 2024");
+      }, 1000);
+    </script>
+  </body>
+</html>

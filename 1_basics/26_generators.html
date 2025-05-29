@@ -1,141 +1,153 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Generators</title>
-  </head>
-  <body>
-    <script>
-      const GENERATORS = `
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>Generators</title>
+</head>
+<body>
+<script>
+
+  const GENERATORS = `
   Generators in JavaScript are a special type of function that can be paused and resumed, allowing for more control over the execution flow.
   They are defined using the function* syntax and use the yield keyword to pause execution.
   Generators are particularly useful for managing asynchronous code, implementing iterators, and handling complex sequences of data.
-  `;
-      function* simpleGenerator() {
-        yield 1;
-        yield 2;
-        yield 3;
-      }
+  `
 
-      const gen = simpleGenerator();
+  function* simpleGenerator() {
+    yield 1;
+    yield 2;
+    yield 3;
+  }
 
-      // console.log(gen.next().value); // 1
-      // console.log(gen.next().value); // 2
-      // console.log(gen.next().value); // 3
-      // console.log(gen.next().value); // undefined
-      // console.log(gen.next().done);  // true
+  const gen = simpleGenerator();
 
-      // this will not break the browser because we have control over execution of this function
-      function* infiniteSequence() {
-        let i = 0;
-        while (true) {
-          yield i++;
-        }
-      }
-      const seq = infiniteSequence();
+  // console.log(gen.next().value); // 1
+  // console.log(gen.next().value); // 2
+  // console.log(gen.next().value); // 3
+  // console.log(gen.next().value); // undefined
+  // console.log(gen.next().done);  // true
 
-      // this will however eventually freeze the browser
-      // while (seq.next().done !== true) {
-      //   console.log(seq.next().value); // this will never be false
-      // }
 
-      // console.log(seq.next().value); // 0
-      // console.log(seq.next().value); // 1
-      // console.log(seq.next().value); // 2
-      // And so on...
+  // this will not break the browser because we have control over execution of this function
+  function* infiniteSequence() {
+    let i = 0;
+    while (true) {
+      yield i++;
+    }
+  }
+  const seq = infiniteSequence();
 
-      const ASYNCHRONOUS_PROGRAMMING = `
+  // this will however eventually freeze the browser
+  // while (seq.next().done !== true) {
+  //   console.log(seq.next().value); // this will never be false
+  // }
+
+  // console.log(seq.next().value); // 0
+  // console.log(seq.next().value); // 1
+  // console.log(seq.next().value); // 2
+  // And so on...
+
+
+
+  const ASYNCHRONOUS_PROGRAMMING = `
   Generators can be used with promises and async/await to manage asynchronous code in a more synchronous-looking manner. This was very useful in the past when there was no async await syntax.
-  `;
-      const apiUrl = "https://api.chucknorris.io/jokes/random";
+  `
+  const apiUrl = "https://api.chucknorris.io/jokes/random";
 
-      let fetchedData;
-      const test2 = fetch(apiUrl)
-        .then((res) => res.json())
-        .then((data) => {
-          // console.log(data); // this will work
-          return (fetchedData = data);
-        });
 
-      // console.log(fetchedData); // undefined -> fetch will be executed after this console.log
+  let fetchedData
+  const test2 = fetch(apiUrl)
+    .then(res => res.json())
+    .then((data) => {
+      // console.log(data); // this will work
+     return fetchedData =  data
+  });
 
-      function* fetchData() {
-        const data1 = yield fetch(apiUrl).then((res) => res.json()); // promise
-        const data2 = yield fetch(apiUrl).then((res) => res.json()); // promise
-        return [data1, data2];
-      }
+  // console.log(fetchedData); // undefined -> fetch will be executed after this console.log
 
-      // const iterator = fetchData();
-      // // First call to next() - starts the generator and pauses at the first yield
-      // iterator.next().value.then(data => {
-      //   console.log(data); // resolved promise
-      //
-      // })
-      // iterator.next().value.then(data => {
-      //   console.log(data); // resolved promise
-      // })
-      //
-      // console.log(iterator.next().done) // true
 
-      // this is what happens if we do not pass a value to next
 
-      // const iterator = fetchData();
-      // // console.log(iterator);  //fetchData {<suspended>}
-      //
-      // // First call to next() - starts the generator and pauses at the first yield
-      // // const first = iterator.next();
-      // const first = iterator.next(); // promise
-      // console.log(first); // {value: Promise, done: false}
-      //
-      // const second = iterator.next()
-      // console.log(second); // {value: Promise, done: false}
-      //
-      // const third = iterator.next(); // value [undefined, undefined] done: true
-      // console.log(third); //{value: Array(2), done: true} array of [undefined undefined]
+  function* fetchData() {
+    const data1 = yield fetch(apiUrl).then(res => res.json()); // promise
+    const data2 = yield fetch(apiUrl).then(res => res.json()); // promise
+    return [data1, data2];
+  }
 
-      //  we can do that as well
-      // const iterator = fetchData();
-      //  console.log(iterator);  //fetchData {<suspended>}
-      //
-      // // First call to next() - starts the generator and pauses at the first yield
-      // // const first = iterator.next();
-      // const first = iterator.next(); // promise
-      // console.log(first); // {value: Promise, done: false}
-      //
-      // const second = iterator.next(`test1`)
-      // console.log(second); // {value: Promise, done: false}
-      //
-      // const third = iterator.next(`test2`);
-      // console.log(third); //{value: Array(2), done: true} array of [test1 test2]
-      //
-      //
 
-      //  this is calling first fetch
-      // const firstNext = iterator.next();
-      //
-      //  Simulate resolving the first Promise
-      // firstNext.value.then(data1 => {
-      //   // Second call to next() - resumes from first yield, passes in the resolved value, then pauses at second yield
-      //   // this is calling second fetch and passes down resolved promise data
-      //   const secondNext = iterator.next(data1);
-      //   // const secondNext = iterator.next(`konrad`); // we can pass anything
-      //
-      //   console.log(secondNext); // { value: Promise, done: false }
-      //    // Simulate resolving the second Promise
-      //   secondNext.value.then(data2 => {
-      //     // Third call to next() - resumes from second yield, passes in the resolved value, then finishes the generator
-      //     // as there is no more fetches to be made this only passes the resolved data down so generator is complete and values are ready
-      //     const thirdNext = iterator.next(data2);
-      //     console.log(thirdNext); // { value: [resolvedValue, resolvedValue2], done: true }
-      //   });
-      // });
+  // const iterator = fetchData();
+  // // First call to next() - starts the generator and pauses at the first yield
+  // iterator.next().value.then(data => {
+  //   console.log(data); // resolved promise
+  //
+  // })
+  // iterator.next().value.then(data => {
+  //   console.log(data); // resolved promise
+  // })
+  //
+  // console.log(iterator.next().done) // true
 
-      const CLAUDE_EXPLANATION = `
+
+
+  // this is what happens if we do not pass a value to next
+
+  // const iterator = fetchData();
+  // // console.log(iterator);  //fetchData {<suspended>}
+  //
+  // // First call to next() - starts the generator and pauses at the first yield
+  // // const first = iterator.next();
+  // const first = iterator.next(); // promise
+  // console.log(first); // {value: Promise, done: false}
+  //
+  // const second = iterator.next()
+  // console.log(second); // {value: Promise, done: false}
+  //
+  // const third = iterator.next(); // value [undefined, undefined] done: true
+  // console.log(third); //{value: Array(2), done: true} array of [undefined undefined]
+
+
+  //  we can do that as well
+  // const iterator = fetchData();
+  //  console.log(iterator);  //fetchData {<suspended>}
+  //
+  // // First call to next() - starts the generator and pauses at the first yield
+  // // const first = iterator.next();
+  // const first = iterator.next(); // promise
+  // console.log(first); // {value: Promise, done: false}
+  //
+  // const second = iterator.next(`test1`)
+  // console.log(second); // {value: Promise, done: false}
+  //
+  // const third = iterator.next(`test2`);
+  // console.log(third); //{value: Array(2), done: true} array of [test1 test2]
+  //
+  //
+
+  //  this is calling first fetch
+  // const firstNext = iterator.next();
+  //
+  //  Simulate resolving the first Promise
+  // firstNext.value.then(data1 => {
+  //   // Second call to next() - resumes from first yield, passes in the resolved value, then pauses at second yield
+  //   // this is calling second fetch and passes down resolved promise data
+  //   const secondNext = iterator.next(data1);
+  //   // const secondNext = iterator.next(`konrad`); // we can pass anything
+  //
+  //   console.log(secondNext); // { value: Promise, done: false }
+  //    // Simulate resolving the second Promise
+  //   secondNext.value.then(data2 => {
+  //     // Third call to next() - resumes from second yield, passes in the resolved value, then finishes the generator
+  //     // as there is no more fetches to be made this only passes the resolved data down so generator is complete and values are ready
+  //     const thirdNext = iterator.next(data2);
+  //     console.log(thirdNext); // { value: [resolvedValue, resolvedValue2], done: true }
+  //   });
+  // });
+
+
+  const CLAUDE_EXPLANATION = `
    Generators are special functions in JavaScript that can be paused and resumed.
    They're defined using the function* syntax and use the yield keyword to pause execution and return a value.
 
@@ -169,9 +181,10 @@ firstNext.value.then(resolvedValue => {
   This is why generators are powerful for handling asynchronous operations - they allow you to write code that looks synchronous (const data1 = yield ...)
   while actually dealing with asynchronous Promises under the hood.
 
-  `;
+  `
 
-      const EXPLANATION = `
+
+const EXPLANATION = `
 In this example:
 
 The first next() call starts the generator and pauses at the first yield.
@@ -182,72 +195,79 @@ The generator then finishes, returning the array [data1, data2].
 
 The nextValue being passed to iterator.next(nextValue) in your run function is the resolved value of the Promise returned by the previous yield.
 This is how the asynchronous values are fed back into the generator, allowing you to work with asynchronous operations in a more synchronous-looking way.
-`;
+`
 
-      const runWithWhile = (generatorFoo) => {
-        const iterator = generatorFoo();
 
-        const handleNext = (nextValue) => {
-          let result = iterator.next(nextValue);
 
-          while (!result.done) {
-            result.value.then((resolvedValue) => {
-              result = iterator.next(resolvedValue);
-              if (result.done) {
-                console.log(result.value);
-              }
-            });
-          }
+  const runWithWhile = (generatorFoo) => {
+    const iterator = generatorFoo();
 
+    const handleNext = (nextValue) => {
+      let result = iterator.next(nextValue);
+
+      while (!result.done) {
+        result.value.then((resolvedValue) => {
+          result = iterator.next(resolvedValue);
           if (result.done) {
-            console.log(result.value); // Final result
+            console.log(result.value);
           }
-        };
-
-        handleNext(); // Start the generator
-      };
-
-      // runWithWhile(fetchData);
-
-      const runWithRecursion = (generatorFoo) => {
-        const iterator = generatorFoo();
-
-        const iterate = (input) => {
-          const { value, done } = iterator.next(input);
-
-          if (!done) {
-            value.then((result) => {
-              iterate(result);
-            });
-          } else {
-            console.log(value); // Final result
-          }
-        };
-
-        iterate(); // Start the generator without passing a value
-      };
-
-      runWithRecursion(fetchData);
-
-      function* stateMachine() {
-        let state = "start";
-        while (state !== "end") {
-          if (state === "start") {
-            console.log("Starting...");
-            state = yield "running";
-          }
-          if (state === "running") {
-            console.log("Running...");
-            state = yield "end";
-          }
-        }
-        console.log("Ended.");
+        });
       }
 
-      const machine = stateMachine();
-      const iterator1 = machine.next();
-      const iterator2 = machine.next(iterator1.value);
-      machine.next(iterator2.value);
-    </script>
-  </body>
+      if (result.done) {
+        console.log(result.value); // Final result
+      }
+    };
+
+    handleNext(); // Start the generator
+  };
+
+  // runWithWhile(fetchData);
+
+
+
+  const runWithRecursion = (generatorFoo) => {
+    const iterator = generatorFoo();
+
+    const iterate = (input) => {
+      const { value, done } = iterator.next(input);
+
+      if (!done) {
+        value.then(result => {
+          iterate(result);
+        });
+      } else {
+        console.log(value); // Final result
+      }
+    };
+
+    iterate(); // Start the generator without passing a value
+  };
+
+  runWithRecursion(fetchData);
+
+  function* stateMachine() {
+    let state = 'start';
+    while (state !== 'end') {
+      if (state === 'start') {
+        console.log('Starting...');
+        state = yield 'running';
+      }
+      if (state === 'running') {
+        console.log('Running...');
+        state = yield 'end';
+      }
+    }
+    console.log('Ended.');
+  }
+
+
+  const machine = stateMachine();
+  const iterator1 = machine.next();
+  const iterator2 = machine.next(iterator1.value)
+  machine.next(iterator2.value)
+
+</script>
+
+</body>
 </html>

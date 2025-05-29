@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>equality operator </title>
+</head>
+<body>
+<script>
+
+
+  const equalityOperator = ` returns true or false`
+  console.log({ equalityOperator });
+
+
+  console.log( 6 > 1 ); // true
+  console.log( 6 < 1 ); // false
+
+  console.log( 10 >= 6 ); // true
+  console.log( 10 >= 10 ); // true
+  console.log( 10 >= 22 ); // false
+
+  console.log( 5 <= 7 ); // true
+  console.log( 5 <= 5 ); // true
+  console.log( 5 <= 1 ); // false
+
+  let age = 18;
+
+  if (age >= 18) {
+    console.log("can vote");
+  } else {
+    console.log("can't vote");
+  }
+
+  console.log( 1 == 1 ); // true
+  console.log( 1 == 3 ); // false
+  console.log( 1 != 3 ); // true
+  //
+
+
+  const equalityOperatorsWithObjects = `
+    In case of non primitives the only thing that is checked is if the objects have the same place in memory!!!
+   `
+  console.log( equalityOperatorsWithObjects );
+
+  let a = 10;
+  let b = a; // copy
+  b++;
+
+  console.log("a:", a); // 10
+  console.log("b:", b); // 11
+
+  let obj = { a: 10 };
+  let data = obj; // the same place in memory, we are only passing a reference to this place in memory
+
+  obj.a++;
+
+  // both variables are pointing to the same object
+  console.log("obj.a:", obj.a); // 11
+  console.log("data.a:", data.a); // 11
+
+
+  if (obj == data) {
+    console.log("the same place in memory") // true
+  } else {
+    console.log("not the same place in memory");
+  }
+
+
+  console.log(obj); //{a: 11}
+  let info = { a: 11 }
+
+  if (obj == info) {
+    console.log("the same")
+  } else {
+    console.log("not the same place in memory"); // true
+  }
+
+
+  const strictEqualityOperators = `
+   checks if both values are equal AND if they have the same TYPE
+  `
+
+  console.log( 4 == 4 ); // true
+  console.log( 4 == "4" ); // true
+
+  console.log( 4 === "4" ); // false
+  console.log( 4 === 4 ); // true
+  console.log( 4 === 5 ); // false
+
+  console.log( 5 !== 5 ); // false
+  console.log( 5 !== "5" ); // true
+
+
+</script>
+</body>
+</html>

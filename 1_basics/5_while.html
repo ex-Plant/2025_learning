@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>while</title>
+</head>
+<body>
+
+<script>
+
+  const WHILE = `allows executing certain block od code if the conditions are met`
+
+ let i = 0;
+
+  // this will be executed 20 times
+  while (i < 20) {
+    console.log(i);
+    i++
+  }
+
+  let j = 0;
+  // this will be executed 4 times
+  while (j < 4) {
+    console.log(j);
+    j = j + 1;
+  }
+
+  let k = 100;
+  // this will be executed 4 times
+  while (k < 104) {
+    console.log(k);
+    k += 1
+  }
+
+
+  const names = ["Ola", "Kasia", "Adam", "Karol"];
+  let b = 0;
+  while (b < names.length) {
+    console.log( names[b] );
+    b++;
+  }
+
+
+  const nums = [1, 2, 3, 4, 5];
+  let c = 0;
+  while (c < nums.length) {
+    nums[c] = nums[c] + 10;
+    c++;
+  }
+  console.log(nums); // [11, 12, 13, 14, 15]
+
+</script>
+
+</body>
+</html>

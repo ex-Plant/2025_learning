@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>recursion</title>
+</head>
+<body>
+<script>
+
+  const RECURSION =
+          ` Recursion is a programming technique where a function calls itself to solve a problem by breaking it down into smaller, similar sub-problems.
+          Key Concepts in Recursion:
+
+          Base Case: This is the condition that stops the recursion. Without it, the function would call itself indefinitely.
+          Recursive Case: This is where the function calls itself, usually with a slightly simpler version of the problem.
+          Progress Towards Base Case: Each recursive call should move closer to the base case.
+          Stack: Each recursive call adds a new layer to the call stack. When the base case is reached, the stack unwinds, calculating the final result.
+
+          `
+
+
+  function countDown(n) {
+
+    // base case
+    if (n === 0) {
+      console.log('done!');
+      return
+    }
+    console.log(n);
+
+    //recursive case
+    countDown(n - 1)
+  }
+
+  countDown(5)
+
+  const OUTPUT = `
+    5
+    4
+    3
+    2
+    1
+    Done!
+  `
+
+
+// Silnia = iloczyn wszystkich liczb naturalnych dodatnich nie większych niż n
+  function factorial(n) {
+
+    if (n < 0 ) {
+      console.log(`n has to be greater than 0!`);
+      return
+    }
+
+    // Base case
+    if (n <= 1) {
+      return 1;
+    }
+
+    // Recursive case
+    return n * factorial(n - 1);
+    // 2 * 1 = 2 factorial(2)
+    // 3 * 2 = 6 factorial(3)
+    // 4 * 6 = 24 factorial (4)
+    // 5 * 24 = 120 factorial (5)
+
+  }
+
+  console.log(factorial(5)); // Outputs: 120 5*4*3*2*!
+
+  const EXPLANATION = `
+  Call stack is crucial in recursion!!
+  Until base case is reached another functions are added to the call stack.
+  First function added there will be executed last according to FILO rule (first in last out).
+  In our case where n initially is 5  factorial(5) will be called last.
+
+
+   Let's trace factorial(5):
+
+   1. Initial call: factorial(5)
+   Call stack: [factorial(5)]
+   5 is not 0 or 1, so we go to the recursive case
+   We need to calculate 5 * factorial(4), but we don't know factorial(4) yet
+
+   2. Second call: factorial(4)
+   Call stack: [factorial(5), factorial(4)]
+   4 is not 0 or 1, so again we go to the recursive case
+   Now we need to calculate 4 * factorial(3)
+
+   3. Third call: factorial(3)
+   Call stack: [factorial(5), factorial(4), factorial(3)]
+   3 is not 0 or 1, so we continue
+   We need to calculate 3 * factorial(2)
+
+   4. Fourth call: factorial(2)
+   Call stack: [factorial(5), factorial(4), factorial(3), factorial(2)]
+   2 is not 0 or 1, so one more recursive call
+   We need to calculate 2 * factorial(1)
+
+   5, Fifth call: factorial(1)
+   Call stack: [factorial(5), factorial(4), factorial(3), factorial(2), factorial(1)]
+   1 is one of our base cases, so we return 1
+
+   Now, the call stack starts to unwind:
+
+   5. Back to factorial(2):
+   Call stack: [factorial(5), factorial(4), factorial(3), factorial(2)]
+   We now know factorial(1) is 1, so we can compute
+   2 * 1 = 2
+   Return 2
+
+   6. Back to factorial(3):
+   Call stack: [factorial(5), factorial(4), factorial(3)]
+   We now know factorial(2) is 2, so we compute
+   3 * 2 = 6
+   Return 6
+
+   7. Back to factorial(4):
+   Call stack: [factorial(5), factorial(4)]
+   We now know factorial(3) is 6, so we compute
+   4 * 6 = 24
+   Return 24
+
+   8. Finally, back to factorial(5):
+   Call stack: [factorial(5)]
+   We now know factorial(4) is 24, so we compute
+   5 * 24 = 120
+   Return 120
+   The initial call completes, and 120 is our final answer.
+
+   Why the call stack is crucial:
+   State Preservation: Each call to factorial needs to remember its own 'n' value and where to return its result.
+   The call stack keeps track of this for each recursive call.
+   Order of Operations: The call stack ensures that the multiplications happen in the correct order, from innermost to outermost.
+   Unwinding Process: As each call completes, it's removed from the stack, allowing the previous call to continue its computation with the returned value.
+   Nested Computations: The call stack allows for these nested computations, where each level depends on the result of the level below it.
+   Without the call stack, we would lose track of the intermediate steps and values necessary to compute the final result.
+   The stack allows us to "pause" each function call while we compute the inner calls, and then "resume" with the results as we unwind.
+  `
+
+
+  function sumArray(arr) {
+    console.log(arr);
+    //1. [1, 2, 3, 4, 5]
+    //2. [2, 3, 4, 5]
+    //3. [3, 4, 5]
+    //4. [4, 5]
+    //5. [5]
+    //6. [] // base case
+
+    // we start with 0
+
+
+    // 5 + 0 = 5 // arr[0] = 5
+    // 4 + 5 = 9 // arr[0] = 4 and we add result from before
+    // 3 + 9 = 12 // arr[0] = 3
+    // 2 + 12 = 14
+    // 1 + 14 = 15
+
+
+    // base case
+    if (arr.length === 0) {
+      return 0
+    }
+
+    // recursive case
+    return arr[0] + sumArray(arr.slice(1))
+
+  }
+  console.log(sumArray([1, 2, 3, 4, 5]));
+
+  const HOW_IT_WORKS = `
+  If the array is empty, it returns 0 (base case).
+  Otherwise, it returns the first element plus the sum of the rest of the array.
+  This creates a chain of additions: 1 + (2 + (3 + (4 + (5 + 0)))).
+`
+
+
+  console.log(`ta da!`, [1, 2, 3, 4, 5].reduce((acc, curr ) => {
+    return acc + curr
+  })); // 15
+
+  console.log(`ta da!`, [1, 2, 3, 4, 5].reduce((acc, curr ) => {
+    return acc + curr
+  },5)); // 20
+
+
+
+
+
+
+  function foo(n) {
+    if (n === 1) {
+      console.log(`done!!!`);
+      return
+    }
+    console.log(n);
+    n--
+    foo(n)
+  }
+
+  foo(20)
+
+
+
+
+  const anotherFactorialExample = (n) => {
+
+    if (n === 1 || n === 0) {
+      return 1
+    }
+
+    return n * anotherFactorialExample(n - 1)
+
+
+    // 1 * 2 - 1 = 1
+    // 2 *  2 - 1 = 2
+    // 3 * 3 - 1 = 3 * 2 = 6
+
+
+  }
+
+
+  const test = anotherFactorialExample(3)
+  console.log(test); // 6
+
+
+
+
+
+</script>
+
+</body>
+</html>

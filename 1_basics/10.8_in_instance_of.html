@@ -1,48 +1,43 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>relationalOperators</title>
-  </head>
-  <body>
-    <script>
-          const relationalOperators = `
-      returns true or false
-       - in
-       - instanceof
-       `;
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>equality operator </title>
+</head>
+<body>
+<script>
 
-          let obj = { a: 12, b: 14, c: 15 };
+  const relationalOperators = `
+  returns true or false
+   - in
+   - instanceof
+   `
 
-          console.log("b" in obj); // true
-          console.log("d" in obj); // false
+   let obj = { a: 12, b: 14, c: 15 };
 
-          for (let key in obj) {
-            console.log(key);
-          } // a, b, c
+  console.log( "b" in obj ); // true
+  console.log( "d" in obj ); // false
 
-          let arr = ["f", "g", "h", "i"];
+  for (let key in obj) {
+    console.log(key);
+  } // a, b, c
 
-          console.log(0 in arr); // true
-          console.log(8 in arr); // false
 
-          let date = new Date(2030, 12, 15);
-          if (date instanceof Date) console.log("Prawidłowa data");
+  let arr = ["f", "g", "h", "i"];
 
-          const ar = [1, 2, 3];
-          console.log(ar instanceof Array);
+  console.log( 0 in arr ); // true
+  console.log( 8 in arr ); // false
 
-          let test = `string`;
-          let arrString = [...test];
-          console.log(arrString);
-          console.log(arrString.join(``));
 
-          const arr - new Array(20).fill("0");
-    </script>
-  </body>
+  let date = new Date(2030, 12, 15);
+  if (date instanceof Date) console.log("Prawidłowa data");
+
+
+
+</script>
+</body>
 </html>

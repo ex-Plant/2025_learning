@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coercion</title>
+
+</head>
+<body>
+
+    <script>
+
+        const coercion = ` Automatic conversion of data type. - IMPLICIT CONVERSION`
+
+
+        if ({ a: 10 } == "[object Object]") {
+            console.log("will execute"); // will execute
+        }
+
+        console.log( String({ a: 10 }) ); // [object Object]
+
+
+        const explicit_conversion = `
+        EXPLICIT CONVERSION
+        Konwersje jawne - koercje
+        `
+
+        const smallRandomNumber = Math.random() + ""; // string
+        const bigRandomNumber = +smallRandomNumber.slice(2) // slice first two chars (0 + ,) and convert back to a number
+
+
+
+        let txt = String(123);
+        console.log(typeof txt); // "string"
+
+        let num = parseInt("543543");
+        console.log(typeof num); // "number"
+
+        let num2 = parseFloat("1425634.465465");
+        console.log(num2); // number
+        console.log(typeof num2); // number
+
+
+
+        const IMPLICIT_CONVERSION = 'COERCION'
+        let data = "txt" + 123;
+        console.log(data); // "txt123"
+
+        let info = "10";
+        console.log(info + 2); // "102"
+
+        // "102" == 12
+        if (info + 2 == 12) {
+            console.log("!");
+        }
+
+
+
+        let d = +"100";
+        console.log(typeof d); // "number"
+
+        d = -"100";
+        console.log(typeof d); // "number"
+        console.log(d); // -100
+
+
+        if ("false") console.log("will be executed1");
+        if (" ") console.log("will be executed2");
+
+
+        if ("") console.log("will not be executed");
+        if ("0") console.log("will be executed3");
+        if (!"0") console.log("will not be executed");
+        if ({}) console.log("will be executed");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

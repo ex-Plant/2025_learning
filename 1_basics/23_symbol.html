@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>Symbol</title>
+</head>
+<body>
+
+<script>
+  const SYMBOL = `In JavaScript, a Symbol is a primitive data type introduced in ECMAScript 6 (ES6).
+  Symbols are unique and immutable values that can be used as identifiers for object properties.
+  Each symbol value is unique, even if they have the same description.
+
+  Uniqueness: Each symbol is unique.
+
+  Immutability: Symbols are immutable and their value cannot be changed.
+
+  Non-enumerable: Symbol properties are not included in for...in or for...of loops, and are not returned by Object.keys.
+
+  Internal Object Properties: Symbols can be used to define internal object properties that should not be accessible or modifiable outside of the object.
+  `
+
+  const sym1 = Symbol('foo');
+  const sym2 = Symbol('foo');
+  console.log(sym1 === sym2); // false
+
+
+  const sym = Symbol('key');
+  const obj = {
+    [sym]: 'value'
+  };
+  console.log(obj[sym]); // 'value'
+
+
+  // destrukturyzacja
+  function showMe({a = 2, b = 2} = {}) {
+    console.log(a, b);
+  }
+
+  showMe()
+  showMe({a: 4})
+  showMe({b: 6})
+
+
+</script>
+
+</body>
+</html>

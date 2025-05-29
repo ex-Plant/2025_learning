@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>for of</title>
+</head>
+<body>
+<script>
+
+  const FOR_OF = `
+  for of is for values!
+  for in is for keys / indexes
+  `
+
+  const tab1 = [1,2,3,4,5,99];
+  for ( let v of tab1) {
+    console.log(v);
+  }
+
+  const str = "text";
+  for (let s of str) console.log(s);
+
+  const map1 = new Map();
+  map1.set("test", {id: 1, content: "text"});
+  const car = {car: "GMC"};
+  map1.set(car, {topSpeed: 200});
+
+  console.log(map1.get("test")); // {id: 1, content: 'text'}
+  console.log(map1.get(car)); // {topSpeed: 200}
+
+  for ( const entry of map1 ) {
+    console.log(entry); // ['test', {…}]  ,  [{…}, {…}]
+  }
+
+  for ( const [key, value] of map1) {
+    console.log(key, value);
+  }
+
+
+  const set = new Set([1,1,1,2,3,3,4,5,6,6,7]);
+  for (const v of set) console.log(v);
+
+  const elements = document.querySelectorAll("div");
+  for (const d of elements) {
+    d.innerHTML = "test";
+  }
+
+  const mapTest = new Map();
+  mapTest.set(1, 'konrad')
+  console.log(mapTest); // map
+  console.log(mapTest.get(1)); // 1
+
+
+  const arr = [12,20,110,3];
+  delete arr[1];
+
+  // for of will give you values!
+  for (const v of arr) console.log(v); // 12, undefined, 110, 3
+
+
+//for in will give you keys / indexes
+  for (const k in arr) console.log(k); // indeksy 0,2,3
+
+
+  const str = "text";
+  for (const s of str) console.log(s); // t,e,x,t
+
+  for (const i in str) console.log(i); // 0, 1, 2, 3
+  // console.log( str[0] ); // t
+
+  const obj = {
+    a: 10,
+    txt: "text",
+    print: function() {}
+  };
+
+  Object.defineProperty(obj, "test", {
+    value: 45,
+    configurable: true, // czy można skasować property
+    writable: false, // czy można nadpisać wartość
+    enumerable: true // czy można zobaczy za pomocą for in
+  });
+
+  obj.test = 12; // nie da się nadpisać
+  console.log(obj.test); // 45
+
+  console.log(obj); // {a: 10, txt: 'text', test: 45, print: ƒ}
+  //delete obj.test;
+  //console.log(obj); // {a: 10, txt: 'text', print: ƒ}
+
+  //for (const v of obj) console.log(v); // Uncaught TypeError: obj is not iterable
+  for (const v of Object.values(obj)) console.log(v); // 10, text, f () {}
+
+  for (const key in obj) console.log(key); // a, txt, print, test
+  console.log( obj.propertyIsEnumerable("test") ); // true
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

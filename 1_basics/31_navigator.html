@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>Navigator</title>
+</head>
+<body onLoad='getGeolocation()'>
+<a class='aaa' href=''>map</a>
+<script>
+  let lat;
+  let long;
+
+
+  function getGeolocation() {
+    if (navigator.geolocation) {
+      console.log(`geolocation is available`);
+
+      navigator.geolocation.getCurrentPosition((pos) => {
+        lat = pos.coords.latitude;
+        long = pos.coords.latitude;
+        console.log(lat, long);
+        getMapLink(lat, long)
+
+      });
+    }
+  }
+
+  // <body onLoad='getGeolocation()'>
+  // this is not a callback!!
+  window.onload = getGeolocation()
+
+  function getMapLink(lat, long) {
+    const mapLink = `https://openstreetmap.org/#map=9/${lat}/${long}`
+    const aElement = document.querySelector(`.aaa`)
+    aElement.href = mapLink
+  }
+
+</script>
+</body>
+</html>

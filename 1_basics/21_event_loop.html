@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>event loop</title>
+</head>
+<body>
+<script>
+
+
+
+  const theory1 = `
+JS is single threaded! We can easily create an infinite loop that would block the entire program for example:
+
+while (true) {
+}
+
+Events, like clicks etc. will not work until loop is over. The browser will freeze.
+JS is executing code line by line (synchronous) but we can use some asynchronous features of js as well.
+
+Asynchronous code will be executed last even if timeout is set to 0:
+  `
+  console.log(`msg 1`); // 1
+
+  setTimeout(() => {
+    console.log(`msg 2`);
+  },0) //3
+
+  console.log(`msg 3`); // 2
+
+  const theory2 = `Here first the loop will execute 10000 times and ony then setTimeout  `
+
+  // setTimeout(() => {
+  //   console.log(`test 23 `);
+  // },0);
+
+  const number = 10000
+  let count = 0;
+
+  // for (let i = 0; i < number; i++) {
+  //   count ++
+  //   console.log(count);
+  // }
+
+
+  const callStack = `
+The call stack in JavaScript is a mechanism for managing function invocation.
+When a function is called, a new frame (containing information about the function's execution context) is pushed onto the stack.
+When the function completes, its frame is popped off the stack.
+This follows a Last-In-First-Out (LIFO) order, meaning the most recently added frame is the first to be removed.
+
+first() is called and its frame is pushed onto the stack.
+first() calls second(), which adds a new frame on top of the stack.
+second() calls third(), adding another frame.
+third() executes, logs the message, and its frame is popped off.
+Control returns to second(), which completes and its frame is popped off.
+Finally, first() completes and its frame is popped off.
+  `
+  function first() {
+    second();
+  }
+
+  function second() {
+    third();
+  }
+
+  //LIFO THE LAST FOO WILL BE EXECUTED FIRST
+  function third() {
+    console.log('Hello from the third function!');
+  }
+
+  first();
+
+  const WEBAPI = `
+   Web API in JavaScript refers to the set of APIs provided by the browser.
+   These APIs include functionalities like DOM manipulation, making HTTP requests, handling timers, and more.
+   WEBAPI's will be executed after simple synchronous code is removed from the callstack.
+   WEBAPI functions can be multithreaded, they are written in other languages that is why after some async webapi foo is finished
+   (for example data are fetched or timer is ready) they are moved to TASK QUEUE.
+   Tas queue consists of all asynchronous callbacks. From here they are removed according to FIFO - First In First Out.
+  `
+
+
+
+      const RENDER_QUEUE = `
+HAS HIGHER PRIORITY THAN TASK QUEUE
+It is also executed until it is fully empty.
+
+The term "render queue" is often used in the context of web development and browser internals to describe the process by which the browser manages rendering of the web page.
+This involves the steps the browser takes to paint pixels to the screen, ensuring a smooth user experience. Here’s a simplified breakdown:
+Render Queue in the Context of the Browser
+JavaScript Execution: JavaScript code is executed, and any changes to the DOM or CSS are noted.
+Style Calculation: The browser calculates the styles for each element based on the CSS.
+Layout: The browser calculates the geometry of the elements (positions and sizes).
+Paint: The browser determines which pixels need to be painted for the elements.
+Composite: The browser composes the painted layers into the final screen image.
+
+Interaction with the Call Stack and Event Loop
+JavaScript Modifies the DOM: When JavaScript modifies the DOM, these modifications don’t immediately result in re-rendering.
+Render Queue: The browser queues up these changes, optimizing to avoid unnecessary re-renders.
+Event Loop: After JavaScript execution, the event loop checks if the render queue has tasks.
+Rendering Process: If there are tasks, the browser performs the style calculation, layout, paint, and composite steps to update the visual presentation.
+      `
+
+        const MICROTASKS_QUEUE = `
+Immediate Execution: When a promise is created, the code inside the promise executor (the function passed to the Promise constructor) runs immediately.
+Microtasks Queue: When a promise is resolved or rejected, its .then(), .catch(), and .finally() handlers are placed in the microtasks queue.
+Event Loop: The event loop processes tasks in the microtasks queue before moving on to the next task in the task queue (which contains callbacks like those from setTimeout).
+        `
+
+
+  const EVENT_LOOP = `
+    Event loop is working in the background all the time. It connects call stack with task queue.
+    1. EVENT LOOP checks if CALL STACK is empty LIFO.
+    2. MICROTASKS QUEUE until it's empty FIFO.
+    3. RENDER QUEUE until it's empty
+    5. If it is so it takes first foo from TASK QUEUE - only one and repeats.
+    5. Repeat
+
+    `
+
+
+</body>
+</html>

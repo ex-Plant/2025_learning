@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>Document</title>
+</head>
+<body>
+<script>
+  const moduloOperator = `gives you the rest of division`
+  console.log({ moduloOperator });
+
+  //
+  console.log( 10 % 4 ); // 2
+  console.log( 43 % 3 ); // 1
+  console.log( 43 % 43 ); // 0
+
+  //
+  console.log( 10 % 2 ); // 0 even
+  console.log( 11 % 2 ); // 1 odd
+  console.log( 13 % 2 ); // 1 odd
+
+
+  const arr = [-3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8];
+  for (let i = 0; i < arr.length; i++) {
+    const n = arr[i];
+
+    if ( (n % 2) == 0 ) {
+      console.log(n, "is even");
+    } else {
+      console.log(n, "is odd");
+    }
+  }
+
+  /*
+   Modulo zadanie:
+   Oblicz sumę parzystych elementów
+   tablicy liczb od 1 do 14, krok co 1
+   */
+
+
+  const arr2 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14];
+  let sum = 0;
+
+  for (let i = 0; i < arr2.length; i++) {
+    const n = arr2[i];
+
+    if ( (n % 2) == 0 ) {
+      sum += n;
+    }
+  }
+
+  console.log("Sum:", sum); // 56
+
+</script>
+</body>
+</html>

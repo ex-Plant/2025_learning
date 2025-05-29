@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>promises</title>
+</head>
+<body>
+
+<script>
+
+  const apiUrl = "https://api.chucknorris.io/jokes/random";
+
+  function processData(data) {
+    console.log(data);
+  }
+
+  function error(err) {
+    console.log(err);
+  }
+
+
+  // old syntax - this will be executed straight away
+  fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => processData(data))
+    .catch(err => error(err))
+    .finally(() => console.log(`done!`))
+
+
+
+  // how to create a promise
+  function getJoke() {
+    return new Promise(function (resolve, reject) {
+      const req = new XMLHttpRequest();
+
+      req.open("GET", apiUrl);
+      req.onload = function () {
+        if (req.status == 200) {
+          resolve(req.response);
+        } else {
+          reject(req.responseText);
+        }
+      }
+
+      req.onerror = function() {
+        reject( new Error("Network error.") );
+      }
+
+      req.send();
+    });
+  }
+
+  getJoke()
+    .then(data => {
+      let json = JSON.parse(data);
+      console.log(json);
+    });
+
+
+
+  // async await syntax - it acts as a synchronous code, we can wait for the data before doing something else
+  async function getData() {
+
+    try {
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  getData();
+</script>
+
+</body>
+</html>

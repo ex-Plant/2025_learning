@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>window object</title>
+
+</head>
+<body>
+
+<script>
+  const widowObj = `
+  Global object provided by the browser, if the programme is running in the browser environment that represents the window containing the DOM document.
+  Is servers as the global context where js runs.
+
+  1. Global Scope: Variables declared with var outside any function become properties of the window object.
+    var myVar = 10;
+    console.log(window.myVar); // Output: 10
+
+   2. Document Access: It provides access to the document object, which represents the DOM.
+   console.log(window.document); // Output: [object HTMLDocument]
+
+   3. Browser Information: It contains information about the browser and the user's environment.
+   console.log(window.navigator.userAgent); // Output: (browser's user agent string)
+
+   4. Screen Information: It includes properties related to the user's screen.
+   console.log(window.location.href); // Output: (current URL)
+
+   5. Timers: It provides methods to execute code after a specified time or at regular intervals.
+
+    window.setTimeout(() => {
+    console.log("This runs after 2 seconds");
+    }, 2000);
+
+    window.setInterval(() => {
+    console.log("This runs every 1 second");
+    }, 1000);
+
+  6. Alert and Prompt: It provides methods to display alert boxes, confirm dialogs, and prompt dialogs.
+  window.alert("Hello, World!"); // Alert box
+  const confirmed = window.confirm("Are you sure?"); // Confirm dialog
+  const name = window.prompt("What is your name?"); // Prompt dialog
+
+  7.Event Handling: It allows you to attach event listeners to the window.
+
+  window.addEventListener('resize', () => {
+    console.log("The window was resized!");
+  });
+
+`
+
+  console.log(window.innerWidth);
+  console.log(window.innerHeight);
+
+
+  // jesli znajdujemy sie w kontekscie okna mozemy sie odwolac bezposrednio
+  console.log(innerWidth);
+  console.log(innerHeight);
+
+
+  // to tez metoda window przyjmujaca callback
+  setTimeout(function () {
+    console.log("After timeout")
+  }, 800);
+
+
+  let i = 0;
+  let intervalId = setInterval(() => {
+    console.log(i);
+    i++;
+  }, 500);
+
+  //window.alert("Hello World");
+
+  //let userInput = prompt("Podaj swoje imię:");
+  //console.log("Twoje imię to:", userInput);
+
+  let userInput = prompt("Podaj dowolną liczbę:");
+  let floatNum = parseFloat(userInput);
+
+  console.log("Wynik dodawania:", floatNum + 100);
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>variables</title>
+</head>
+<body>
+<script>
+  const intro = `
+    EcmaScript - a standardized language by the organization ECMA - JavaScript is its implementation.
+    JavaScript origins - 1995.
+    ECMA - European Computer Manufacturers Association.
+    ECMAScript 6 - 2015
+    Currently ES2023.
+
+    JS engine
+    Interpreted
+    A JavaScript interpreter is a program that reads and interprets the code. For example, V8 in node.js.
+
+    JS runtime environment - where the code is to be executed. The engine interprets, and the runtime provides objects that allow interaction with the outside world, e.g., window, DOM, etc.
+
+    Chrome and Node.js use the same engine - V8, but they have different runtimes.
+    In Chrome, there’s the window object and DOM, while in Node.js (on the server) there are functions like require, etc.
+    Memory is managed by the garbage collector.
+  `
+
+  const variables = `
+   Boxes in memory keeping some values.
+   const - constans
+   let, var - not constant
+
+   1. Undeclared variable
+   console.log(some_undeclared_variable)
+   // ReferenceError: some_undeclared_variable is not defined
+
+   2. Undefined variable - it has been declared but has no assigned value
+   let undefined_variable; // declared
+   console.log(undefined_variable) // undefined
+
+   3. Defined variable - has been declared by using const, let or var and has a value assigned to it.
+   let defined_var = 1 // declared and defined
+
+   4. Global vars - vars available everywhere in the programme.
+
+   5. Local vars - vars available only in a limited scope of a block of code.
+   Local variables are created using let and const.
+
+  `
+
+  let a = 12;
+  const txt = "Kasia";
+
+  // block scope
+  if (true) {
+    let a = 100; // local vars
+    let txt = "Zosia"; // this will replace the global var withing this block of code
+
+    console.log(a); // 100
+    console.log(txt); // Zosia
+  }
+
+  // back to global scope
+  console.log(a); // 12
+  console.log(txt); // Kasia
+
+
+  // block scope
+  for (let i = 0; i < 3; i++) {
+    let a = 56;
+    console.log("for", i, a);
+    // for 0 56
+    // for 1 56
+    // for 2 56
+  }
+
+  const dynamicTyping = `
+  *Dynamic Typing*
+  JS is a dynamically typed language = you can changed the type of a variable during the course of the programme.
+  THis is exactly the reason why TypeScript was developed.
+  `
+
+  const variableDeclaration = `
+  * VARIABLE DECLARATION *
+  - camelCase
+  - snake_case
+  - kebab-case
+  - SCREAMING_SNAKE_CASE
+
+  To DECLARE A VARIABLE means to create a new one with an identifier, otherwise it would be undefined. We can also ASSIGN A VALUE to it.
+  IDENTIFIER - name of a variable.
+
+  `
+
+</script>
+
+</body>
+</html>

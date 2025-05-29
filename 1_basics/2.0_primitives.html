@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>Primitives</title>
+</head>
+<body>
+<script>
+
+  const PRIMITIVES = `
+   * Primitives *
+     Primitive data types that we can assign to variables by using assignment operator.
+     Prymitywy przekazywane są przez kopie, a typy złożone przez referencje do miejsca w pamieci!
+     - string
+     - number
+     - undefined
+     - null
+     - bigint
+     - boolean
+     - symbol
+
+    let txt = "Kasia"; // string
+    let num = 123; // number
+    num = 123.45;
+    let bool = true; // boolean
+    let bigInt = 1235142563426354654565465n; // bigint
+    txt = null; // null
+    let uniqueSymbol = Symbol(); // symbol
+
+  `
+
+
+  //
+
+  //   1. *string*
+  let stringPrimitive;
+  const templateLiteral = `Can spread multiple lines and can use backticks () to add variables to the string.`
+  const city = 'Kraków';
+  const templateLiteral2 = `Life like in ${city}`
+  // console.log(templateLiteral);
+
+  // 2. *number*
+  const numberPrimitive = 1;
+  const points1 = 80;
+  const points2 = 90;
+  const points3 = 100;
+
+  const average = (points1 + points2 + points3) / 3;
+  // console.log(average)
+
+  let totalPoints = points1 + points2 + points3;
+  // console.log(totalPoints);
+
+
+  // 3. *undefined*
+  const undefinedPrimitive = `
+    it is assigned by default if we dont do it ourselves
+    let undefinedPrimitive;
+  `
+
+  // 4. *null*
+  const nullPrimitive = `
+    You want to intentionally tell that this variable has no value
+    const NULL = null;
+  `
+
+  // 5. *bigint* -
+  const BIGINT = `
+    Very large integer created with "n" at the end of the number
+    const bigintPrimitive = 1235142563426354654565465n;
+    `
+
+  // 6. *boolean*
+  const BOOL = `
+   Logical value true | false.
+   const bool = true;
+  `
+
+  // 7. *Symbol*
+  const SYMBOL = `
+    introduced in ECMAScript 6
+    const sym = Symbol();
+  `
+
+
+
+
+  const primitiveObjectsWrappers = `
+  Primitives like numbers or strings have their counterparts in the form of objects.
+  We can use their constructors, known as wrappers, to access useful methods.
+  Additionally, JavaScript performs this process automatically;
+  when we call a method on a primitive, it is converted to an object, and after the operation, it reverts to its primitive form.
+
+  This means that, in effect, we can work with primitives—wrappers are automatically wrapped around a string or number.
+  Automatic conversion takes place.
+        `
+
+  let txt = "TEST"; // string - primite
+
+  let str = new String(txt); // String - obiekt / wrapper
+  str = str.toLowerCase();
+  console.log(str); // "test"
+
+  str = txt.toLowerCase();
+  console.log(str); // "test"
+
+
+  let num = 123.45678;
+  num = num.toFixed(2);
+  console.log(num); // 123.46
+
+  let num2 = new Number(123.45678);
+  num2 = num2.toFixed(2);
+  console.log(num2); // 123.46
+
+
+  const mutability = `
+  In JavaScript, only objects and arrays truly overwrite their value, meaning they are mutable.
+  However, when primitives are changed, the previous value is effectively deleted and a new one is assigned.
+  This means the variable/constant name points to a new memory location for primitives.
+        `
+
+  // this will not work
+  let str = "Hello World!";
+  str[0] = "R";
+  console.log(str[0]); // H
+
+  // this will work we are creating a new place in memory
+  str = "R" + str.substring(1)
+  console.log(str);
+
+
+  str = str + "!!!";
+  console.log(str); // Hello World!!!!
+
+
+  // this will work - array is mutable
+  const arr = ["H", "e", "l", "l", "o"];
+  arr[0] = "R";
+  console.log(arr); // ['R', 'e', 'l', 'l', 'o']
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

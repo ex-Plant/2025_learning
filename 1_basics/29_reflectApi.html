@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible'
+        content='ie=edge'>
+  <title>reflect API</title>
+</head>
+<body>
+<script>
+
+  const REFLECT_API = `
+  The Reflect API in JavaScript is a built-in object that provides methods for intercepting JavaScript operations.
+  It is similar to the methods found on Object, but it also includes some new methods that are not available on Object.
+  The Reflect API is often used in conjunction with the Proxy object to customize the behavior of fundamental operations on objects.
+
+    Here are some key methods provided by the Reflect API:
+
+    Reflect.apply(target, thisArgument, argumentsList): Invokes a function with a given this value and arguments.
+    Reflect.construct(target, argumentsList[, newTarget]): Acts like the new operator but as a function. Useful for creating new instances of a class.
+    Reflect.defineProperty(target, propertyKey, attributes): Similar to Object.defineProperty(), defines a new property on an object.
+    Reflect.deleteProperty(target, propertyKey): Similar to the delete operator, deletes a property from an object.
+    Reflect.get(target, propertyKey[, receiver]): Gets the value of a property on an object.
+    Reflect.set(target, propertyKey, value[, receiver]): Sets the value of a property on an object.
+    Reflect.has(target, propertyKey): Determines if an object has a property, similar to the in operator.
+    Reflect.ownKeys(target): Returns an array of the target object's own property keys.
+
+
+  `
+  const obj = {
+    name: 'John',
+    age: 30
+  };
+
+  // Using Reflect.get to retrieve a property value
+  console.log(Reflect.get(obj, 'name')); // Output: John
+
+  // Using Reflect.set to set a property value
+  Reflect.set(obj, 'age', 31);
+  console.log(obj.age); // Output: 31
+
+  // Using Reflect.has to check if a property exists
+  console.log(Reflect.has(obj, 'name')); // Output: true
+
+  // Using Reflect.deleteProperty to delete a property
+  Reflect.deleteProperty(obj, 'age');
+  console.log(obj.age); // Output: undefined
+  const car = {
+    name: "Audi",
+    topSpeed: 200,
+    printInfo: function() {
+      console.log(this.name, this.topSpeed);
+    }
+  }
+
+  car.printInfo()
+
+  console.log(Reflect.has(car, "name")); // true
+  console.log(Reflect.has(car, "topSpeed")); // true
+  console.log(Reflect.has(car, "surname")); // false
+
+  console.log(Reflect.ownKeys(car)); // (3) ['name', 'topSpeed', 'printInfo']
+
+  let keys = Object.keys(car);
+  console.log(keys); // (3) ['name', 'topSpeed', 'printInfo']
+
+  Reflect.deleteProperty(car, `topSpeed`);
+  console.log(Reflect.has(car, "topSpeed")); // false
+
+
+
+
+</script>
+
+</body>
+</html>
