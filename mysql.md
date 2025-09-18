@@ -1,0 +1,326 @@
+# Full Recap of the Conversation
+
+## 1. Introduction to SQL and Databases
+
+- SQL (Structured Query Language): A programming language designed for managing and manipulating data in relational database management systems (RDBMS).
+- Database: An organized collection of data, stored electronically in a structured format for efficient retrieval and manipulation.
+- DBMS (Database Management System): Software that manages databases, providing tools to store, access, and modify data (e.g., MySQL, PostgreSQL, SQL Server).
+
+## 2. Relational vs. Non-Relational Databases
+
+- Relational Databases:
+  - SQL databases
+  - Organize data into tables with rows (records) and columns (fields).
+  - Use SQL for querying and managing data.
+  - Enforce fixed schemas, ensuring data consistency.
+  - Examples: MySQL, PostgreSQL.
+- Non-Relational Databases (NoSQL):
+  - Store data in flexible formats like documents, graphs, or key-value pairs (e.g., JSON).
+  - Schema-less, allowing for dynamic data modeling.
+  - Scalable and suitable for handling large amounts of unstructured data.
+  - Examples: MongoDB, Cassandra.
+
+## 3. Types of Keys in a Database
+
+- Primary Key:
+  - Uniquely identifies each row in a table.
+  - Ensures data integrity by preventing duplicate records.
+  - Cannot contain NULL values.
+- Foreign Key:
+  - Links data between two tables.
+  - Establishes relationships between tables, ensuring referential integrity.
+- Composite Key:
+  - A combination of two or more columns that uniquely identify a row.
+  - Used when a single column is insufficient to uniquely identify a record.
+- Natural Key:
+  - Based on inherent data attributes (e.g., social security number, email address).
+  - Has real-world meaning but may be subject to changes.
+- Surrogate Key:
+  - An artificially generated identifier (e.g., auto-incrementing integer or UUID).
+  - Provides a consistent and immutable identifier for records.
+  - Example: Auto-generated id field in a table.
+- Candidate Key:
+  - A set of columns that could serve as a primary key.
+  - Only one candidate key is chosen as the primary key.
+
+#### Self-referencing relationship (within one table)
+
+- A column can reference the primary key of the same table. This models hierarchies or relationships like "user has a manager" or "category has a parent category".
+- Implemented using a foreign key that points to the table's own primary key.
+
+Example (MySQL):
+
+```sql
+CREATE TABLE employees (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  manager_id INT NULL,
+  CONSTRAINT fk_employees_manager
+    FOREIGN KEY (manager_id) REFERENCES employees(id)
+);
+```
+
+Querying with a self-join:
+
+```sql
+-- List employees with their manager names
+SELECT e.id AS employee_id,
+       e.name AS employee_name,
+       m.name AS manager_name
+FROM employees AS e
+LEFT JOIN employees AS m
+  ON e.manager_id = m.id;
+```
+
+Notes:
+- Use `LEFT JOIN` to include top-level rows where `manager_id` is NULL.
+- Add an index on the referencing column for performance: `CREATE INDEX idx_employees_manager_id ON employees(manager_id);`
+
+## 4. Most Common Data Types
+
+- INT
+- DECIMAL (10, 4) — two digits number followed by 4 decimal places
+- VARCHAR(255) — string of max 255 characters
+- BLOB — binary large object
+- DATE
+- TIMESTAMP
+
+## 5. SQL Syntax and Commands
+
+### Terminating SQL Statements
+
+- Use a semicolon `;` to end SQL statements.
+
+```sql
+SELECT * FROM Customers;
+```
+
+### CREATE
+
+- Creating a table in PostgreSQL:
+
+```sql
+CREATE TABLE users2 (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  name VARCHAR(100) NOT NULL DEFAULT 'unspecified',
+  email VARCHAR(150) UNIQUE NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+- Creating a table in MySQL / phpMyAdmin:
+
+```sql
+CREATE TABLE test1 (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(255),
+  surname VARCHAR(255),
+  age INT,
+  email VARCHAR(255)
+);
+```
+
+### Column Constraints and Altering Tables
+
+- Common constraints when creating a database schema:
+  - NOT NULL
+  - DEFAULT
+  - UNIQUE
+
+Examples (MySQL syntax):
+
+```sql
+-- Add a NOT NULL column
+ALTER TABLE users ADD nonnullable INT NOT NULL;
+
+-- Add a NOT NULL column with a default value
+ALTER TABLE users ADD nonnullablewithdef INT NOT NULL DEFAULT 0;
+
+-- Add a UNIQUE column
+ALTER TABLE users ADD uniqueField VARCHAR(255) UNIQUE;
+```
+
+### DESCRIBE
+
+- In MySQL / phpMyAdmin, returns the table structure:
+
+```sql
+DESCRIBE test1;
+```
+
+### DROP
+
+- Delete the table:
+
+```sql
+DROP TABLE test1;
+```
+
+### ALTER + ADD
+
+- Add a column to the table:
+
+```sql
+ALTER TABLE test1 ADD major VARCHAR(255);
+```
+
+### ALTER + DROP
+
+- Remove a column:
+
+```sql
+ALTER TABLE test1 DROP major;
+```
+
+### INSERT
+
+- Insert data into a table:
+
+```sql
+INSERT INTO users2 (name, email)
+VALUES ('name1', 'random email value');
+```
+
+### UPDATE (with SET, WHERE, LIMIT, ORDER BY)
+
+- Modifies existing data in a table.
+
+Basic form:
+
+```sql
+UPDATE table_name
+SET column_name = value
+WHERE condition;
+```
+
+Examples:
+
+- Update a single row:
+
+```sql
+UPDATE Customers
+SET Country = 'USA'
+WHERE CustomerID = 1;
+```
+
+- Update multiple columns:
+
+```sql
+UPDATE Employees
+SET Salary = Salary * 1.10, JobTitle = 'Manager'
+WHERE EmployeeID = 5;
+```
+
+- WHERE clause notes:
+  - Filters records to update only those that meet the specified condition.
+  - If no condition is specified, all records will be updated.
+
+```sql
+UPDATE Products
+SET Price = Price * 0.9
+WHERE Category = 'Electronics';
+```
+
+- Additional example:
+
+```sql
+UPDATE users2
+SET name = 'Konrad'
+WHERE name != 'name2' OR name != 'name3' OR name = 'name1';
+```
+
+- Limit how many rows to update (MySQL):
+
+```sql
+UPDATE Customers
+SET CreditLimit = 1000
+WHERE Country = 'USA'
+LIMIT 5;
+```
+
+- Order rows before updating (MySQL):
+
+```sql
+UPDATE Customers
+SET Priority = 'High'
+WHERE Country = 'USA'
+ORDER BY LastPurchase DESC
+LIMIT 10;
+```
+
+### SELECT
+
+Examples:
+
+```sql
+-- Select single column
+SELECT users2.name FROM users2;
+```
+
+```sql
+-- Select multiple columns
+SELECT users2.name, users2.email FROM users2;
+```
+
+```sql
+-- Order by email descending and limit
+SELECT users2.email
+FROM users2
+ORDER BY email DESC
+LIMIT 2;
+```
+
+```sql
+-- Order first by email ascending, then by name descending
+SELECT users2.email
+FROM users2
+ORDER BY email, name DESC
+LIMIT 10; -- example limit
+```
+
+#### IN vs multiple OR
+
+- Both are logically equivalent for equality checks.
+- Prefer `IN` for readability and when checking many values.
+
+Examples:
+
+```sql
+-- Using IN
+SELECT *
+FROM users2
+WHERE email IN ('email2', 'email3');
+
+-- Using OR
+SELECT *
+FROM users2
+WHERE email = 'email2' OR email = 'email3';
+```
+
+Notes:
+- Duplicates in `IN` are ignored: `IN ('a','a','b')` == `IN ('a','b')`.
+- If the column value is NULL, both predicates exclude the row (evaluate to UNKNOWN).
+- Be careful with `NOT IN` if the list contains NULL (it can exclude all rows due to UNKNOWN logic). Use `NOT EXISTS` as a safe alternative.
+- `IN` can take a subquery: `WHERE email IN (SELECT email FROM newsletter_subscribers)`.
+
+### DELETE
+
+- Delete rows from a table:
+
+```sql
+DELETE FROM users2 WHERE email = 'email';
+```
+
+## 6. Managing Databases and Servers in pgAdmin
+
+- Servers in pgAdmin:
+  - Represent PostgreSQL database instances.
+  - Can host multiple databases for different projects or applications.
+- Why Multiple Servers?
+  - Environment Separation: Useful for isolating development, testing, and production environments.
+  - Project Isolation: Helps in managing different projects or applications by keeping their databases separate.
+  - Version Management: Allows running different versions of PostgreSQL.
+  - Performance and Scalability: Distributes databases across multiple servers for load balancing and improved performance.
+- Managing Databases Within a Server:
+  - Create Multiple Databases: Organize data based on projects, applications, or topics.
+  - Example: Create one database for personal projects, another for learning specific SQL concepts, and another for experimenting with different database designs.
