@@ -81,3 +81,6 @@ git revert HEAD --no-commit — this stages the changes, and then you run git co
 *GIG LOG*
 - git log
 - git log --oneline
+
+*git list*
+npm list @radix-ui/react-dismissable-layer

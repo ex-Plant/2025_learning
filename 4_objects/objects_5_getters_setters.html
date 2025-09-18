@@ -57,6 +57,22 @@
             }
         }
 
+        class Movie {
+            #title = null
+            constructor(title) {
+                this.#title = title
+            }
+
+           get title() {
+
+           }
+
+           set title(val) {
+                this.#title = val
+           }
+
+        }
+
 
         movieExample.title = 22
         movieExample.title
