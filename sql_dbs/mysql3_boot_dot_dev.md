@@ -239,3 +239,202 @@ PROS AND CONS:
   DELETE FROM employees
   WHERE id = 251;
 ```
+
+### **AS CLAUSE** IN SQL
+```sql
+  SELECT transactions.note AS birthday_message, transactions.amount from transactions
+  WHERE sender_id = 10
+```
+
+### SQL **FUNCTIONS**
+
+## IIF
+
+```sql
+  IIF(carA > carB, 'carA is faster', 'carB is faster')
+```
+
+```sql
+  SELECT quantity,
+  IIF(quantity < 10, 'Order More', 'In Stock') AS directive
+  FROM inventory;
+```
+
+# TASK: Return all the data from the transactions table, and add an extra column at the end called audit.
+# If a row's was_successful field is true, the audit field should say "No action required".
+# If a row's was_successful field is false, the audit field should say "Perform an audit".
+
+```SQL 
+  SELECT *,
+  IIF(was_successful, 'No action required', 'Perform an audit' ) AS audit 
+  from transactions;
+```
+
+## BETWEEN
+```SQL
+  SELECT employee_name, salary
+  FROM employees
+  WHERE salary BETWEEN 3000 and 10000
+```
+
+```SQL
+  SELECT product_name, quantity
+  FROM products
+  WHERE quantity NOT BETWEEN 20 AND 100;
+```
+
+```SQL
+  SELECT users.name, users.age FROM users
+  WHERE users.age BETWEEN 18 AND 30;
+```
+
+## DISTINCT
+- remove data from the db without duplicates
+- returns one row for each unique previous_company value
+
+```sql
+    SELECT DISTINC previous_company FROM employees;
+```
+
+## LOGICAL OPERATORS - *AND*
+```SQL
+  SELECT product_name, quantity, shipment_status
+  FROM products
+  WHERE shipment_status = 'pending'
+  AND quantity BETWEEN 0 and 10;
+```
+
+=
+<
+>
+<=
+>=
+<> or !=
+
+```sql
+  SELECT * from users
+  WHERE country_code = 'CA' and age < 18
+```
+
+# OR
+```SQL
+  SELECT product_name, quantity, shipment_status
+    FROM products
+    WHERE shipment_status = 'out of stock'
+    OR quantity BETWEEN 10 and 100;
+```
+
+`You can group logical operators with parentheses to control the order of operations`
+
+```sql
+ (this AND that) OR the_other
+```
+
+```sql
+  SELECT COUNT(*) AS junior_count FROM users
+  WHERE (country_code = 'US' OR country_code = 'CA')
+  AND age < 18;
+```
+
+# IN
+*IN* operator returns true or false if the first operand matches any of the values in the second operand. The *IN* 
+operator is a shortcut for multiple *OR* conditions.
+
+This is the same
+```sql
+  SELECT product_name, shipment_status
+      FROM products
+      WHERE shipment_status IN ('shipped', 'preparing', 'out of stock');
+```
+
+as
+```sql
+  SELECT product_name, shipment_status
+    FROM products
+    WHERE shipment_status = 'shipped'
+    OR shipment_status = 'preparing'
+    OR shipment_status = 'out of stock';
+```
+
+```SQL
+  SELECT users.name, users.age, users.country_code FROM users
+    WHERE country_code IN ('US', 'CA', 'MX');
+```
+
+
+# LIKE 
+- ends with banana 
+```SQL
+  SELECT * FROM products
+    WHERE product_name LIKE 'banana%';
+```
+
+- starts with banana
+```SQL
+  SELECT * FROM products
+    WHERE product_name LIKE '%banana';
+```
+
+- contains banana
+```SQL
+  SELECT * FROM products
+    WHERE product_name LIKE '%banana%';
+```
+
+ - single character
+```sql
+  SELECT * FROM products
+    WHERE product_name LIKE '_oot';
+```
+
+```SQL
+  SELECT * FROM users
+    WHERE users.name LIKE 'AL___'
+```
+
+
+# TASK
+All users over the age of 55 will qualify for a senior discount
+Users from Canada (country_code 'CA') qualify for a Canada Day discount.
+Write a query that returns every user from the users table, including all columns, along with an additional column called discount_eligible.
+The discount_eligible column should have a boolean value of true or false depending on whether the user matches any discount conditions listed above.
+
+```SQL
+   SELECT *,
+   IIF(age > 55 OR country_code = 'CA', 1, 0)  as discount_eligible
+   FROM users
+```
+
+# LIMIT
+
+```SQL
+  SELECT * FROM products
+    WHERE product_name LIKE '%berry%'
+    LIMIT 50;
+```
+
+# ORDER BY
+```SQL
+  SELECT name, price, quantity FROM products
+    ORDER BY quantity DESC;
+```
+```SQL
+  SELECT * FROM transactions
+    where amount BETWEEN 10 AND 80
+    ORDER BY AMOUNT DESC;
+    
+❗❗  When using both ORDER BY and LIMIT, the ORDER BY clause must come first.
+```SQL
+  SELECT * FROM transactions
+    WHERE amount BETWEEN 10 AND 80
+    ORDER BY amount DESC
+    LIMIT 4;
+```
+
+# Task
+Write a query that returns the name and username for every user with a password equal to backendDev, welovebootdev, or SQLrocks. Order the records so that the names are in alphabetical order.
+```sql
+  SELECT name, username FROM users
+    WHERE password in ('backendDev', 'welovebootdev', 'SQLrocks')
+    ORDER BY name ASC
+```
