@@ -172,16 +172,28 @@ The server converts the row of SQL data into a JSON object and sends it back to 
     WHERE user_id = 1;
 ```
 
+Remember to ALWAYS include a WHERE clause when deleting data from the dB. otherwise YOU WILL DELETE ALL DATA FROM
+YOUR DB.
+You also do not want to delete data base on the name, or any other non-unique field, as you can accidentally remove
+more fields than intended. Probably the best strategy is to simply use primary key.
+
 Deleting data is a very dangerous operations, often impossible or very hard to revert.
 Some of the common strategies to get back removed data:
 
 - ***BACKUPS***
-YOU SHOULD ALWAYS HAVE A BACKUP STRATEGY IN PLACE. Always turn on automated backups if they are supported by db 
+  `YOU SHOULD ALWAYS HAVE A BACKUP STRATEGY IN PLACE ❗❗❗`
+
+  Always turn on automated backups if they are supported by db 
   provider. For example daily backup that can be restored up to one month.
+  For most small companies hourly snapshots or daily backups are enough. 
+- You have to remember though that backups are not a silver bullet.  You can return to a previous state but the data 
+  might be corrupted - things might have happened with the data that is impossible to roll back. 
 
 - ***SOFT DELETES***
 It is a strategy when you do not actually delete data from your db, only mark it as deleted for example by adding a 
-  field is_deleted or deleted_at
+  field is_deleted or deleted_at.
+It is used only in projects that have a very strict data retention policy.
+
 
 ***UPDATE***
 ```sql
@@ -193,6 +205,7 @@ It is a strategy when you do not actually delete data from your db, only mark it
 ### ORM Object-Relational Mapping
 - ***ORM*** is a tool that allows performing CRUD operations using a traditional programming language, usually in a 
   form of a library or framework. The main benefit of ORMs is that it maps your db records to objects. 
+- It lets you interact with a db much easier.
 
 PROS AND CONS:
 - with ORM you have *more simplicity* but *less control* than using raw SQL statements
@@ -438,3 +451,180 @@ Write a query that returns the name and username for every user with a password 
     WHERE password in ('backendDev', 'welovebootdev', 'SQLrocks')
     ORDER BY name ASC
 ```
+
+### AGGREGATIONS
+- Aggregation is a single value that is derived by combining multiple values
+- Data stored in a database should generally be stored raw. When we need to calculate some additional data from the 
+  raw data, we can use an aggregation.
+- This query returns the number of products that have a quantity of 0. We could store a count of the products in a 
+  separate database table, and increment/decrement it whenever we make changes to the products table - but that would be redundant.
+- It's much simpler to store the products in a single place (we call this a single source of truth) and run an aggregation when we need to derive additional information from the raw data.
+
+```sql
+  SELECT COUNT(*)
+    FROM products
+    WHERE quantity = 0;
+```
+```sql
+    Select count(*) as successful_transactions from transactions
+      WHERE user_id = 6 AND was_successful
+```
+
+
+### SUM 
+- The SUM aggregation function returns the sum of a set of values.
+
+```SQL
+  SELECT SUM(salary)
+    FROM employees;
+```
+
+### MAX
+```SQL
+  SELECT MAX(salary)
+    FROM employees;
+```
+
+# TASK
+Use a MAX aggregation to return the age of our oldest CashPal user who is also an admin. Alias the returned age column to just be named "age".
+
+```sql
+select max(age) as age from users where is_admin;
+```
+### MIN
+
+# TASK
+Use a MIN aggregation to find only the age of our youngest CashPal user in the United States in the users table. The country_code of the United States is US. Alias the returned age column to just be named "age".
+
+```SQL
+    select MIN(age) as age from users where country_code = 'US';
+```
+
+### GROUP BY
+SQL offers the GROUP BY clause which can group rows that have similar values into "summary" rows. It returns one row for each group. The interesting part is that each group can have an aggregate function applied to it that operates only on the grouped data.
+
+```sql
+  SELECT album_id, count(song_id)
+    FROM songs
+    GROUP BY album_id;
+```
+
+# task
+Let's get the balance of every user in the transactions table, all in a single query! Use a combination of the sum aggregation and the GROUP BY clause to return a single row for each user with transactions.
+
+```sql
+  SELECT user_id, SUM(amount) AS balance
+    FROM transactions
+    WHERE was_successful = true
+    GROUP BY user_id;
+```
+
+### AVG
+SQL offers us the AVG() function. Similar to MAX(), AVG() calculates the average of all non-NULL values.
+
+```SQL
+  select avg(age) from users
+    where country_code = 'US';
+```
+
+### HAVING
+The HAVING clause is similar to the WHERE clause, but it operates on groups after they've been grouped, rather than rows before they've been grouped.
+
+```SQL
+  SELECT album_id, count(id) as count
+    FROM songs
+    GROUP BY album_id
+    HAVING count > 5;
+```
+
+# TASK
+Your query should:
+
+Return a sender_id (the person spending money) and a balance.
+The balance is the SUM() of all amounts.
+Don't return any rows that have a NULL sender_id.
+Only return transactions that were successful.
+The note must contain the word lunch to be a part of the aggregation.
+Group by sender_id.
+The aggregated balance must be greater than 20.
+Order the results by the balance in ascending order.
+
+``` SQL
+  SELECT sender_id, sum(amount) AS BALANCE FROM transactions
+    WHERE sender_id IS NOT NULL and was_successful AND NOTE LIKE '%lunch%'
+    Group BY SENDER_ID
+    HAVING SUM(AMOUNT) > 20
+    ORDER BY BALANCE ASC
+```
+
+### ROUND
+SQL ROUND() function allows you to specify both the value you wish to round and the precision to which you wish to round it:
+```SQL
+  ROUND(value, precision)
+```
+If no precision is given, SQL will round the value to the nearest whole value:
+```SQL
+   SELECT ROUND(AVG(song_length), 1)
+    FROM songs
+```
+
+```sql
+  SELECT ROUND(AVG(age), 0) AS round_age
+    FROM users
+    WHERE country_code = 'US';
+```
+
+# task
+Write an SQL statement that returns two columns, the country_code and the average age of users for records with that country_code. The marketing team has asked that we round the average to the nearest whole number and rename the column that contains the average age to average_age.
+
+```sql
+  SELECT country_code, ROUND(AVG(age), 0) as average_age
+    FROM users
+    GROUP BY country_code;
+```
+
+
+### SUBQUERIES - NESTED QUERIES
+It is possible to run a query on the result set of another query 
+
+```sql
+      SELECT id, song_name, artist_id
+        FROM songs
+          WHERE artist_id IN (
+          SELECT id
+            FROM artists
+            WHERE artist_name LIKE 'Rick%'
+    );
+```
+
+# TASK
+One of CashPal's customer service representatives needs us to pull all the transactions for a specific user. Trouble is, they only know the user's name, not their user_id.
+
+Use a subquery to return all transaction details for the user with the name "David".
+
+```sql
+    select * from transactions 
+      where user_id in (
+        select id from users
+          where name = 'David'
+    );
+```
+
+# TASK
+Using a subquery, write an SQL statement that retrieves full user records for every user who matches the sender_id in a transaction with invoice or tax mentioned anywhere in the transaction note, and who is not an admin.
+
+```SQL
+  SELECT * FROM users
+    WHERE is_admin = 0 AND id IN (
+      SELECT sender_id FROM transactions
+        WHERE note LIKE '%invoice%' OR note LIKE '%tax%'
+  );
+```
+
+### Calculations in sql
+```sql
+  Select * from users
+    where age_in_days > (365  * 40);
+```
+
+### TABLE RELATIONSHIPS
