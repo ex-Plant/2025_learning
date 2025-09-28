@@ -903,3 +903,141 @@ Let's go over some rules of thumb that you should commit to memory - they'll ser
 - Avoid storing data that is completely dependent on other data. Instead, compute it on the fly when you need it.
 - Keep your schema as simple as you can. Optimize for a normalized database first. Only denormalize for speed's sake 
   when you start to run into performance problems.
+
+
+## JOINS
+Joins are one of the most important features that SQL offers. Joins allow us to make use of the relationships we have set up between our tables. In short, joins allow us to query multiple tables at the same time.
+
+# INNER JOIN
+The simplest and most common type of join in SQL is the INNER JOIN. By default, a JOIN command is an INNER JOIN.
+
+An INNER JOIN returns all of the records in table_a that have matching records in table_b,
+
+# The ON clause
+In order to perform a join, we need to tell the database which fields should be "matched up". The ON clause is used to specify these columns to join.
+
+```SQL
+  SELECT *
+FROM employees
+INNER JOIN departments 
+ON employees.department_id = departments.id;
+```
+
+The query above returns all the fields from both tables. The INNER keyword doesn't have anything to do with the number of columns returned - it only affects the number of rows returned.
+
+```SQL
+  SELECT students.name, classes.name
+FROM students
+INNER JOIN classes on classes.class_id = students.class_id;
+```
+
+# LEFT JOIN
+A LEFT JOIN will return every record from table_a regardless of whether or not any of those records have a match in table_b. A left join will also return any matching records from table_b.
+
+```SQL
+    select users.name, sum(transactions.amount) as sum, count(transactions.amount) as count  from users
+    left join transactions
+    on transactions.user_id = users.id  
+    group by users.id
+    order by sum desc
+```
+
+```
+  -- select * from users;
+select * from transactions;
+-- select * from countries;
+
+select 
+  users.id,
+  users.name,  
+  users.age,
+  users.username,
+  countries.name as country_name,
+  sum(transactions.amount) as balance
+
+  from users
+  join countries 
+  on countries.country_code = users.country_code
+join transactions 
+on transactions.user_id = users.id
+where users.id = 6 AND transactions.was_successful
+```
+
+```SQL
+  select * from support_tickets;
+  select * from users;
+
+  select users.name, users.username, count(support_tickets.id) as support_ticket_count
+    from users 
+    join support_tickets on support_tickets.user_id = users.id
+    where support_tickets.issue_type != 'Account Access'  
+    group by users.name
+    having support_ticket_count > 1
+    order by support_ticket_count desc
+```
+
+# RIGHT JOIN
+A RIGHT JOIN is, as you may expect, the opposite of a LEFT JOIN. It returns all records from table_b regardless of matches, and all matching records between the two tables.
+
+SQLite Restriction
+SQLite does not support right joins, but many dialects of SQL do. If you think about it, a RIGHT JOIN is just a LEFT JOIN with the order of the tables switched, so it's not a big deal that SQLite doesn't support the syntax.
+
+
+# FULL JOIN
+A FULL JOIN combines the result set of the LEFT JOIN and RIGHT JOIN commands. It returns all records from both from table_a and table_b regardless of whether or not they have matches.
+
+# SQL Indexes
+An index is an in-memory structure that ensures that queries we run on a database are performant, that is to say, they run quickly. If you can remember back to the data structures course, most database indexes are just binary trees or B-trees! The binary tree can be stored in RAM as well as on disk, and it makes it easy to look up the location of an entire row.
+
+PRIMARY KEY columns are indexed by default, ensuring you can look up a row by its id very quickly. However, if you have other columns that you want to be able to do quick lookups on, you'll need to index them.
+It's fairly common to name an index after the column it's created on with a suffix of _idx.
+
+The rule of thumb is simple:
+
+Add an index to columns you know you'll be doing frequent lookups on. Leave everything else un-indexed. You can always add indexes later.
+
+multi-column index is sorted by the first column first, the second column next, and so forth. A lookup on only the first column in a multi-column index gets almost all of the performance improvements that it would get from its own single-column index. However, lookups on only the second or third column will have very degraded performance.
+
+
+
+```SQL
+CREATE INDEX index_name ON table_name (column_name);
+```
+
+```SQL
+create index email_idx on users(email);
+```
+
+```SQL
+  create index user_id_recipient_id_idx 
+  on 
+  transactions (user_id, recipient_id);
+```
+
+# Denormalizing for Speed
+We left you with a cliffhanger in the "normalization" chapter. As it turns out, data integrity and deduplication come at a cost, and that cost is usually speed.
+
+Joining tables together, using subqueries, performing aggregations, and running post-hoc calculations take time. At very large scales these advanced techniques can actually become a huge performance toll on an application - sometimes grinding the database server to a halt.
+
+Storing duplicate information can drastically speed up an application that needs to look it up in different ways. For example, if you store a user's country information right on their user record, no expensive join is required to load their profile page!
+
+That said, denormalize at your own risk! Denormalizing a database incurs a large risk of inaccurate and buggy data.
+
+In my opinion, it should be used as a kind of "last resort" in the name of speed.
+
+
+
+# SQL Injection
+```SQL
+INSERT INTO students(name) VALUES (?);
+```
+
+❌❌❌
+```SQL
+INSERT INTO students(name) VALUES ('Robert'); DROP TABLE students;--);
+```
+
+How Do We Protect Against SQL Injection?
+You need to be aware of SQL injection attacks, but to be honest the solution these days is to simply use a modern SQL library that sanitizes SQL inputs. We don't often need to sanitize inputs by hand at the application level anymore.
+
+For example, the Go standard library's SQL packages automatically protects your inputs against SQL attacks if you use it properly. In short, don't interpolate user input into raw strings yourself - make sure your database library has a way to sanitize inputs, and pass it those raw values.
