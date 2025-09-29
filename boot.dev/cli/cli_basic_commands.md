@@ -18,7 +18,7 @@
 # ls
   - list directory content : `ls`
   - with hidden files : `ls -a`
-
+  - list files from a nested directory: `ls directory_name`
 # &&
   - combine commands:
     - `command1 && command2`
@@ -39,6 +39,8 @@
 
 # echo 
   - Create a file and write some content: `echo "some text " > fileName.fileExtension`
+  - Print text: `echo hello`
+  - Print shell variable: `echo $SHELL` // /bin/zsh
 
 # copy
 - Copy from source to destination: ` cp .env.example .env`
@@ -53,9 +55,22 @@
 
 *recurse* or *recursive* means that the operation should be applied to all files and subdirectories within a directory
 
+# whoami
+  - print current user: `whoami`
+
 # node --eval
 Executing node code straight from cli
 - `node --eval "code to be executed"`
 
 Example of creating prettierignore file 
 - `node --eval "fs.writeFileSync('.prettierignore','# Ignore artifacts:\nbuild\ncoverage\n')"`
+
+# clear 
+- clear terminal: `clear` / `cmnd + l` /-
+
+# history 
+- print history of commands: `history`
+
+
+# cat 
+- print file content: `cat fileName.fileExtension`
