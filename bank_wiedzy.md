@@ -1,5 +1,4 @@
 _min max w tailwind_
-
 - min(10px,100%)
 - max(10px,100%)
 - koniecznie bez spacji!

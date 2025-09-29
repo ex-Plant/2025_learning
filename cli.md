@@ -54,6 +54,7 @@
 "recurse" or "recursive" means that the operation should be applied to all files and subdirectories within a directory
 
 - rm -rf path/to/dir
+- rmdir -r path/to/dir
 
 
 # Relative vs. Absolute Paths

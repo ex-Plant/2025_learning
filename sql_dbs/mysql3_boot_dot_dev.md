@@ -17,7 +17,7 @@ databases. SQL can perform various operations such as creating, updating, readin
   key-value, graph, wide-column, and more.
 
 # Types of NoSQL databases
-- Document Database
+- Document Database 
 - Key-Value Store
 - Wide-Column
 - Graph
@@ -78,7 +78,7 @@ Keep our schema consistent across environments (local, staging, production)
 
 ```sql
     ALTER TABLE projects RENAME TO tasks;
-    ALATER TABLE tasks RENAME COLUMN project_id TO task_id;
+    ALTER TABLE tasks RENAME COLUMN project_id TO task_id;
 ```
 
 **DOWN MIGRATION**
@@ -89,10 +89,9 @@ Keep our schema consistent across environments (local, staging, production)
 
 Real World Migration Tools
 In real-world projects, we don't run raw SQL migrations. We use tools that help:
-
-Track which migration have been applied.
-Organize migrations in files.
-Apply and roll back safely.
+- Track which migration have been applied.
+- Organize migrations in files.
+- Apply and roll back safely.
 
 We can use for example Prisma Migrate when using PRISMA Orm
 
@@ -124,7 +123,7 @@ In other dialects of SQL you can ADD CONSTRAINT within an ALTER TABLE statement.
 
 ### PRIMARY KEY
  - a key is used to define and protect relationships between tables. 
- - primay key is a unique identifier for a record within the table
+ - primary key is a unique identifier for a record within the table
 
 ### FOREIGN KEYS 
  - is used to add a link between two tables, references an id from another table to create a relationship
@@ -223,7 +222,7 @@ PROS AND CONS:
   benefits.
 
 
-### TWO TYPICAL STRATEGIES USED WITH PRIMARY KEYS
+TWO TYPICAL STRATEGIES USED WITH PRIMARY KEYS
 ## AUTOINCREMENT
 - used typically on the id field to automatically generate next id value when inserting data
 -  in SQLite any column that has the INTEGER PRIMARY KEY constraint will auto increment
@@ -233,6 +232,7 @@ PROS AND CONS:
 
 
 ## COUNT
+Count is an operation from within AGGREGATIONS category
 - Use a COUNT(*) statement to retrieve the number of records in the users table.
 ```sql 
   SELECT COUNT(*) FROM employees;
@@ -254,6 +254,7 @@ PROS AND CONS:
 ```
 
 ### **AS CLAUSE** IN SQL
+- alias
 ```sql
   SELECT transactions.note AS birthday_message, transactions.amount from transactions
   WHERE sender_id = 10
@@ -302,20 +303,26 @@ PROS AND CONS:
 ```
 
 ## DISTINCT
-- remove data from the db without duplicates
+- retrieve data from the db without duplicates
 - returns one row for each unique previous_company value
 
 ```sql
     SELECT DISTINC previous_company FROM employees;
 ```
 
-## LOGICAL OPERATORS - *AND*
+### LOGICAL OPERATORS
+
+# AND
+
 ```SQL
   SELECT product_name, quantity, shipment_status
   FROM products
   WHERE shipment_status = 'pending'
   AND quantity BETWEEN 0 and 10;
 ```
+`ℹ️ in SQL there is no dounble  == or tripple ===, equal sign is always a comparison operator, we are not using it as 
+assignment 
+operator like in js, so we don't need to differentiate between them`
 
 =
 <
@@ -360,7 +367,7 @@ This is the same
       WHERE shipment_status IN ('shipped', 'preparing', 'out of stock');
 ```
 
-as
+# AS
 ```sql
   SELECT product_name, shipment_status
     FROM products
@@ -431,12 +438,15 @@ The discount_eligible column should have a boolean value of true or false depend
   SELECT name, price, quantity FROM products
     ORDER BY quantity DESC;
 ```
+
 ```SQL
   SELECT * FROM transactions
     where amount BETWEEN 10 AND 80
     ORDER BY AMOUNT DESC;
-    
-❗❗  When using both ORDER BY and LIMIT, the ORDER BY clause must come first.
+```
+
+❗❗ `When using both ORDER BY and LIMIT, the ORDER BY clause must come first.` 
+
 ```SQL
   SELECT * FROM transactions
     WHERE amount BETWEEN 10 AND 80
@@ -446,6 +456,7 @@ The discount_eligible column should have a boolean value of true or false depend
 
 # Task
 Write a query that returns the name and username for every user with a password equal to backendDev, welovebootdev, or SQLrocks. Order the records so that the names are in alphabetical order.
+
 ```sql
   SELECT name, username FROM users
     WHERE password in ('backendDev', 'welovebootdev', 'SQLrocks')
@@ -465,15 +476,14 @@ Write a query that returns the name and username for every user with a password 
     FROM products
     WHERE quantity = 0;
 ```
+
 ```sql
     Select count(*) as successful_transactions from transactions
       WHERE user_id = 6 AND was_successful
 ```
 
 
-### SUM 
-- The SUM aggregation function returns the sum of a set of values.
-
+### SUM
 ```SQL
   SELECT SUM(salary)
     FROM employees;
@@ -489,8 +499,9 @@ Write a query that returns the name and username for every user with a password 
 Use a MAX aggregation to return the age of our oldest CashPal user who is also an admin. Alias the returned age column to just be named "age".
 
 ```sql
-select max(age) as age from users where is_admin;
+  select max(age) as age from users where is_admin;
 ```
+
 ### MIN
 
 # TASK
@@ -529,6 +540,7 @@ SQL offers us the AVG() function. Similar to MAX(), AVG() calculates the average
 
 ### HAVING
 The HAVING clause is similar to the WHERE clause, but it operates on groups after they've been grouped, rather than rows before they've been grouped.
+First we select something and than we want to limit this selection by another condition.
 
 ```SQL
   SELECT album_id, count(id) as count
@@ -562,6 +574,7 @@ SQL ROUND() function allows you to specify both the value you wish to round and 
 ```SQL
   ROUND(value, precision)
 ```
+
 If no precision is given, SQL will round the value to the nearest whole value:
 ```SQL
    SELECT ROUND(AVG(song_length), 1)
@@ -628,9 +641,27 @@ Using a subquery, write an SQL statement that retrieves full user records for ev
 ```
 
 ### TABLE RELATIONSHIPS
+Types of Relationships
+There are 3 primary types of relationships in a relational database:
+
+- One-to-one
+- One-to-many
+- Many-to-many
+
+# One-to-one
+A one-to-one relationship most often manifests as a field or set of fields on a row in a table. For example, a user will have exactly one password.
+Settings fields might be another example of a one-to-one relationship. A user will have exactly one email_preference and exactly one birthday.
+Usually rather than creating such a relationship you could use a single table and just add this fields to the table.
+
+# One to many
+When talking about the relationships between tables, a one-to-many relationship is probably the most commonly used relationship.
+A one-to-many relationship occurs when a single record in one table is related to potentially many records in another table.
+Note that the one->many relation only goes one way, a record in the second table can not be related to multiple records in the first table!
+
 Examples of One-to-Many Relationships
 A customers table and an orders table. Each customer has 0, 1, or many orders that they've placed.
 A users table and a transactions table. Each user has 0, 1, or many transactions that they've taken part in.
+
 ```sql
 CREATE TABLE customers (
     id INTEGER PRIMARY KEY,
@@ -648,9 +679,8 @@ CREATE TABLE customers (
 ```
 # TASK
 Instead of a single users table where each user has a single country_code, do the following:
-
-Remove the country_code field from the users table
-Create a new table called countries with 4 fields:
+- Remove the country_code field from the users table
+- Create a new table called countries with 4 fields:
 id: an integer primary key
 country_code: a TEXT
 name: a TEXT
@@ -678,27 +708,12 @@ user_id: an integer foreign key to the users table's id field
     );
 ```
 
-Types of Relationships
-There are 3 primary types of relationships in a relational database:
-
-One-to-one
-One-to-many
-Many-to-mantabl
-
-One-to-one
-A one-to-one relationship most often manifests as a field or set of fields on a row in a table. For example, a user will have exactly one password.
-
-Settings fields might be another example of a one-to-one relationship. A user will have exactly one email_preference and exactly one birthday.
-
-# One to many
-When talking about the relationships between tables, a one-to-many relationship is probably the most commonly used relationship.
-
-A one-to-many relationship occurs when a single record in one table is related to potentially many records in another table.
-
-Note that the one->many relation only goes one way, a record in the second table can not be related to multiple records in the first table!
-
 # Many to many
 A many-to-many relationship occurs when multiple records in one table can be related to multiple records in another table.
+
+# Examples of many-to-many relationships
+A products table and a suppliers table - Products may have 0 to many suppliers, and suppliers can supply 0 to many products.
+A classes table and a students table - Students can take potentially many classes and classes can have many students enrolled.
 
 ```sql
   CREATE TABLE product_suppliers (
@@ -730,13 +745,7 @@ create table users_countries (
   UNIQUE(country_id, user_id)
 );
 
-select * from users_countries;
 ```
-
-
-# Examples of many-to-many relationships
-A products table and a suppliers table - Products may have 0 to many suppliers, and suppliers can supply 0 to many products.
-A classes table and a students table - Students can take potentially many classes and classes can have many students enrolled.
 
 # Joining tables
 Joining tables helps define many-to-many relationships between data in a database. As an example, when defining the relationship above between products and suppliers, we would define a joining table called products_suppliers that contains the primary keys from the tables to be joined.
@@ -745,6 +754,7 @@ Then, when we want to see if a supplier supplies a specific product, we can look
 
 *Unique* constraints across 2 fields
 When enforcing specific schema constraints we may need to enforce the UNIQUE constraint across two different fields.
+This ensures that we can have multiple rows with the same product_id or supplier_id, but we can't have two rows where both the product_id and supplier_id are the same.
 
 ```sql
     CREATE TABLE product_suppliers (
@@ -753,9 +763,8 @@ When enforcing specific schema constraints we may need to enforce the UNIQUE con
       UNIQUE(product_id, supplier_id)
     );
 ```
-This ensures that we can have multiple rows with the same product_id or supplier_id, but we can't have two rows where both the product_id and supplier_id are the same.
 
-# Database normalization
+# DATABASE NORMALIZATION
 *Database normalization* is a method for structuring your database schema in a way that helps:
 
 - Improve data integrity
@@ -790,14 +799,14 @@ that uniquely identify a row. That can be a single column, but it can actually b
 # 1st Normal Form (1NF)
 To be compliant with first normal form, a database table simply needs to follow 2 rules:
 
-It must have a *unique primary key*.
-A cell can't have a nested table as its value (depending on the database you're using, this may not even be possible)
+`It must have a unique primary key`.
+
+A cell `can't have a nested table` as its value (depending on the database you're using, this may not even be possible)
 You should almost never design a table that doesn't adhere to 1NF
 
 # 2nd Normal Form (2NF)
-A table in second normal form follows all the rules of 1st normal form, and one additional rule:
-
-All columns that are not part of the primary key are dependent on the entire primary key, and not just one of the columns in the primary key.
+` All columns that are not part of the primary key are dependent on the entire primary key, and not just one of the 
+columns in the primary key.`
 
 # Example of 1st NF, but not 2nd NF
 In this table, the primary key is a combination of first_name + last_name.
@@ -816,18 +825,23 @@ first_name	last_name
 Lane	Wagner
 Lane	Small
 Allan	Wagner
+
 first_name	first_initial
 Lane	l
 Allan	a
 2NF is usually a good idea
-You should probably default to keeping your tables in second normal form. That said, there are good reasons to deviate from it, particularly for performance reasons. The reason being that when you have query a second table to get additional data it can take a bit longer.
+
+`You should probably default to keeping your tables in second normal form. That said, there are good reasons to 
+deviate from it, particularly for performance reasons. The reason being that when you have query a second table to 
+get additional data it can take a bit longer.`
 
 
 # 3rd Normal Form (3NF)
-A table in 3rd normal form follows all the rules of 2nd normal form, and one additional rule:
 
-All columns that aren't part of the primary are dependent solely on the primary key.
-Notice that this is only slightly different from second normal form. In second normal form we can't have a column completely dependent on a part of the primary key, and in third normal form we can't have a column that is entirely dependent on anything that isn't the entire primary key.
+`All columns that aren't part of the primary are dependent solely on the primary key.`
+`In second normal form we can't have a column 
+completely dependent on a part of the primary key, and in third normal form we can't have a column that is entirely 
+dependent on anything that isn't the entire primary key.`
 
 # Example of 2nd NF, but not 3rd NF
 In this table, the primary key is simply the id column.
@@ -836,6 +850,7 @@ id	name	first_initial	email
 1	Lane	l	lane.works@example.com
 2	Breanna	b	breanna@example.com
 3	Lane	l	lane.right@example.com
+
 This table is in 2nd normal form because first_initial is not dependent on a part of the primary key. However, because it is dependent on the name column it doesn't adhere to 3rd normal form.
 
 # Example of 3rd normal form
@@ -845,19 +860,18 @@ id	name	email
 1	Lane	lane.works@example.com
 2	Breanna	breanna@example.com
 3	Lane	lane.right@example.com
+
 name	first_initial
 Lane	l
 Breanna	b
-3NF is usually a good idea
-The same exact rule of thumb applies to the second and third normal forms.
 
-Optimize for data integrity and data de-duplication first by adhering to 3NF. If you have speed issues, de-normalize accordingly.
+`Optimize for data integrity and data de-duplication first by adhering to 3NF. If you have speed issues, 
+de-normalize accordingly.`
 Remember the IIF function and the AS clause.
 
 # Boyce-Codd Normal Form (BCNF)
-A table in Boyce-Codd normal form (created by Raymond F Boyce and Edgar F Codd) follows all the rules of 3rd normal form, plus one additional rule:
 
-A column that's part of a primary key can not be entirely dependent on a column that's not part of that primary key.
+`A column that's part of a primary key can not be entirely dependent on a column that's not part of that primary key.`
 This only comes into play when there are multiple possible primary key combinations that overlap. Another name for this is "overlapping candidate keys".
 
 Only in rare cases does a table in third normal form not meet the requirements of Boyce-Codd normal form.
@@ -893,16 +907,15 @@ Normalization Review
 In my opinion, the exact definitions of 1st, 2nd, 3rd and Boyce-Codd normal forms simply are not all that important in your work as a back-end developer.
 
 However, what is important is to understand the basic principles of data integrity and data redundancy that the normal forms teach us.
-
 Let's go over some rules of thumb that you should commit to memory - they'll serve you well when you design databases and even just in coding interviews.
 
-# Rules of thumb for database design
-- Every table should always have a unique identifier (primary key)
-  90% of the time, that unique identifier will be a single column named id
-- Avoid duplicate data
-- Avoid storing data that is completely dependent on other data. Instead, compute it on the fly when you need it.
-- Keep your schema as simple as you can. Optimize for a normalized database first. Only denormalize for speed's sake 
-  when you start to run into performance problems.
+### Rules of thumb for database design
+- Every table should `always have a unique identifier` (primary key)
+  90% of the time, that unique identifier will be a `single column named id`
+- `Avoid duplicate data`
+- `Avoid storing data that is completely dependent on other data`. Instead, compute it on the fly when you need it.
+- `Keep your schema as simple as you can. Optimize for a normalized database first. Only denormalize for speed's sake 
+  when you start to run into performance problems.`
 
 
 ## JOINS
@@ -911,58 +924,61 @@ Joins are one of the most important features that SQL offers. Joins allow us to 
 # INNER JOIN
 The simplest and most common type of join in SQL is the INNER JOIN. By default, a JOIN command is an INNER JOIN.
 
-An INNER JOIN returns all of the records in table_a that have matching records in table_b,
+`An INNER JOIN returns all of the records in table_a that have matching records in table_b`
 
 # The ON clause
-In order to perform a join, we need to tell the database which fields should be "matched up". The ON clause is used to specify these columns to join.
+In order to perform a join, we need to tell the database which fields should be "matched up". `The ON clause is used 
+to specify these columns to join.`
 
 ```SQL
   SELECT *
-FROM employees
-INNER JOIN departments 
-ON employees.department_id = departments.id;
+    FROM employees
+    INNER JOIN departments 
+    ON employees.department_id = departments.id;
 ```
 
 The query above returns all the fields from both tables. The INNER keyword doesn't have anything to do with the number of columns returned - it only affects the number of rows returned.
 
 ```SQL
   SELECT students.name, classes.name
-FROM students
-INNER JOIN classes on classes.class_id = students.class_id;
+    FROM students
+    INNER JOIN classes on classes.class_id = students.class_id;
 ```
 
 # LEFT JOIN
 A LEFT JOIN will return every record from table_a regardless of whether or not any of those records have a match in table_b. A left join will also return any matching records from table_b.
 
 ```SQL
-    select users.name, sum(transactions.amount) as sum, count(transactions.amount) as count  from users
-    left join transactions
-    on transactions.user_id = users.id  
-    group by users.id
-    order by sum desc
+    select 
+      users.name, 
+      sum(transactions.amount) as sum, 
+      count(transactions.amount) as count  
+      from users
+        left join transactions
+        on transactions.user_id = users.id  
+        group by users.id
+        order by sum desc
 ```
 
-```
-  -- select * from users;
-select * from transactions;
--- select * from countries;
+# JOINING MORE THAN TWO TABLES
 
-select 
-  users.id,
-  users.name,  
-  users.age,
-  users.username,
-  countries.name as country_name,
-  sum(transactions.amount) as balance
-
-  from users
-  join countries 
-  on countries.country_code = users.country_code
-join transactions 
-on transactions.user_id = users.id
-where users.id = 6 AND transactions.was_successful
+```SQL
+    select 
+      users.id,
+      users.name,  
+      users.age,
+      users.username,
+      countries.name as country_name,
+      sum(transactions.amount) as balance
+      from users
+      join countries 
+      on countries.country_code = users.country_code
+      join transactions 
+      on transactions.user_id = users.id
+      where users.id = 6 AND transactions.was_successful
 ```
 
+# USING AGGREGATED VALUE AS A CONDITION IN HAVING
 ```SQL
   select * from support_tickets;
   select * from users;
@@ -984,21 +1000,26 @@ SQLite does not support right joins, but many dialects of SQL do. If you think a
 
 
 # FULL JOIN
-A FULL JOIN combines the result set of the LEFT JOIN and RIGHT JOIN commands. It returns all records from both from table_a and table_b regardless of whether or not they have matches.
+A FULL JOIN combines the result set of the LEFT JOIN and RIGHT JOIN commands. It returns all records from both from 
+table_a and table_b regardless of whether or not they have matches - also not supported by SQLite.
 
 # SQL Indexes
-An index is an in-memory structure that ensures that queries we run on a database are performant, that is to say, they run quickly. If you can remember back to the data structures course, most database indexes are just binary trees or B-trees! The binary tree can be stored in RAM as well as on disk, and it makes it easy to look up the location of an entire row.
+`An index is an in-memory structure that ensures that queries we run on a database are performant`, that is to say, 
+they run quickly. If you can remember back to the data structures course, `most database indexes are just binary 
+trees or B-trees`! The binary tree can be stored in RAM as well as on disk, and it makes it easy to look up the 
+location of an entire row.
 
-PRIMARY KEY columns are indexed by default, ensuring you can look up a row by its id very quickly. However, if you have other columns that you want to be able to do quick lookups on, you'll need to index them.
+`PRIMARY KEY columns are indexed by default`, ensuring you can look up a row by its id very quickly. However, if you 
+have other columns that you want to be able to do quick lookups on, you'll need to index them.
 It's fairly common to name an index after the column it's created on with a suffix of _idx.
 
+Like with many things, adding an index to a db is not free. It takes up space, slows down creation and updates etc. 
+That is why fields are not indexed by default and you shouldn't be adding indexes like so, only when you actually 
+need it.
+
 The rule of thumb is simple:
-
-Add an index to columns you know you'll be doing frequent lookups on. Leave everything else un-indexed. You can always add indexes later.
-
-multi-column index is sorted by the first column first, the second column next, and so forth. A lookup on only the first column in a multi-column index gets almost all of the performance improvements that it would get from its own single-column index. However, lookups on only the second or third column will have very degraded performance.
-
-
+`Add an index to columns you know you'll be doing frequent lookups on. Leave everything else un-indexed. You can 
+always add indexes later.`
 
 ```SQL
 CREATE INDEX index_name ON table_name (column_name);
@@ -1008,6 +1029,11 @@ CREATE INDEX index_name ON table_name (column_name);
 create index email_idx on users(email);
 ```
 
+*Multi-column index* is sorted by the first column first, the second column next, and so forth. A lookup on only the 
+first column in a multi-column index gets almost all of the performance improvements that it would get from its own 
+single-column index. However, lookups on only the second or third column will have very degraded performance. 
+Because of that *it is important to think about the order of columns in a multi-column index.*
+
 ```SQL
   create index user_id_recipient_id_idx 
   on 
@@ -1015,17 +1041,17 @@ create index email_idx on users(email);
 ```
 
 # Denormalizing for Speed
-We left you with a cliffhanger in the "normalization" chapter. As it turns out, data integrity and deduplication come at a cost, and that cost is usually speed.
+We left you with a cliffhanger in the "normalization" chapter. As it turns out, *data integrity and deduplication 
+come at a cost, and that cost is usually speed.*
 
-Joining tables together, using subqueries, performing aggregations, and running post-hoc calculations take time. At very large scales these advanced techniques can actually become a huge performance toll on an application - sometimes grinding the database server to a halt.
+`Joining tables together, using subqueries, performing aggregations, and running post-hoc calculations take time. At 
+very large scales these advanced techniques can actually become a huge performance toll on an application - 
+sometimes grinding the database server to a halt.`
 
-Storing duplicate information can drastically speed up an application that needs to look it up in different ways. For example, if you store a user's country information right on their user record, no expensive join is required to load their profile page!
-
+*Storing duplicate information can drastically speed up an application that needs to look it up in different ways.*
+For example, if you store a user's country information right on their user record, no expensive join is required to load their profile page!
 That said, denormalize at your own risk! Denormalizing a database incurs a large risk of inaccurate and buggy data.
-
-In my opinion, it should be used as a kind of "last resort" in the name of speed.
-
-
+In my opinion, *it should be used as a kind of "last resort" in the name of speed.*
 
 # SQL Injection
 ```SQL
