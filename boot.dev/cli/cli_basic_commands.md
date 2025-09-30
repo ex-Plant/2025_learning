@@ -42,7 +42,7 @@
   - Print text: `echo hello`
   - Print shell variable: `echo $SHELL` // /bin/zsh
 
-# copy
+# cp
 - Copy from source to destination: ` cp .env.example .env`
 
 # pwd 
