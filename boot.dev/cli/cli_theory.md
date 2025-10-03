@@ -136,7 +136,8 @@ tail -5 2023.csv
 - *hit enter* if you want to *go one line down*,
 - *hit space* if you want to go *one page down*
 - *hit b* to go back up
-x
+
+
 # touch
 The touch command updates the access and modification timestamps of a file.
 By default, *if the specified file does not exist*, touch will create an empty file with the given filename. Because 
@@ -160,6 +161,7 @@ move to the parent dir
 ```zsh
    mv some_file.txt ../some_file.txt
 ```
+
 If you don't want to rename the file, and you're just moving it to a different directory, you can omit the filename:
 ```zsh
    mv some_file.txt some_directory/
@@ -171,7 +173,6 @@ If you don't want to rename the file, and you're just moving it to a different d
 - You can optionally add a -r flag to tell the rm command to delete a directory and all of its contents recursively. "Recursively" is just a fancy way of saying "do it again on all of the subdirectories and their contents".
 
 ```ZSH
-
    rm -r some_directory
 ```
 
@@ -180,10 +181,12 @@ If you don't want to rename the file, and you're just moving it to a different d
 ```zsh
    cp source_file.txt destination/
 ```
+
 - copy recursively with -r flag to include subdirectories
 ```zsh
   cp -R my_dir new_dir
 ```
+
 copy to backups
 ```zsh
    cp -R 2020.csv backups/
@@ -212,6 +215,7 @@ Use the grep command to find any lines with the text "CRITICAL" (all caps) in th
 ```zsh
  grep "CRITICAL" 2024-01-10.log
 ```
+
 # GREP MULTIPLE FILES
 ```zsh
  grep "CRITICAL" 2024-01-10.log 2024-01-11.log
@@ -232,7 +236,7 @@ Use the grep command to find all the lines with the text "CRITICAL" (all caps) i
 ```
 
 # FIND
-Powerful tool  for finding files and directories by name, not by their contents.
+Powerful tool for finding files and directories by name, not by their contents.
 
 # FIND BY NAME
    ```zsh
@@ -260,7 +264,6 @@ Use the find command to search the worldbanc/public/products directory for all f
 
 
 # sudo - run a command like a superuser
-
 ```zsh
    sudo whoami
 ```
@@ -337,7 +340,7 @@ chmod -R g-w . (recursive remove group write)
    directory/program.sh
 ```
  - if file is in the current directory we need to prefix it with ./
- - We need the prefix when running executables so that the shell knows we're t  rying to run a file from a file path, 
+ - We need the prefix when running executables so that the shell knows we're trying to run a file from a file path, 
    not an installed command like ls, mkdir, chmod, etc.
 ```zsh
 ./program.sh
@@ -350,7 +353,6 @@ Using sudo is like running a command as a root user.
 *If you run a command with sudo that you don't understand, you could do serious damage to your system.*
 `For example, rm with the r and f flags run on the root directory (/), will delete all the files on your system.` ❗❗❗
 Don't do that. The r flag is for "recursive" (delete everything inside) and the f flag is for "force".
-
 
 
 # CHOWN  change owner
@@ -385,8 +387,8 @@ The interpreter read source code from the interpreted program and executes it.
 For example JS, Python, Ruby are interpreted languages usually executed as they run, which means the computer needs 
 to have an installed interpreter to run them.
 
-*Shell scripts with .sh are also interpreted by the shell program.*
 
+*Shell scripts with .sh are also interpreted by the shell program.*
 
 # which
 This commands prints the location of an installed command line program.
@@ -399,7 +401,7 @@ Will tell you where the sh (shell) program is installed.
 For files that are compiled executables we can simply type the file name in the shell and it should start.
 But some scripts need interpreter to run. We need to tell the computer what interpreter we want to use to try and 
 start the program. 
-*shebang* is a special line at the top of the script that tells your shell which program to use
+*shebang* is a special line at the top of the script that tells your shell which program to use as the interpreter.
 The format for a shebang is the following:
 
 ```shell
@@ -410,7 +412,6 @@ For example, lets say we have a python script and we want to use Python3 to run 
     #!/user/bin/python3
 ```
 This tells the system to use the Python 3 interpreter located at /usr/bin/python3 to run the script.
-
 Another example 
 ```shell
     #!/usr/bin/env bash
@@ -426,13 +427,11 @@ They can be used to set up aliases, functions, environments etc.
 These config files are located in the ~ directory and are hidden by default, so we can use -a flag to see them.
 *.zshrc*
 
-
 # NANO
 - command to edit files within the terminal
 ```zsh
 nano .zshrc
 ```
-
 
 # ENVS
 - creating local variables
@@ -544,3 +543,198 @@ export PATH="/Users/konradantonik/.nvm/versions/node/v23.6.0/bin:$PATH"
 
 export PATH="$PATH:/Users/konradantonik/WebstormProjects/2025/2025_learning/boot.dev/cli/worldbank/private/bin"
 ```
+# man
+Manual 
+
+```zsh
+  man man
+  man ls
+  man grep
+```
+
+*/* - search
+*n* - next result
+*N* go back
+
+# FLAGS
+Some commands accepts flags. For example:
+# ls
+*-l* long
+*a* - hidden files
+*-al* - combination of both
+
+# Flags conventions
+- single character flags are prefixed with a single dash *-a*
+- multi character flags are prefixed with a double dash *--help*
+
+
+# ARGUMENTS IN SHEL PROGRAMMES
+```zsh
+cd some_addr 
+```
+- some_addr is a function arg !
+
+```zsh
+mv file.txt dest/file.txt
+```
+
+# task
+Move it from worldbanc/public/key.txt file to worldbanc/private/
+```zsh
+mv key.txt ../private/key.txt
+```
+
+# help
+*--help*
+*-h*
+*help*
+
+Usually less detailed than man output.
+
+# curl
+Programm that allows making network requests from the terminal
+
+# EXIT CODES / status codes / return codes
+- the way of communicating back by the programms
+*0 is the code for success. Any other code usually means an error.*
+  9 times out of 10, if a non-zero exit code is returned (meaning an error) it will be 1, which is the "catch-all" error code.
+
+To see exit code of last programm from the terminal we can use 
+```zsh
+ls ~
+echo $?nano 
+#0
+
+ls /does/not/exist
+echo $?
+# non-zero (depends on your OS)
+```
+
+# unset
+to unset variable 
+```zsh
+unset ENV_VAR_NAME
+```
+
+# stdout - STANDARD OUTPUT 
+default place were programms print their output
+echo / print / console.log
+
+# stderr - STANDARD ERROR
+same as standard output except it is for errors
+
+# redirects of output
+*>* - for stdout
+*2>* for stderr
+
+# Create new file
+```zsh
+echo "Hello World" > hello.txt
+cat hello.txt
+# Hello World
+```
+
+# Redirect to a file
+```zsh
+cat doesnotexist.txt 2> error.txt
+cat error.txt
+# cat: doesnotexist.txt: No such file of directory
+```
+In this example, cat is used to intentionally generate an error message (since the file doesn't exist), which is then redirected to error.txt.
+
+# TASK
+Run the script using the path to the 2020.csv file in the worldbanc/private/transactions directory as an argument. Be sure to redirect stderr to a temporary file called /tmp/worldbanc.log.
+
+```ZSH
+    /process_transactions.sh ../transactions/2020.csv 2>/tmp/worldbanc.
+```
+
+🤔❗ RUNNING A SCRIPT FROM CURR CAT ALWAYS WITH `./script.sh` 
+
+
+# stdin - STANDARD INPUT
+Standard in = default place where programms read their input. It's just a stream of data that they cam read from for 
+exaple in python it is called simply _input_
+```python
+name = input("show me your name)
+
+print("Hello, ", name)
+```
+
+
+
+# read - stdin in the shell context
+```zsh
+    echo "Welcome to the worldbanc CLI tool!"
+
+    echo "Please enter your name:"
+    read NAME
+    
+    echo "Please enter your email:"
+    read EMAIL
+    
+    echo "============================================"
+    echo "Your name is $NAME and your email is $EMAIL"
+    echo "Your response has not been recorded because this is just a local script."
+    echo "Goodbye!"
+```
+
+# pipe
+The *pipe operator `|`* 
+The shell can *take an output of one program and use it as an input of another program*. This is possible thx to 
+piping. This allows to do a lot of things, especially in terms of automation.
+
+# wc -w
+-w The number of words in each input file is written to the standard output.
+
+
+```zsh
+echo "Have you heard the tragedy of Darth Plagueis the Wise?" | wc -w
+# 10
+```
+This only works because the wc command, like most shell commands, can optionally read from stdin instead of a filepath.
+
+find all occurrences of the word Bob inside transactions directory, excluding file backups and than count the lines 
+of all these files
+
+```sh
+grep -r  "Bob" . --exclude-dir="backups" |  wc -l 
+```
+
+# SIGINT
+ - stop the program immediately
+```zsh
+    cntrl + c
+```
+
+# KILL
+Sometimes a program in such a bad state that simple sigint is not enough. In such case the best option is to simply 
+use new terminal session and kill the old one. 
+
+```zsh
+kill <processId>
+```
+
+# ps - PROCESS STATUS
+Every process running on the machine has a unique identifier we can get it by using a *ps aux*
+- aux means show all processes
+Snce there is a lot of processes going on there usually we can use *grep* command to find the one we are looking for 
+  with combination of *ps aux* thanks to *piping*
+
+```zsh
+ps aux | grep "malicious".sh
+kill <resultId>
+```
+
+Unix Philosophy
+The Unix Philosophy is a simple set of principles that have guided the development of Unix-like operating systems for decades. It can be summarized as:
+
+Write programs that do one thing and do it well.
+Write programs to work together.
+Write programs to handle text streams, because that is a universal interface. // text stream is just a fancy way of 
+saying text ;)
+ 
+# top
+- tool that lets you see which programs are using the most resources. It's like an activity monitor but for the cli
+- cpu is the default
+- type o mem <enter> to sort by memory

@@ -39,8 +39,6 @@ export const dynamic = 'force-dynamic'
 
 **client/server**
 - you can wrap a server component with a  client component without making it a client component when you are not 
-  importing server one component into client component. When using children pattern we are actually do it just that
-
-  
+  importing server one component into client component. When using children pattern we are actually doing just that
 
 ****
