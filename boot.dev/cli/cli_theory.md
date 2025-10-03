@@ -738,3 +738,25 @@ saying text ;)
 - tool that lets you see which programs are using the most resources. It's like an activity monitor but for the cli
 - cpu is the default
 - type o mem <enter> to sort by memory
+
+# package manager - a software tool that lets you install other software
+- the most comon one are *APT* or *Homebrew* on macOS
+
+# neovim 
+neovim is a new better version of vim witch is the newer version of vi witch is basically a command line text editor 
+NAVIGATION
+*i* - insert mode
+*esc* - back to normal mode
+*:w* - save
+*q* - quit
+
+
+# webi
+ - lets you install packages directly, avoiding brew you just go to webi website find the terminal command and 
+   follow the instructions
+
+# lsd 
+- ls on steroids!
+```zsh
+lsd --tree --classsic
+```
