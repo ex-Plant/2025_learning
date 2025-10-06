@@ -128,3 +128,29 @@ main()
 In JavaScript (hoisting exists, but varies by declaration type)
 Function declarations are hoisted with their bodies. You can call them before they appear.
 Function expressions/arrow functions are not callable before initialization. The variable is hoisted differently depending on var/let/const.
+
+'''
+PARAMETERS VS ARGUMENTS
+Parameters are the names used for inputs when defining a function. Arguments are the values of the inputs supplied when a function is called.
+'''
+
+# DEFAULT VALUES
+def get_greeting(email, name="there"):
+    print("Hello", name, "welcome! You've registered your email:", email)
+
+def get_punched(health, armor=0):
+    damage = 50 - armor
+    new_health = health - damage
+    return new_health
+
+
+# DESTRUCTURING
+def curse(weapon_damage):
+    lesser_cursed = weapon_damage / 2
+    greater_cursed = weapon_damage / 4
+    return lesser_cursed, greater_cursed
+
+    # ?
+
+lesser_cursed, greater_cursed = curse(2500)
+print(lesser_cursed)
