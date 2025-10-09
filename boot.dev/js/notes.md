@@ -627,4 +627,123 @@ function bulkSendCost(numMessages) {
 }
 
 console.log(bulkSendCost(10))
+
+// calculate max messages within budget
+function maxMessagesWithinBudget(budget) {
+  let costOfMessages = 0;
+  let messagesCount = 0;
+  for (messagesCount; budget > costOfMessages; messagesCount++ ) {
+    costOfMessages += 1 + messagesCount * 0.01
+    if (budget < costOfMessages) break;
+  }
+  return messagesCount
+}
+maxMessagesWithinBudget(10)
+
+//❗The same function thath coulg go endlessly until break
+function maxMessagesWithinBudget(budget) {
+  let totalCost = 0;
+  let count = 0;
+
+  //❗empty condition
+  for (let i = 0; ; i++) {
+    const cost = 1.0 + i * 0.01;
+    if (totalCost + cost > budget) {
+      break;
+    }
+    totalCost += cost;
+    count += 1;
+  }
+
+  return count;
+}
+
+
+```
+# PRIME NUMBERS TASK 
+A prime number is a natural number greater than 1 that has exactly two distinct positive divisors:
+→ 1 and itself.
+
+Function to check prime numbers
+Prime numbers can't be even
+
+
+```js
+function printPrimes(max) {
+  for (let i = 0; max >= i; i++) {
+    
+    // 2 is a prime but 2 % 2 === condition would be true so we need to handle 2 first otherwise we would skip it 
+    if (i === 2 ) {
+    console.log(i)
+    continue
+  }
+    
+    // check for even numbers as above 2 they are never primes
+    if (i % 2 === 0) continue
+
+    // we start by setting flag as true 
+    let isAPrime = true
+    
+    // now we start another loop where we will go through every number up until the currently checked one
+    for (let j = 3;  j < i;   j++) {
+
+      //this means it is not a prime number we want to break this check and update isAPrime flag
+      if (i % j === 0) {
+        isAPrime = false
+        break
+      }
+    }
+    
+    if (isAPrime) console.log(i)
+  }
+}
+
+printPrimes(20);
+```
+
+# Optimized algorithm to check prime numbers
+An example from above works, but we can optimize it a lot
+Each not prime number must have at least two divisors cause 
+n = a x b
+One must be greater or equal to square root n
+One must be smaller or equal to square root n
+Why?
+If both were smaller than multiplication of them would be smaller than n
+If both were bigger would be bigger
+Knowing this we can simply check all numbers up until square root n
+
+So in second loop to avoid checking all the numbers until n we just check square root of n
+i * i <= n 
+The loop will stop if i * i is bigger than n
+We also increment by two since even numbers are not primes
+This way our loop is much more efficient.
+
+
+```js
+function printPrimes(max) {
+  for (let i = 0; max >= i; i++) {
+    
+      if (i === 2 ) {
+        console.log(i)
+        continue
+      }
+    if (i % 2 === 0) continue
+
+    let isAPrime = true
+    
+    // start with 3 as this is the minimum
+    for (let j = 3;  j * j  <= i; j+=2) {
+
+      //this means it is not a prime number we want to break this check and update isAPrime flag
+      if (i % j === 0) {
+        isAPrime = false
+        break
+      }
+    }
+    
+    if (isAPrime) console.log(i)
+  }
+}
+
+printPrimes(20);
 ```
