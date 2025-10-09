@@ -320,7 +320,7 @@ Count is an operation from within AGGREGATIONS category
   WHERE shipment_status = 'pending'
   AND quantity BETWEEN 0 and 10;
 ```
-`ℹ️ in SQL there is no dounble  == or tripple ===, equal sign is always a comparison operator, we are not using it as 
+`ℹ️ in SQL there is no double  == or tripple ===, equal sign is always a comparison operator, we are not using it as 
 assignment 
 operator like in js, so we don't need to differentiate between them`
 
@@ -465,10 +465,8 @@ Write a query that returns the name and username for every user with a password 
 
 ### AGGREGATIONS
 - Aggregation is a single value that is derived by combining multiple values
-- Data stored in a database should generally be stored raw. When we need to calculate some additional data from the 
-  raw data, we can use an aggregation.
-- This query returns the number of products that have a quantity of 0. We could store a count of the products in a 
-  separate database table, and increment/decrement it whenever we make changes to the products table - but that would be redundant.
+- Data stored in a database should generally be stored raw. When we need to calculate some additional data from the raw data, we can use an aggregation.
+- This query returns the number of products that have a quantity of 0. We could store a count of the products in a separate database table, and increment/decrement it whenever we make changes to the products table - but that would be redundant.
 - It's much simpler to store the products in a single place (we call this a single source of truth) and run an aggregation when we need to derive additional information from the raw data.
 
 ```sql
@@ -1110,5 +1108,21 @@ Then you can use this in a join
     ON active_users.user_id = users.id
 ```
 
+# substr
+- get a piece of the field
+  2023-01-05
 
----
+```sql
+ SUBSTR(ORDER_DATE, 1, 7)
+```
+RESULT = 2023-01-05
+
+# When you use GROUP BY, the result is already unique per group,
+This will extract a month than group it by it and give back the sum
+```
+SELECT
+substr(ORDER_DATE, 1, 7) AS month,
+sum(amount_cents) as total_revenue_cents
+FROM ORDERS
+group by month
+```
