@@ -747,3 +747,42 @@ function printPrimes(max) {
 
 printPrimes(20);
 ```
+
+# while
+```js
+function getMaxMessagesToSend(costMultiplier, maxCostInPennies) {
+
+  let actualCostInPennies = 1.0;
+  let maxMessagesToSend = 1;
+  let balance = maxCostInPennies - actualCostInPennies;
+
+  // console.log({maxCostInPennies}, {actualCostInPennies});
+
+  while (balance >= actualCostInPennies   ) {
+    actualCostInPennies *= costMultiplier;
+    balance -= actualCostInPennies;
+    maxMessagesToSend++;
+    console.log(actualCostInPennies);
+  }
+
+  if (balance < 0) {
+    maxMessagesToSend--;
+  }
+
+  return maxMessagesToSend;
+}
+```
+
+
+
+# For in 
+Used to loop over object keys
+
+```js
+const printMatchingProperties = (messageLog, searchTerm) => {
+
+for (let key in messageLog) {
+  if (key.startsWith(searchTerm)) console.log(`Found: ${key} ->  ${messageLog[key]}`)
+} 
+};
+```
