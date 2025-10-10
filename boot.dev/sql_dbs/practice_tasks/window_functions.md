@@ -1,3 +1,35 @@
+```sql
+    SELECT 
+        month,
+        total_revenue_cents,
+        prev_month_cents,
+        IIF(prev_month_cents IS NULL, NULL,  total_revenue_cents - prev_month_cents) AS change_cents,
+        IIF(prev_month_cents IS NULL OR prev_month_cents = 0, NULL, ROUND((total_revenue_cents - prev_month_cents) * 100.0 / prev_month_cents)) as pct_change_pct,
+        SUM(total_revenue_cents) OVER (order by month ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS rolling_3m_cents,
+        CASE
+        WHEN prev_month_cents IS NULL THEN 'n/a'
+        WHEN prev_month_cents > total_revenue_cents THEN 'down'
+        WHEN prev_month_cents < total_revenue_cents THEN 'up'
+        WHEN prev_month_cents = total_revenue_cents THEN 'flat'
+        END AS trend
+        FROM(
+            SELECT 
+                month,
+                total_revenue_cents,
+                LAG(total_revenue_cents, 1, NULL) over (ORDER BY MONTH) as prev_month_cents
+                FROM (
+                    SELECT substr(order_date, 1, 7) as month, 
+                    SUM(amount_cents) as total_revenue_cents
+                    FROM orders
+                    WHERE status = "paid"
+                    GROUP BY month
+                )
+  )
+```
+
+
+
+
 
 🧭 General Approach: Handling Complex / Nested SQL Queries
 
@@ -210,35 +242,6 @@ TL;DR Checklist for Your Notes
 
 ✅ Think data shapes, not instructions — you tell SQL what you want, not how to do it.
 
-
-```sql
-    SELECT 
-        month,
-        total_revenue_cents,
-        prev_month_cents,
-        IIF(prev_month_cents IS NULL, NULL,  total_revenue_cents - prev_month_cents) AS change_cents,
-        IIF(prev_month_cents IS NULL OR prev_month_cents = 0, NULL, ROUND((total_revenue_cents - prev_month_cents) * 100.0 / prev_month_cents)) as pct_change_pct,
-        SUM(total_revenue_cents) OVER (order by month ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS rolling_3m_cents,
-        CASE
-        WHEN prev_month_cents IS NULL THEN 'n/a'
-        WHEN prev_month_cents > total_revenue_cents THEN 'down'
-        WHEN prev_month_cents < total_revenue_cents THEN 'up'
-        WHEN prev_month_cents = total_revenue_cents THEN 'flat'
-        END AS trend
-        FROM(
-            SELECT 
-                month,
-                total_revenue_cents,
-                LAG(total_revenue_cents, 1, NULL) over (ORDER BY MONTH) as prev_month_cents
-                FROM (
-                    SELECT substr(order_date, 1, 7) as month, 
-                    SUM(amount_cents) as total_revenue_cents
-                    FROM orders
-                    WHERE status = "paid"
-                    GROUP BY month
-                )
-  )
-```
 
 
 # Monthly Revenue Trends (Window Functions)
