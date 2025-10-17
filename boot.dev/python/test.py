@@ -1,15 +1,10 @@
-def main():
-    calculate_dps(8,000,000, 45)
-    calculate_dps(10,000,000, 49)
 
 
-# Don't edit below this line
-
-
-def calculate_dps(damage, time):
-    dps = damage / time
-    print(f"Damage per second: {dps}")
-    print("=====================================")
-
-
-main()
+my_tuples = [
+    ("this is the first tuple in the list", 45, True),
+    ("this is the second tuple in the list", 21, False)
+]
+print(my_tuples[0][0]) # this is the first tuple in the list
+print(my_tuples[0][1]) # 45
+print(my_tuples[1][0]) # this is the second tuple in the list
+print(my_tuples[1][2]) # False

@@ -296,3 +296,16 @@ Here the calc would ne 1 + 2 + 4 + 0 + 0 + 32 = 39
 
 print(0b0001)
 # Prints 1
+
+
+
+
+
+
+l
+
+
+
+# FOR LOOP
+for i in range(1, 100):
+  print(i)
