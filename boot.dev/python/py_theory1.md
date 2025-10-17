@@ -149,7 +149,87 @@ sum = add(5, 6)
 A default value is created by using the assignment (=) operator in the function signature.
 ```python
 def get_greeting(email, name="there"):
-    print("Hello", name, "welcome! You've registered your email:", email)
+    print("Hello", name, "welcome! You've registered your email:", email) 
+```
+
+# Scope
+Scope refers to where a variable or function name is available to be used.
+```PYTHON
+def subtract(x, y):
+    return x - y
+result = subtract(5, 3)
+print(x)
+# ERROR! "name 'x' is not defined"
+```
+
+# Global scope
+a variable or a function, that name is accessible in every other place in our program, even within other functions.
+
+# Unit Test 
+An automated program that tests the small "unit" of code
+
+
+### COMPUTING
+
+# Floor Division
+Floor division is a division operation that rounds down to the nearest whole number.
+```python
+7 // 3
+# 2 (an integer, rounded down from 2.333)
+-7 // 3
+# -3 (an integer, rounded down from -2.333)
+```
+
+# Exponents
+```python
+# reads as "three squared" or
+# "three raised to the second power"
+3 ** 2
+# 9
+```
+
+# ❗
+Sometimes exponents are also shown in text using the caret symbol (^):
+5^3 = 125
+
+# Changing in Place
++=
+-=
+*=
+/=
+
+# SCIENTIFIC NOTATION
+Way of expressing numbers that are too large or too small to conveniently write normally.
+In a nutshell, the number following the e specifies how many places to move the decimal to the right for a positive number, or to the left for a negative number.
+1,024,000,000,000,000,000 (1.024e18)
+
+```PY
+print(16e3)
+# Prints 16000.0
+
+print(7.1e-2)
+# Prints 0.071
+
+```
+
+# Underscores for readability
+```
+num = 16_000
+print(num)
+# Prints 16000
+
+num = 16_000_000
+print(num)
+# Prints 16000000
+```
+
+
+
+```python
+def update_player_score(current_score, increment):
+    current_score += increment
+    return current_score
+    pass
 ```
 
 
