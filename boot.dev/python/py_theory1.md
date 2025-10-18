@@ -206,11 +206,11 @@ In a nutshell, the number following the e specifies how many places to move the 
 ```PY
 print(16e3)
 # Prints 16000.0
-
 print(7.1e-2)
 # Prints 0.071
-
 ```
+
+
 
 # Underscores for readability
 ```
@@ -230,6 +230,106 @@ def update_player_score(current_score, increment):
     current_score += increment
     return current_score
     pass
+```
+
+# LOGICAL OPERATORS
+- and
+- or
+- not
+
+```python
+print(True and True)
+# prints True
+
+print(True or False)
+# prints True
+
+print(not True)
+# Prints: False
+```
+
+# BINARY NUMBERS - BASE 2 NUMBERS
+Each 1 in a binary number represents an ever-greater multiple of 2. In a 4-digit number, that means you have the eights place, the fours place, the twos place, and the ones place. Similar to how in decimal you would have the thousands place, the hundreds place, the tens place, and the ones place.
+
+```PYTHON
+print(0b0001)
+# Prints 1
+
+print(0b0101)
+# Prints 5
+```
+Leading 0s are often added for visual consistency but do not change the value of a binary number.
+
+
+
+0 = 0
+1 = 1
+2 = 10
+3 = 11
+4 = 100 2^2
+5 = 101
+6 = 110
+7 = 111
+8 = 1000 2^3
+9 = 1001
+10 = 1010
+11 = 1011
+12 = 1100
+
+16 = 10000 /2^4
+31 = 11111
+32 = 100000 /2^5
+33 = 100001
+34 = 100010
+
+# BITWISE OPERATOR &
+Bitwise operators are similar to logical operators, but instead of operating on boolean values, they apply the same logic to all the bits in a value by column.
+
+```PYTHON
+0101
+&
+0111
+=
+0101
+```
+
+A 1 in binary is the same as True, while 0 is False. So really a bitwise operation is just a bunch of logical operations that are completed in tandem by column.
+
+0 & 0 = 0
+
+1 & 1 = 1
+
+1 & 0 = 0
+
+# Ampersand & is the bitwise AND operator in Python.
+
+0b0101 & 0b0111
+# equals 5
+
+binary_five = 0b0101
+binary_seven = 0b0111
+binary_five & binary_seven
+# equals 5
+
+# BITWISE OPERATOR |
+0101
+|
+0111
+=
+0111
+
+
+# int()
+The built-in int() function can convert a binary string to an integer.
+
+```PYTHON
+# this is a binary string
+binary_string = "100"
+
+# convert binary string to integer
+num = int(binary_string, 2)
+print(num)
+# 4
 ```
 
 
