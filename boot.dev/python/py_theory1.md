@@ -332,6 +332,106 @@ print(num)
 # 4
 ```
 
+# Comparison operators
+When a comparison happens, the result of the comparison is just a boolean value, it's either True or False.
+The operators:
+
+< "less than"
+> "greater than"
+<= "less than or equal to"
+>= "greater than or equal to"
+== "equal to"
+!= "not equal to"
+
+# IF STATEMENTS
+```python
+def show_status(boss_health):
+    if boss_health > 0:
+        print("Ganondorf is alive!")
+        return
+    print("Ganondorf is unalive!")
+```
+
+```python
+is_equal = 5 == 5
+print(is_equal)
+# True
+```
+```python
+    def check_swords_for_army(number_of_swords, number_of_soldiers):
+    if (number_of_swords == number_of_soldiers):
+        return 'correct amount'
+    return "incorrect amount"
+```
+
+# IF ELSE
+An if statement can be followed by zero or more elif (which stands for "else if") statements, which can be followed by zero or one else statements.
+```python
+    if score > high_score:
+        print("High score beat!")
+    elif score > second_highest_score:
+        print("You got second place!")
+    elif score > third_highest_score:
+        print("You got third place!")
+    else:
+        print("Better luck next time")
+```
+
+```python
+    def player_status(health):
+    if (health <= 0):
+        return "dead"
+    elif (health <= 5 ):
+        return "injured"
+    else:
+        return "healthy"
+```
+
+```pyton
+    def should_serve_customer(customer_age, on_break, time):
+    return customer_age >= 21 and not on_break and (time >= 5 and time <= 10)
+```
+
+```python
+    def check_mount_rental(time_used, time_purchased):
+    if (time_used >= time_purchased):
+        return "overtime charged"
+    else:
+        return "no charges yet"
+```
+
+```python
+    def combat_evaluation(player_power, enemy_defense):
+    advantage, disadvantage, evenly_matched = False, False, False
+
+    if (player_power > enemy_defense):
+        advantage = True
+        evenly_matched = False
+        disadvantage = False
+    elif (player_power == enemy_defense):
+        evenly_matched = True
+        advantage = False
+        disadvantage = False
+    else: 
+        evenly_matched = False
+        advantage = False
+        disadvantage = True
+
+    # your code here
+
+    return advantage, disadvantage, evenly_matched
+```
+
+
+
+
+
+
+    
+
+
+
+
 
 # LOOP STEP 
 Complete the sum_of_odd_numbers function. It should calculate the sum of all the odd numbers starting at 1 up to (but not including) the given end number and return the result.

@@ -1,3 +1,2 @@
-test = 4
-test /= 2
-print(test)
+is_equal = 5 == 5
+print(is_equal)
