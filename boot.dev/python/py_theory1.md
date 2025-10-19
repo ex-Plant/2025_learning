@@ -422,6 +422,179 @@ An if statement can be followed by zero or more elif (which stands for "else if"
     return advantage, disadvantage, evenly_matched
 ```
 
+# LOOPS
+Loops allow us to do the same operation multiple times without having to write it explicitly each time.
+
+If i is not less than 10 (range(0, 10)), exit the loop.
+```python
+    for i in range(0, 10):
+        print(i)
+```
+
+The body of a for-loop must be indented; otherwise, you'll get a syntax error.
+
+
+# RANGE + STEP
+The range() function we've been using in our for loops actually has an optional 3rd parameter: the "step".
+
+```python
+    for i in range(0, 10, 2):
+        print(i)
+    # prints:
+    # 0
+    # 2
+    # 4
+    # 6
+    # 8
+```
+
+# LOOP BACKWARD
+```python
+    for i in range(3, 0, -1):
+        print(i)
+    # prints:
+    # 3
+    # 2
+    # 1
+```
+
+```python
+    def count_down(start, end):
+        for i in range(start, end, -1):
+            print(i)
+    
+    def test(start, end):
+        print(f"Using inputs start: {start} and end: {end}")
+        print(f"Printing numbers from {start} to {end + 1}:")
+        count_down(start, end)
+        print("=====================================")
+
+    def main():
+        test(10, 0)
+        test(20, 10)
+        test(15, 11)
+        
+    main()
+```
+
+```python
+    def sum_of_numbers(start, end):
+        total = 0
+        for i in range(start, end):
+            total += i
+        return total
+```
+
+```python
+    def sum_of_odd_numbers(end):
+        total = 0
+        for i in range(0, end):
+            if (i % 2 != 0):
+                total += i
+        return total
+```
+
+# WHILE
+It's a loop that continues while a condition remains True.
+Example of infinite loop - since the condition is always true it goes forever
+```python
+    while 1:
+        print("1 evaluates to True")
+
+# prints:
+# 1 evaluates to True
+# 1 evaluates to True
+# (...continuing)
+```
+```python
+    num = 0
+    while num < 3:
+        num += 1
+        print(num)
+ ```
+```python
+    def regenerate(current_health, max_health, enemy_distance):
+
+        while current_health < max_health and enemy_distance > 3:
+            current_health += 1
+            enemy_distance -= 2
+            print(current_health, enemy_distance)
+        return current_health
+```
+
+# CONTINUE 
+Used to skip some items in a loop
+```python
+    counter = 0
+    for number in range(1, 51):
+        counter = counter + 1
+
+        if counter == 7:
+            counter = 0 # Reset the counter
+            continue # Skip this number
+
+        print(number)
+```
+
+Award the player every third quest
+```python  
+    def award_enchantments(start, end, step):
+        counter = 0
+        for quest_number in range(start, end, step):
+            counter += 1
+            if (counter < 3):
+                continue
+        
+            enchantment_strength = quest_number * 5
+            counter = 0
+            print(
+                f"Enchantment of strength {enchantment_strength} awarded for completing {quest_number} quests!"
+            )
+```
+
+# BREAK
+Used to exit the loop entirely
+```python
+    for n in range(42):
+        print(f"{n} * {n} = {n * n}")
+        if n * n > 150:
+            break
+```
+ 
+```python   
+    #def check_defense(attack_strength, min_enchantment, max_enchantment):
+    for enchantment_strength in range(min_enchantment, max_enchantment + 1):
+        print(
+            f"Comparing attack strength {attack_strength} to enchantment strength {enchantment_strength}."
+        )
+
+        if enchantment_strength >= attack_strength:
+            print("Attack blocked!")
+            break
+```
+
+```python
+    def calculate_experience_points(level):
+        xp = 0
+        for i in range(0, level):
+            xp += i * 5
+            print(xp)
+        return xp
+```
+
+```python
+    def meditate(mana, max_mana, num_potions):
+    while mana < max_mana and num_potions > 0:
+        mana +=1
+        num_potions -= 1
+    return mana, num_potions
+```
+
+
+
+
+
+
 
 
 
