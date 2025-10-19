@@ -590,10 +590,253 @@ Used to exit the loop entirely
     return mana, num_potions
 ```
 
+### LISTS
+A natural way to organize and store data. Equivalent of array in js.
+
+```python
+    inventory = ["Iron Breastplate", "Healing Potion", "Leather Scraps"]
+    
+    flower_types = [
+        "daffodil",
+        "rose",
+        "chrysanthemum"
+    ]
+    print(flower_types[0])
+    # daffodil
+    
+    inventory = ["Leather", "Iron Ore", "Healing Potion"]
+    inventory[0] = "Leather Armor"
+    # inventory: ['Leather Armor', 'Iron Ore', 'Healing Potion']
+    
+```
+
+# LEN
+Get length of a list
+```python
+    fruits = ["apple", "banana", "pear"]
+    length = len(fruits)
+    # 3
+```
+
+# APPEND
+Add values to the end of the list
+```python
+    cards = []
+    cards.append("nvidia")
+    cards.append("amd")
+```
+
+```python
+    def generate_user_list(num_of_users):
+        player_ids = []
+
+        for i in range(0, num_of_users):
+            player_ids.append(i)
+
+        return player_ids
+```
+
+# POP   
+Remove the last element of the list AND RETURNS it.
+
+```python
+    vegetables = ["broccoli", "cabbage", "kale", "tomato"]
+    last_vegetable = vegetables.pop()
+    # vegetables = ['broccoli', 'cabbage', 'kale']
+    # last_vegetable = 'tomato'
+```
+
+# POP an element with a specific index
+```python
+    vegetables = ["broccoli", "cabbage", "kale", "tomato"]
+    second_vegetable = vegetables.pop(1)
+    # vegetables = ['broccoli', 'kale', 'tomato']
+    # second_vegetable = 'cabbage'
+```
+
+```python
+    for i in range(0, len(sports)):
+        print(sports[i])
+```
+
+# FOR IN
+```python
+    trees = ['oak', 'pine', 'maple']
+    for tree in trees:
+        print(tree)
+    # Prints:
+    # oak
+    # pine
+    # maple
+```
+```python
+    def find_max(nums):
+        max_so_far = float("-inf")
+        for number in nums:
+            if (number > max_so_far):
+                max_so_far = number
+        return max_so_far
+```
+
+# MODULO
+The modulo operator can be used to find the remainder after a division operation.
+
+```python
+    def get_odd_numbers(num):
+        odd_numbers = []
+
+        for i in range(0, num):
+            if (i % 2 != 0):
+                odd_numbers.append(i)
+        return odd_numbers
+```
+
+# SLICING LISTS
+Slicing operator - :
+Start index, end index (not inclusive), step
+
+```python
+    my_list[ start : stop : step ]
+```
+give me a slice of the scores list from index 1, up to but not including 5, skipping every 2nd value:
+```python
+    scores = [50, 70, 30, 20, 90, 10, 50]
+    # Display list
+    print(scores[1:5:2])
+    # Prints [70, 20]
+```    
+
+Omitting values 
+- all up to index 3(not including)
+[:3]
+
+- all from index 3(including)
+[3:]
+
+- all from index 1 to index 5(not including)
+[1:5]
+
+- all from index 1 to index 5(not including) skipping every 2nd value
+[1:5:2]
+
+# Using only step 
+```python
+    numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    numbers[::2] 
+    # Gives [0, 2, 4, 6, 8]
+```
+
+```python
+    def get_champion_slices(champions):
+    first = []
+    second = []
+    third = []
+    for i in range(3):
+        if i == 0:
+            first = champions[2:]
+        elif i == 1:
+            second = champions[:len(champions) - 1]
+        else:
+            third = champions[::2]
+            
+    return first, second, third
 
 
+def get_champion_slices(champions):
+    return champions[2:], champions[:-1], champions[::2]
+
+```
+
+# NEGATIVE INDICES
+Count from the end of the list
+
+# LIST CONCATENATION
+```python
+    total = [1, 2, 3] + [4, 5, 6]
+    print(total)
+    # Prints: [1, 2, 3, 4, 5, 6]
+```
+
+# LIST INCLUDES
+```python
+    fruits = ["apple", "orange", "banana"]
+    print("banana" in fruits)
+    # Prints: True
+    
+    fruits = ["apple", "orange", "banana"]
+    print("banana" not in fruits)
+    # Prints: False
+```
+### LIST DELETION
+Python has a built-in keyword del that deletes items from objects. In the case of a list, you can delete specific indexes or entire slices.
+
+# DELETE NTH ITEM
+```python
+    del nums[3]
+```
+
+# DELETE ITEMS FROM INDEX 1 TO 3(EXCLUDING)
+```python
+    del nums[1:3]
+```
+
+# DELETE ALL ELEMENTS
+```python
+    del nums[:]
+```
+
+# Delete last two items
+```py
+    def trim_strongholds(strongholds):
+        del strongholds[len(strongholds) - 2:]
+```
+
+### TUPLES
+Collections of data that are ORDERED and UNCHANGEABLE.
+We can think about it as a list with fixed size
+```py
+    my_tuple = ("this is a tuple", 45, True)
+    print(my_tuple[0])
+    # this is a tuple
+    print(my_tuple[1])
+    # 45
+    print(my_tuple[2])
+    # True
+```
+
+Tuples are often used to store very small groups (like 2 or 3 items) of data. For example, you might use a tuple to store a dog's name and age.
+```python
+    dog = ("Fido", 4)
+```
 
 
+# tuple with only one item (coma at the end)
+```py
+    my_tuple = ("this is a tuple",)
+```
+
+# multiple tuples in a list
+```python
+    my_tuples = [
+    ("this is the first tuple in the list", 45, True),
+    ("this is the second tuple in the list", 21, False)
+    ]
+    print(my_tuples[0][0]) # this is the first tuple in the list
+    print(my_tuples[0][1]) # 45
+```
+
+# tuple unpacking
+Similar to array destructuring in js
+You can easily assign the values of a tuple to variables using unpacking.
+```py
+    dog = ("Fido", 4)
+    dog_name, dog_age = dog
+    print(dog_name)
+    # Fido
+    print(dog_age)
+    # 4
+```
+❗ When you return multiple values from a function, you're actually returning a tuple.
 
 
 
