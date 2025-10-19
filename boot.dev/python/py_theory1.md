@@ -868,3 +868,13 @@ Complete the sum_of_odd_numbers function. It should calculate the sum of all the
         else:
             print(f"{i}...")
 ```
+
+# return reversed list
+```python
+    def reverse_list(items):
+        reversed = []
+        for i in range(len(items) - 1, 0, -1):
+        reversed.append(items[i])
+        print(reversed)
+    return items
+```
