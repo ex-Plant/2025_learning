@@ -1,4 +1,4 @@
-# first try
+# FILTER WORDS
 def filter_messages(messages, wordToFilter):
   filteredMessages = []
   filteredCounter = 0
@@ -33,9 +33,6 @@ def better_filter_messages(messages, wordToFilter):
           filteredWords.append(single_word)
     filteredMessages.append(" ".join(filteredWords))
   return filteredMessages, filteredCounter
-
-
-
 
 
 ms =  ["well dang it", "dang the whole dang thing", "kill that knight, dang it", "get him!", "donkey kong",
