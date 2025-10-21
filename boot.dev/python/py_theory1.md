@@ -890,28 +890,77 @@ The .join() method is called on a delimiter (what goes between all the words in 
     # Prints: "hello there sam"
 ```
 
-# Assignment 
-Filter out words and count the number of filtered words
+### DICTIONARIES
+Used to store key values pairs in python
+Keys must be unique.
+❗ Keys names in parentheses 
 
 ```python
-def filter_messages(messages, wordToFilter):
-  filteredMessages = []
-  filteredCounter = 0
-  for i in range(0, len(messages)):
-    singleMessage = messages[i]
-    if wordToFilter not in singleMessage:
-      filteredMessages.append(singleMessage)
-      continue
+    car = {
+        "brand": "Toyota",
+        "model": "Camry",
+        "year": 2019,
+    }
+```
 
-    filteredWords = []
-    messageWordsArr = singleMessage.split()
-    for i in range (0, len(messageWordsArr)):
-      single_word = messageWordsArr[i]
-      if single_word == wordToFilter:
-        filteredCounter += 1
-        continue
-      filteredWords.append(single_word)
-    singleMessageFiltered = " ".join(filteredWords)
-    filteredMessages.append(singleMessageFiltered)
-  return filteredMessages, filteredCounter
+# Accessing dictionary values
+To access value from the dictionary we use square brackets
+```python
+    car = {
+        "make": "Toyota",
+        "model": "Camry"
+    }
+    print(car["make"])
+    # Prints: Toyota
+```
+
+# Edit dictionary values
+We use the same syntax to add / edit values withing dictionary
+```python
+   planets = {}
+    planets["Earth"] = True
+    planets["Pluto"] = False
+    print(planets["Pluto"])
+    # Prints False 
+```
+```python
+    names = ["jack bronson", "jill mcarty", "john denver"]
+
+    names_dict = {}
+    for name in names:
+        name_list = name.split()
+        names_dict[name_list[0]] = name_list[1]
+
+    print(names_dict)
+    # Prints: {'jack': 'bronson', 'jill': 'mcarty', 'john': 'denver'}
+```
+
+# Delete dictionary values
+❗If we try to delete a key that does not exist - we get an error
+```python
+    names_dict = {
+        "jack": "bronson",
+        "jill": "mcarty",
+        "joe": "denver"
+    }
+
+    del names_dict["joe"]
+    print(names_dict)
+    # Prints: {'jack': 'bronson', 'jill': 'mcarty'}
+```
+
+# Includes 
+Similarly to checking values within an array or a string we use *in* and *not in*
+
+```python
+    cars = {
+    "ford": "f150",
+    "toyota": "camry"
+    }
+
+    print("ford" in cars)
+    # Prints: True
+    
+    print("gmc" in cars)
+    # Prints: False
 ```
