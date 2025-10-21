@@ -1,3 +1,4 @@
+# first try
 def filter_messages(messages, wordToFilter):
   filteredMessages = []
   filteredCounter = 0
@@ -19,11 +20,28 @@ def filter_messages(messages, wordToFilter):
     filteredMessages.append(singleMessageFiltered)
   return filteredMessages, filteredCounter
 
+def better_filter_messages(messages, wordToFilter):
+  filteredMessages = []
+  filteredCounter = 0
+  for message in messages:
+      filteredWords = []
+      messageWordsArr = singleMessage.split()
+      for word in messageWordsArr
+        if word == wordToFilter:
+          filteredCounter += 1
+        else:
+          filteredWords.append(single_word)
+    filteredMessages.append(" ".join(filteredWords))
+  return filteredMessages, filteredCounter
+
+
 
 
 
 ms =  ["well dang it", "dang the whole dang thing", "kill that knight, dang it", "get him!", "donkey kong",
 "oh come on", "get them", "run away from the dang baddies"]
 test = filter_messages(ms, "dang")
+test2 = better_filter_messages(ms, "dang")
 
-print(test, "test")
+# print(test, "test")
+print(test2, "test2")
