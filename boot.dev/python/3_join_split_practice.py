@@ -21,7 +21,6 @@ def filter_messages(messages, wordToFilter):
 
 
 
-#   return noDang, noDangCounter
 
 ms =  ["well dang it", "dang the whole dang thing", "kill that knight, dang it", "get him!", "donkey kong",
 "oh come on", "get them", "run away from the dang baddies"]

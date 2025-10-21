@@ -840,15 +840,6 @@ You can easily assign the values of a tuple to variables using unpacking.
 
 
 
-
-
-
-    
-
-
-
-
-
 # LOOP STEP 
 Complete the sum_of_odd_numbers function. It should calculate the sum of all the odd numbers starting at 1 up to (but not including) the given end number and return the result.
 
@@ -877,4 +868,50 @@ Complete the sum_of_odd_numbers function. It should calculate the sum of all the
         reversed.append(items[i])
         print(reversed)
     return items
+```
+
+# .split()
+method called on a string -  returns a list by splitting the string based on a given delimiter.
+
+```python
+    message = "hello there sam"
+    words = message.split()
+    print(words)
+    # Prints: ["hello", "there", "sam"]
+```
+
+# .join()
+The .join() method is called on a delimiter (what goes between all the words in the list), and takes a list of strings as input.
+
+```python
+    list_of_words = ["hello", "there", "sam"]
+    sentence = " ".join(list_of_words)
+    print(sentence)
+    # Prints: "hello there sam"
+```
+
+# Assignment 
+Filter out words and count the number of filtered words
+
+```python
+def filter_messages(messages, wordToFilter):
+  filteredMessages = []
+  filteredCounter = 0
+  for i in range(0, len(messages)):
+    singleMessage = messages[i]
+    if wordToFilter not in singleMessage:
+      filteredMessages.append(singleMessage)
+      continue
+
+    filteredWords = []
+    messageWordsArr = singleMessage.split()
+    for i in range (0, len(messageWordsArr)):
+      single_word = messageWordsArr[i]
+      if single_word == wordToFilter:
+        filteredCounter += 1
+        continue
+      filteredWords.append(single_word)
+    singleMessageFiltered = " ".join(filteredWords)
+    filteredMessages.append(singleMessageFiltered)
+  return filteredMessages, filteredCounter
 ```
