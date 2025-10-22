@@ -964,3 +964,55 @@ Similarly to checking values within an array or a string we use *in* and *not in
     print("gmc" in cars)
     # Prints: False
 ```
+
+
+# Checking if dictionary is empty
+use *not*
+```python
+    dict = {}
+    if not dict:
+        print('empty dictionary')
+```
+
+# ORDERED VS UNORDERED DICTIONARY
+As of Python version 3.7, dictionaries are ordered. In Python 3.6 and earlier, dictionaries were unordered.
+
+Because dictionaries are ordered, the items have a defined order, and that order will not change.
+
+Unordered means that the items do not have a defined order, so you couldn't refer to an item by using an index.
+
+The takeaway is that if you're on Python 3.7 or later, you'll be able to iterate over dictionaries in the same order every time.
+
+```python
+    # Python 3.6 and earlier
+    my_dict = {"name": "Alice", "age": 30, "city": "NYC"}
+    
+    for key in my_dict:
+        print(key)  # Might print: age, name, city
+                    # Next time you run it: city, name, age
+                    # Order is random/inconsistent
+```
+
+# Nested dictionary example
+```python  
+    {
+        "entity": {
+            "character": {
+                "name": "Kaladin",
+                "quests": {
+                    "bridge_run": {
+                        "status": "In Progress",
+                    },
+                    "talk_to_syl": {
+                        "status": "Completed",
+                    },
+                },
+            }
+        }
+    }
+    
+    def get_quest_status(progress):
+        return progress['entity']['character']['quests']['bridge_run']['status']
+
+    
+```

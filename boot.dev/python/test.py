@@ -1,11 +1,18 @@
-def get_character_record(name, server, level, rank):
-    return {
-        "name": name,
-        "server": server,
-        "level": level,
-        "rank": rank,
-        "id": f'{name}#{server}'
-    }
+test = {"Goku": 8000,
+            "Vegeta": 7500,
+            "Piccolo": 3500,
+            "Gohan": 2800,
+        }
 
-test = get_character_record("name", "server", "level", "rank")
-print(test)
+
+
+for name in test:
+  print(name)
+
+def merge(dict1, dict2):
+    empty = {}
+    for key in dict1:
+        empty[key] = dict1[key]
+    print(empty)
+
+merge(test, test)
