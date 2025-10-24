@@ -799,3 +799,184 @@ const str2 = arr1.join("")
 console.log(str2) // string
 
 ```
+
+# String practice - SLICE VS SUBSTRING
+❗ There are small differences between slice and substring, but generally substring is legacy and slice is a modern way
+
+```js
+const string = 'my string'
+console.log(string.slice(0, -1)) // my strin
+console.log(string.slice(0, -2)) // my stri
+
+
+console.log(string.substring(0, string.length - 1)) // my strin
+console.log(string.slice(0, string.length - 1)) // my strin
+const slice = string.slice(0, string.length - 1)
+console.log(slice); // my strin
+console.log(string); // my string
+```
+
+
+```ts
+export function formatLabels(...labels: string[]) {
+  if (!labels || labels.length === 0) return "No Labels";
+  if (labels.length === 1) return `Label: ${labels[0]}`
+  
+  let labelString = ``
+  for (let label of labels) {
+    labelString += label + ", "
+  }
+  return "Labels: " +  labelString.substring(0, labelString.length - 2)
+  // ?
+}
+
+```
+```ts
+export function formatLabels(...labels: string[]) {
+  if (labels.length === 0) {
+    return "No Labels";
+  }
+  if (labels.length === 1) {
+    return `Label: ${labels[0]}`;
+  }
+  return `Labels: ${labels.join(", ")}`;
+}
+```
+
+
+### SET
+```js
+  const myArr = [1, 2, 3, 4];
+  const emptySet = new Set()
+  const populatedSet = new Set(myArr)
+  console.log(populatedSet) // Set(4) { 1, 2, 3, 4 }
+  populatedSet.delete(1)
+  console.log(populatedSet) //Set(3) { 2, 3, 4 }
+  populatedSet.add(1)
+  console.log(populatedSet) // Set(4) { 2, 3, 4, 1 }
+  console.log(populatedSet.has(1)) // true
+  console.log(populatedSet.has(-1)) // false
+  console.log(populatedSet.size) // 4
+  
+  const arrWithDuplicatedVals = [1, 1, 2, 2, 3, 3]
+  const anotherSet = new Set(arrWithDuplicatedVals)
+  console.log(anotherSet) // Set(3) { 1, 2, 3 }
+
+  anotherSet.forEach(el => console.log(el))
+  /*
+   1
+   2
+   3
+   */
+
+for (const item of anotherSet) {
+  console.log(item, 'here')
+}
+  /*
+  1 here
+  2 here
+  3 here
+  */
+```
+
+# 💥PRACTICE
+Complete the findNumUniqueLabels function. It takes an array of strings and returns the number of unique values in the array.
+```ts
+  export function findNumUniqueLabels(formattedAddresses: string[]) {
+    const set = new Set(formattedAddresses)
+    return set.size;
+  }
+```
+
+### MAP
+A collection of key value pairs
+
+```ts
+  const myMap = new Map();
+  myMap.set("key1", "some value")
+  console.log(myMap) // Map(1) { 'key1' => 'some value' }
+  myMap.set("key2", 1)
+  
+  console.log(myMap) // Map(2) { 'key1' => 'some value', 'key2' => 1 }
+  console.log(myMap.size) // 2
+  console.log(myMap.has('key1')) // true
+  console.log(myMap.has('non existing key')) // false
+  
+  myMap.delete("key1")
+  console.log(myMap); // Map(1) { 'key2' => 1 }
+  
+  console.log(myMap.has('key1')) // false
+  
+  myMap.set("key3", 3)
+  
+  for (const item of myMap) {
+    console.log(`My Map: ${item}`)
+  }
+  /*
+   My Map key2,1
+   My Map key3,3
+   */
+  
+  console.log(myMap.keys()) // [Map Iterator] { 'key2', 'key3' }
+  console.log(myMap.values()) //[Map Iterator] { 1, 3 }
+  
+  for (const key of myMap.keys()) {
+    console.log(key, 'key')
+    //key2 key
+    // key3 key
+  }
+  for (const key of myMap.values()) {
+    console.log(key, 'value')
+    // 1 value
+    // 3 value
+  }
+  
+```
+
+# Iterating over objects 
+```js
+  class Person {
+    constructor(name, surname) {
+      this.name = name
+      this.surname = surname;
+    }
+  }
+
+  const man = new Person("Konrad", "Antonik");
+  
+  console.log(man)
+  
+  for (let key in man) {
+    console.log(key)
+    //name
+    // surname
+  }
+  
+  
+  // for (let item of man) {
+  //   console.log(key)
+  // ❌ Error
+  // }
+  
+  
+  for (let value of Object.values(man)) {
+    console.log(value, '123')
+    //Konrad 123
+    // Antonik 123
+  }
+  
+  for (let value of Object.keys(man)) {
+    console.log(value )
+    //name
+    // surname
+  }
+  
+  // logs indexes
+  for (let value in Object.keys(man)) {
+    console.log(value )
+    // 0
+    // 1
+  }
+  
+  
+```

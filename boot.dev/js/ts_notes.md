@@ -29,6 +29,40 @@ Concepts to recap:
     }
 ```
 
+# DISCRIMINATED UNIONS 
+*Discriminate properties* or *tags*
+Very useful when we need to apply some conditional logic.
+The convention is to use *kind* as the tag.
+
+```ts
+type MultipleChoiceLesson = {
+  kind: "multiple-choice"; // Discriminant property
+  question: string;
+  studentAnswer: string;
+  correctAnswer: string;
+};
+
+type CodingLesson = {
+  kind: "coding"; // Discriminant property
+  studentCode: string;
+  solutionCode: string;
+};
+
+type Lesson = MultipleChoiceLesson | CodingLesson;
+
+function isCorrect(lesson: Lesson): boolean {
+  switch (lesson.kind) {
+    case "multiple-choice":
+      return lesson.studentAnswer === lesson.correctAnswer;
+    case "coding":
+      return lesson.studentCode === lesson.solutionCode;
+  }
+}
+```
+```ts
+
+```
+
 
 # importing types
 - straight from the module
