@@ -786,3 +786,16 @@ for (let key in messageLog) {
 } 
 };
 ```
+
+# string to array 
+```js
+const string = 'string'
+const arr1 = string.split('')
+const arr2 = Array.from(string)
+console.log(arr1) // [ 's', 't', 'r', 'i', 'n', 'g' ]
+console.log(arr2) //[ 's', 't', 'r', 'i', 'n', 'g' ]
+
+const str2 = arr1.join("")
+console.log(str2) // string
+
+```
