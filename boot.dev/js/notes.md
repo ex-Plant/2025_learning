@@ -909,6 +909,8 @@ A collection of key value pairs
   
   myMap.set("key3", 3)
   
+
+ // ❌
   for (const item of myMap) {
     console.log(`My Map: ${item}`)
   }
@@ -917,10 +919,20 @@ A collection of key value pairs
    My Map key3,3
    */
   
+
+  for (const [key, value] of myMap) {
+    console.log({ key })
+    console.log({ value })
+    //{ key: 'key2' }
+    // { value: 1 }
+    // { key: 'key3' }
+    // { value: 3 }
+  }
+
   console.log(myMap.keys()) // [Map Iterator] { 'key2', 'key3' }
   console.log(myMap.values()) //[Map Iterator] { 1, 3 }
-  
-  for (const key of myMap.keys()) {
+
+for (const key of myMap.keys()) {
     console.log(key, 'key')
     //key2 key
     // key3 key
@@ -978,5 +990,18 @@ A collection of key value pairs
     // 1
   }
   
-  
+
+```
+
+# 💥PRACTICE 
+Complete the getFileLength function. It takes:
+A Map<string, string> that represents filenames -> fileContents
+A specific filename to get the length of
+It returns the number of bytes in the file's contents.
+
+```ts
+   export function getFileLength(files: Map<string, string>, filename: string) {
+    return new TextEncoder().encode(files.get(filename)).length;
+  }
+
 ```

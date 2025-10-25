@@ -59,8 +59,200 @@ function isCorrect(lesson: Lesson): boolean {
   }
 }
 ```
+
+# Object with unknown properties
+```ts
+    type ObjT = {
+      [key: string]: number | string
+    }
+```
+
+# Object with unknown properties AND required properties
+```ts
+    type ObjT = { 
+      name: string;
+      surname: string;
+      [key: string]: number | string
+    }
+```
+# Usually you do want to know all objects properties in advance, and simply set some of them as optional❗ 
+
+# PropertyKey
+```ts
+  // this is a built-in type
+  type PropertyKey = string | number | symbol;
+
+  type InfrastructureTags = {
+    [key: PropertyKey]: any;
+  };
+
+  const janesServer: InfrastructureTags = {
+    name: "Jane's Server",
+    1: 420,
+    [Symbol("role")]: "Admin",
+  };
+```
+
+# symbol as an object key
+A symbol is a unique and immutable data type that may be used as an object property name. It's kinda like a string, 
+but it's guaranteed to be unique. ❗
+
+```ts
+  const TWO_FACTOR = Symbol("twoFactor");
+
+Symbol(twoFactor)
+
+  const test = {
+    [TWO_FACTOR]: 'test'
+  }
+
+  console.log(TWO_FACTOR); // Symbol(twoFactor)
+  console.log(test); // { [Symbol(twoFactor)]: 'test' }
+  console.log(test['twoFactor']); // undefined
+  console.log(test[TWO_FACTOR]); // test
+
+
+  const TWOO_FACTOR = Symbol("twoFactor");
+  export const BIOMETRIC_LOCK = Symbol("biometricLock");
+
+  export type MailPreferences = {
+    [key: PropertyKey]: boolean | string;
+  doNotDisturb: boolean;
+  outOfOffice: boolean;
+  [TWOO_FACTOR]: boolean;
+  [BIOMETRIC_LOCK]: boolean;
+  };
+  
+  export function isSecure(preferences: MailPreferences) {
+    return preferences[TWOO_FACTOR]  || preferences[BIOMETRIC_LOCK]
+  }
+
+```
+
+# READONLY
+ - modifier similar to const in js - makes a property of an object immutable
+
+```ts  
+  type Point = {
+    readonly x: number;
+    y: number;
+  };
+
+  export type MailPreferences = {
+    [key: PropertyKey]: boolean | string;
+    readonly doNotDisturb: boolean;
+    readonly outOfOffice: boolean;
+  };
+
+```
+
+# AS CONST 
+```ts
+  const colorsConst = ["red", "green", "blue"] as const;
+
+  // Error: Property 'push' does not exist on type 'readonly ["red", "green", "blue"]'
+  colorsConst.push("yellow");
+  
+```
+It works great with objects too, and unlike most utility types and Object.freeze(), it automatically makes all nested structures readonly as well:
+
+```ts   
+  const configConst = {
+    apiUrl: "https://api.cobrakai.com",
+    admins: {
+      johnny: "lawrence",
+      daniel: "larusso",
+    },
+    features: ["no mercy", "not crying", "winning too much"],
+  } as const;
+  
+  // Error: Cannot assign to 'apiUrl' because it is a read-only property
+  configConst.apiUrl = "https://api.karate.com";
+
+  // Error: Property 'push' does not exist on type 'readonly ["no mercy", "not crying", "winning too much"]'
+  configConst.features.push("sweep the leg");
+```
+
+# OBJECT.FREEZE()
+The Object.freeze() method is a built-in JavaScript function that prevents modifications to the top level of an object at runtime. It makes the object immutable, but it does not affect TypeScript's type system.
+TypeScript is smart enough to recognize that Object.freeze is being called, so it gives us a nice compile-time error 
+when we try to modify the top-level properties. And because Object.freeze() is a runtime operation, it will still fail at runtime if a mutation actually happens
+
+```ts
+const frozenConfig = Object.freeze({
+  apiUrl: "https://api.cobrakai.com",
+  admins: {
+    johnny: "lawrence",
+    daniel: "larusso",
+  },
+  features: ["no mercy", "not crying", "winning too much"],
+});
+
+// Error: Cannot assign to 'apiUrl' because it is a read-only property
+frozenConfig.apiUrl = "https://api.karate.com";
+
+// This is fine because nested properties are not frozen automatically
+frozenConfig.admins.johnny = "kreese";
+
+// This is also fine because the array is not frozen
+frozenConfig.features.push("sweep the leg");
+
+```
+
+In other words Object.freeze() will give us both runtime and compile time immutability and we do not need to add as 
+const in such a case
+
+```ts
+  export const defaultPreferences = Object.freeze({
+    name: "Kreese",
+    doNotDisturb: false,
+    outOfOffice: false,
+  })
+```
+
+# SATISFIES
 ```ts
 
+const colors = {
+  red: "#FF0000",
+  green: "#00FF00",
+  blue: "#0000FF",
+  yelow: "#FFFF00",
+};
+
+type ColorMap = {
+  red: string;
+  green: string;
+  blue: string;
+  yellow: string;
+};
+
+const colorsTyped: ColorMap = {
+  red: "#FF0000",
+  green: "#00FF00",
+  blue: "#0000FF",
+  // Error: "yelow" is not in type ColorMap
+  yelow: "#FFFF00",
+};
+
+// RedHex is any 'string'
+// where it used to be the literal "#FF0000"
+type RedHex = typeof colors.red;
+
+const colorsSatisfies = {
+  red: "#FF0000",
+  green: "#00FF00",
+  blue: "#0000FF",
+  yellow: "#FFFF00",
+  // Error: "yelow" is not in type ColorMap
+  // yelow: "#FFFF00"
+} as const satisfies <ColorMap>;
+
+// We keep the literal types!
+type RedHexSatisfies = typeof colorsSatisfies.red; // "#FF0000"
+
+const test1: RedHex = 'any string' // no error
+const test2: RedHexSatisfies = 'any string' //  error
 ```
 
 
@@ -78,8 +270,6 @@ import { User, Post } from "./models";
 ```ts
 import type { User, Post } from "./models";
 ```
-
-
 
 
 # Type masturbation is a bad thing ❗ 
