@@ -4,188 +4,188 @@ Backend web servers
 DevOps and cloud engineering
 Machine learning
 Scripting and automation
-etc...
 
 In pyton you can use numbers inside print function
 ```py
     print((250 + 241 + 244 + 255) / 4)
 ```
 
-# Variables 
-Variables are called "variables" because they can hold any value and that value can change (it varies).
+# Variables - snake_case
+Variables are called "variables" because they can hold any value and that *value can change* (it varies).
 ```python
-my_height = 100
-my_name = "Lane"
-print(my_height)
+    my_height = 100
+    my_name = "Lane"
+    print(my_height)
 ```
 
 # Storing Results
 ```py
-summation = a + b  # Addition
-difference = a - b # Subtraction
-product = a * b    # Multiplication
-quotient = a / b   # Division
+    summation = a + b  # Addition
+    difference = a - b # Subtraction
+    product = a * b    # Multiplication
+    quotient = a / b   # Division
 ```
 
 # Single LineComments
 ```python
-# speed describes how fast the player
-# moves in meters per second
-speed = 2
+    # speed describes how fast the player
+    # moves in meters per second
+    speed = 2
 ```
 
 # Multi-line comments
 ```python
-"""
-    the code found below
-    will print 'Hello, World!' to the console
-"""
-print("Hello, World!")
+    """
+        the code found below
+        will print 'Hello, World!' to the console
+    """
+    print("Hello, World!")
 ```
 
-# Variable names - snake_case ❗
 
-# Variable types 
+### Variable types 
 
 # Integer
-x = 5 # positive integer
-y = -5 # negative integer
-
+```pyton
+    x = 5 # positive integer
+    y = -5 # negative integer
+```
 # Float
-z = 3.14 # positive float
-w = -3.14 # negative float
-
+```pyton
+    z = 3.14 # positive float
+    w = -3.14 # negative float
+```
 # String
-a = "Hello" # string
-b = 'World' # string
-
+```pyton
+    a = "Hello" # string
+    b = 'World' # string
+```
 # Boolean
-c = True # boolean
-d = False # boolean
+```pyton
+    c = True # boolean
+    d = False # boolean
+```
 
 # F-STRINGS
 ```python
-name = "Yarl"
-age = 37
-race = "dwarf"
-
-print(f"{name} is a {race} who is {age} years old.")
-
+    name = "Yarl"
+    age = 37
+    race = "dwarf"
+    print(f"{name} is a {race} who is {age} years old.")
 ```
 
 # None
-my_mental_acuity = None
+```python
+    my_mental_acuity = None
+```
 
 # Dynamic typing
 Python is dynamically typed, which means a variable can store any type, and that type can change.
 
-
 # Concatenation
 ```python
-first_name = "Lane "
-last_name = "Wagner"
-full_name = first_name + last_name
-print(full_name)
-# prints "Lane Wagner"
+    first_name = "Lane "
+    last_name = "Wagner"
+    full_name = first_name + last_name
+    print(full_name)
+    # prints "Lane Wagner"
 ```
 
 # Multi-Variable Declaration
 ```python
-sword_name, sword_damage, sword_length = "Excalibur", 10, 200
+    sword_name, sword_damage, sword_length = "Excalibur", 10, 200
 ```
 
 # Functions
 ```python
-def area_of_circle(r):
-    pi = 3.14
-    result = pi * r * r
-    return result
+    def area_of_circle(r):
+        pi = 3.14
+        result = pi * r * r
+        return result
 ```
+
 # No hoisting
-if you define a function, you can't call that function until after it has been defined.
+If you define a function, you can't call that function until after it has been defined.
 Most Python developers solve this problem by defining all the functions in their program first, then they call an "entry point" function last. That way all of the functions have been read by the Python interpreter before the first one is called.
-Conventionally this "entry point" function is usually called main to keep things simple and consistent.
+Conventionally this *"entry point"* function is usually called main to keep things simple and consistent.
 
 ```python
-def main():
-    health = 10
-    armor = 5
-    add_armor(health, armor)
-
-def add_armor(h, a):
-    new_health = h + a
-    print_health(new_health)
-
-def print_health(new_health):
-    print(f"The player now has {new_health} health")
-
-# call entrypoint last
-main()
+    def main():
+        health = 10
+        armor = 5
+        add_armor(health, armor)
+    
+    def add_armor(h, a):
+        new_health = h + a
+        print_health(new_health)
+    
+    def print_health(new_health):
+        print(f"The player now has {new_health} health")
+    
+    # call entrypoint last
+    main()
 ```
 
-# None Return
+# None return
 When no return value is specified in a function, it will automatically return None.
 
 # Multiple return values
 ```python
-def cast_iceblast(wizard_level, start_mana):
-    damage = wizard_level * 2
-    new_mana = start_mana - 10
-    return damage, new_mana # return two values
+    def cast_iceblast(wizard_level, start_mana):
+        damage = wizard_level * 2
+        new_mana = start_mana - 10
+        return damage, new_mana # return two values
 ```
 
 # Parameter vs Argument
-Parameters are the names used for inputs when defining a function. Arguments are the values of the inputs supplied when a function is called.
+*Parameters* are the names used for inputs when *defining a function*. *Arguments* are the values of the inputs supplied when a *function is called*.
 ```python
-# a and b are parameters
-def add(a, b):
-    return a + b
-
-# 5 and 6 are arguments
-sum = add(5, 6)
+    # a and b are parameters
+    def add(a, b):
+        return a + b
+    
+    # 5 and 6 are arguments
+    sum = add(5, 6)
 ```
 
 # Default Values
 A default value is created by using the assignment (=) operator in the function signature.
 ```python
-def get_greeting(email, name="there"):
-    print("Hello", name, "welcome! You've registered your email:", email) 
+    def get_greeting(email, name="there"):
+        print("Hello", name, "welcome! You've registered your email:", email) 
 ```
 
 # Scope
 Scope refers to where a variable or function name is available to be used.
-```PYTHON
-def subtract(x, y):
-    return x - y
-result = subtract(5, 3)
-print(x)
-# ERROR! "name 'x' is not defined"
+```python
+    def subtract(x, y):
+        return x - y
+    result = subtract(5, 3)
+    print(x)
+    # ERROR! "name 'x' is not defined"
 ```
 
 # Global scope
-a variable or a function, that name is accessible in every other place in our program, even within other functions.
+A variable or a function, that name is accessible in every other place in our program, even within other functions.
 
 # Unit Test 
 An automated program that tests the small "unit" of code
 
-
-### COMPUTING
-
 # Floor Division
 Floor division is a division operation that rounds down to the nearest whole number.
 ```python
-7 // 3
-# 2 (an integer, rounded down from 2.333)
--7 // 3
-# -3 (an integer, rounded down from -2.333)
+    7 // 3
+    # 2 (an integer, rounded down from 2.333)
+    -7 // 3
+    # -3 (an integer, rounded down from -2.333)
 ```
 
 # Exponents
 ```python
-# reads as "three squared" or
-# "three raised to the second power"
-3 ** 2
-# 9
+    # reads as "three squared" or
+    # "three raised to the second power"
+    3 ** 2
+    # 9
 ```
 
 # ❗
@@ -204,32 +204,27 @@ In a nutshell, the number following the e specifies how many places to move the 
 1,024,000,000,000,000,000 (1.024e18)
 
 ```PY
-print(16e3)
-# Prints 16000.0
-print(7.1e-2)
-# Prints 0.071
+    print(16e3)
+    # Prints 16000.0
+    print(7.1e-2)
+    # Prints 0.071
 ```
-
-
 
 # Underscores for readability
+```python
+    num = 16_000
+    print(num)
+    # Prints 16000
+    
+    num = 16_000_000
+    print(num)
+    # Prints 16000000
 ```
-num = 16_000
-print(num)
-# Prints 16000
-
-num = 16_000_000
-print(num)
-# Prints 16000000
-```
-
-
 
 ```python
-def update_player_score(current_score, increment):
-    current_score += increment
-    return current_score
-    pass
+    def update_player_score(current_score, increment):
+        current_score += increment
+        return current_score
 ```
 
 # LOGICAL OPERATORS
@@ -238,29 +233,27 @@ def update_player_score(current_score, increment):
 - not
 
 ```python
-print(True and True)
-# prints True
-
-print(True or False)
-# prints True
-
-print(not True)
-# Prints: False
+    print(True and True)
+    # prints True
+    
+    print(True or False)
+    # prints True
+    
+    print(not True)
+    # Prints: False
 ```
 
 # BINARY NUMBERS - BASE 2 NUMBERS
 Each 1 in a binary number represents an ever-greater multiple of 2. In a 4-digit number, that means you have the eights place, the fours place, the twos place, and the ones place. Similar to how in decimal you would have the thousands place, the hundreds place, the tens place, and the ones place.
 
-```PYTHON
-print(0b0001)
-# Prints 1
-
-print(0b0101)
-# Prints 5
+```python
+    print(0b0001)
+    # Prints 1
+    
+    print(0b0101)
+    # Prints 5
 ```
 Leading 0s are often added for visual consistency but do not change the value of a binary number.
-
-
 
 0 = 0
 1 = 1
@@ -285,12 +278,12 @@ Leading 0s are often added for visual consistency but do not change the value of
 # BITWISE OPERATOR &
 Bitwise operators are similar to logical operators, but instead of operating on boolean values, they apply the same logic to all the bits in a value by column.
 
-```PYTHON
-0101
-&
-0111
-=
-0101
+```python
+    0101
+    &
+    0111
+    =
+    0101
 ```
 
 A 1 in binary is the same as True, while 0 is False. So really a bitwise operation is just a bunch of logical operations that are completed in tandem by column.
@@ -302,34 +295,36 @@ A 1 in binary is the same as True, while 0 is False. So really a bitwise operati
 1 & 0 = 0
 
 # Ampersand & is the bitwise AND operator in Python.
-
-0b0101 & 0b0111
-# equals 5
-
-binary_five = 0b0101
-binary_seven = 0b0111
-binary_five & binary_seven
-# equals 5
+```python
+    0b0101 & 0b0111
+    # equals 5
+    
+    binary_five = 0b0101
+    binary_seven = 0b0111
+    binary_five & binary_seven
+    # equals 5
+```
 
 # BITWISE OPERATOR |
-0101
-|
-0111
-=
-0111
-
+```pyton
+    0101
+    |
+    0111
+    =
+    0111
+```
 
 # int()
 The built-in int() function can convert a binary string to an integer.
 
-```PYTHON
-# this is a binary string
-binary_string = "100"
-
-# convert binary string to integer
-num = int(binary_string, 2)
-print(num)
-# 4
+```python
+    # this is a binary string
+    binary_string = "100"
+    
+    # convert binary string to integer
+    num = int(binary_string, 2)
+    print(num)
+    # 4
 ```
 
 # Comparison operators
@@ -345,23 +340,24 @@ The operators:
 
 # IF STATEMENTS
 ```python
-def show_status(boss_health):
-    if boss_health > 0:
-        print("Ganondorf is alive!")
-        return
-    print("Ganondorf is unalive!")
+    def show_status(boss_health):
+        if boss_health > 0:
+            print("Ganondorf is alive!")
+            return
+        print("Ganondorf is unalive!")
 ```
 
 ```python
-is_equal = 5 == 5
-print(is_equal)
-# True
+    is_equal = 5 == 5
+    print(is_equal)
+    # True
 ```
+
 ```python
-    def check_swords_for_army(number_of_swords, number_of_soldiers):
-    if (number_of_swords == number_of_soldiers):
-        return 'correct amount'
-    return "incorrect amount"
+        def check_swords_for_army(number_of_swords, number_of_soldiers):
+            if (number_of_swords == number_of_soldiers):
+                return 'correct amount'
+        return "incorrect amount"
 ```
 
 # IF ELSE
@@ -379,30 +375,30 @@ An if statement can be followed by zero or more elif (which stands for "else if"
 
 ```python
     def player_status(health):
-    if (health <= 0):
-        return "dead"
-    elif (health <= 5 ):
-        return "injured"
-    else:
-        return "healthy"
+        if (health <= 0):
+            return "dead"
+        elif (health <= 5 ):
+            return "injured"
+        else:
+            return "healthy"
 ```
 
 ```pyton
     def should_serve_customer(customer_age, on_break, time):
-    return customer_age >= 21 and not on_break and (time >= 5 and time <= 10)
+        return customer_age >= 21 and not on_break and (time >= 5 and time <= 10)
 ```
 
 ```python
     def check_mount_rental(time_used, time_purchased):
-    if (time_used >= time_purchased):
-        return "overtime charged"
-    else:
-        return "no charges yet"
+        if (time_used >= time_purchased):
+            return "overtime charged"
+        else:
+            return "no charges yet"
 ```
 
 ```python
     def combat_evaluation(player_power, enemy_defense):
-    advantage, disadvantage, evenly_matched = False, False, False
+        advantage, disadvantage, evenly_matched = False, False, False
 
     if (player_power > enemy_defense):
         advantage = True
@@ -417,8 +413,6 @@ An if statement can be followed by zero or more elif (which stands for "else if"
         advantage = False
         disadvantage = True
 
-    # your code here
-
     return advantage, disadvantage, evenly_matched
 ```
 
@@ -432,7 +426,6 @@ If i is not less than 10 (range(0, 10)), exit the loop.
 ```
 
 The body of a for-loop must be indented; otherwise, you'll get a syntax error.
-
 
 # RANGE + STEP
 The range() function we've been using in our for loops actually has an optional 3rd parameter: the "step".
@@ -501,17 +494,17 @@ Example of infinite loop - since the condition is always true it goes forever
     while 1:
         print("1 evaluates to True")
 
-# prints:
-# 1 evaluates to True
-# 1 evaluates to True
-# (...continuing)
+    # prints:
+    # 1 evaluates to True
+    # 1 evaluates to True
+    # (...continuing)
 ```
 ```python
     num = 0
     while num < 3:
         num += 1
         print(num)
- ```
+```
 ```python
     def regenerate(current_health, max_health, enemy_distance):
 
@@ -562,15 +555,15 @@ Used to exit the loop entirely
 ```
  
 ```python   
-    #def check_defense(attack_strength, min_enchantment, max_enchantment):
-    for enchantment_strength in range(min_enchantment, max_enchantment + 1):
-        print(
-            f"Comparing attack strength {attack_strength} to enchantment strength {enchantment_strength}."
-        )
+    def check_defense(attack_strength, min_enchantment, max_enchantment):
+        for enchantment_strength in range(min_enchantment, max_enchantment + 1):
+            print(
+                f"Comparing attack strength {attack_strength} to enchantment strength {enchantment_strength}."
+            )
 
-        if enchantment_strength >= attack_strength:
-            print("Attack blocked!")
-            break
+            if enchantment_strength >= attack_strength:
+                print("Attack blocked!")
+                break
 ```
 
 ```python
@@ -584,10 +577,10 @@ Used to exit the loop entirely
 
 ```python
     def meditate(mana, max_mana, num_potions):
-    while mana < max_mana and num_potions > 0:
-        mana +=1
-        num_potions -= 1
-    return mana, num_potions
+        while mana < max_mana and num_potions > 0:
+            mana +=1
+            num_potions -= 1
+        return mana, num_potions
 ```
 
 ### LISTS
@@ -728,22 +721,22 @@ Omitting values
 
 ```python
     def get_champion_slices(champions):
-    first = []
-    second = []
-    third = []
-    for i in range(3):
-        if i == 0:
-            first = champions[2:]
-        elif i == 1:
-            second = champions[:len(champions) - 1]
-        else:
-            third = champions[::2]
-            
-    return first, second, third
+        first = []
+        second = []
+        third = []
+        for i in range(3):
+            if i == 0:
+                first = champions[2:]
+            elif i == 1:
+                second = champions[:len(champions) - 1]
+            else:
+                third = champions[::2]
+                
+        return first, second, third
 
 
-def get_champion_slices(champions):
-    return champions[2:], champions[:-1], champions[::2]
+    def get_champion_slices(champions):
+        return champions[2:], champions[:-1], champions[::2]
 
 ```
 
@@ -837,8 +830,6 @@ You can easily assign the values of a tuple to variables using unpacking.
     # 4
 ```
 ❗ When you return multiple values from a function, you're actually returning a tuple.
-
-
 
 # LOOP STEP 
 Complete the sum_of_odd_numbers function. It should calculate the sum of all the odd numbers starting at 1 up to (but not including) the given end number and return the result.
@@ -1014,5 +1005,15 @@ The takeaway is that if you're on Python 3.7 or later, you'll be able to iterate
     def get_quest_status(progress):
         return progress['entity']['character']['quests']['bridge_run']['status']
 
-    
+```
+
+# Merge dictionaries 
+```python
+    def merge(dict1, dict2):
+        empty = {}
+        for key in dict1:
+            empty[key] = dict1[key]
+        for key in dict2:
+            empty[key] = dict2[key]
+        return empty
 ```

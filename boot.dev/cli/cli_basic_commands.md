@@ -1,4 +1,11 @@
 *.zshrc*
+
+# history
+- print history of commands: `history`
+
+# cat
+- print file content: `cat fileName.fileExtension`
+
 # man
 - manual 
 ```zsh
@@ -11,9 +18,7 @@
 *N* go back
 
 
-# history
-
-# NANO
+# nano
 - command to edit files within the terminal
 ```zsh
     nano .zshrc
@@ -172,7 +177,6 @@ create more than one file at the time.
     rm -rf not_empty_dir` / `rm -r not_empty_dir
 ```
 
-
 # sudo
 - run a command like a superuser
 ```zsh
@@ -191,13 +195,6 @@ Example of creating prettierignore file
 
 # clear 
 - clear terminal: `clear` / `cmnd + l` /-
-
-# history 
-- print history of commands: `history`
-
-
-# cat 
-- print file content: `cat fileName.fileExtension`
 
 # neovim
 neovim is a new better version of vim witch is the newer version of vi witch is basically a command line text editor

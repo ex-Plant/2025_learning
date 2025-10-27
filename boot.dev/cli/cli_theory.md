@@ -315,7 +315,7 @@ In order to do that just add it at the end of the file as a variable
 export PATH="/Users/konradantonik/.nvm/versions/node/v23.6.0/bin:$PATH"
 
 export PATH="$PATH:/Users/konradantonik/WebstormProjects/2025/2025_learning/boot.dev/cli/worldbank/private/bin"
-
+```
 
 # FLAGS
 Some commands accepts flags. For example:
