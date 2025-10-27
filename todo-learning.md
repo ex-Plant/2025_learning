@@ -1,5 +1,5 @@
 **LOW HANGIN FRUITS**
-- git
+- ✅ git
 - react profiler
 - ✅ mysql
 - ✅ next
