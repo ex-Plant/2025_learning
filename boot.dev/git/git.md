@@ -298,3 +298,30 @@ Open a pull request on GitHub to merge my changes into main
 Ask a team member to review my pull request
 Once approved, click the "Merge" button on GitHub to merge my changes into main
 Delete my feature branch, and repeat with a new branch for the next set of changes
+
+
+# .gitignore
+Your .gitignore file does not necessarily need to be at the root of your project.
+
+It's fairly common to have multiple .gitignore files in different directories throughout a project. A nested .gitignore file only applies to the directory it's in and its subdirectories.
+
+# .gitignore patterns
+- order matters - patterns can override each other
+
+```shell
+# ignore all txt files
+*.txt
+
+# ignore all txt files except important.txt
+*.txt
+!important.txt
+
+# rooted patterns - ignore only main.py from the root dir (root being where .gitignore is)
+/main.py
+```
+
+# What to ignore 
+Ignore things that can be generated (e.g. compiled code, minified files, etc.)
+Ignore dependencies (e.g. node_modules, venv, packages, etc.)
+Ignore things that are personal or specific to how you like to work (e.g. editor settings)
+Ignore things that are sensitive or dangerous (e.g. .env files, passwords, API keys, etc.)
