@@ -19,3 +19,10 @@ test = check_ingredient_match(recipe, ingredients)
 test2 = check_ingredient_match(recipe2, ingredients2)
 # print(test)
 print(test2)
+
+
+def divide_list(nums, divisor):
+    newList = []
+    for num in nums:
+        newList.append(num / divisor)
+    return newList

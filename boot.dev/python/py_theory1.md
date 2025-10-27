@@ -1076,3 +1076,121 @@ You can use some of the "normal" mathematical operations on sets. For example, y
     print(set3)
     # Prints: {'grape'}
 ```
+
+### Errors and Exceptions
+# Catching errors
+```python
+    try:
+        10 / 0
+    except Exception as e:
+        print('got you', e)
+```
+
+# Raising exceptions
+When something in our own code happens that isn't the "happy path", we should raise our own exceptions.
+An error or exception is raised when something bad happens, but as long as our code handles it as users expect it to, it's not a bug. A bug is when code behaves in ways our users don't expect it to.
+
+```python
+    def craft_sword(metal_bar):
+        if metal_bar == "bronze":
+            return "bronze sword"
+        if metal_bar == "iron":
+            return "iron sword"
+        if metal_bar == "steel":
+            return "steel sword"
+        raise Exception("invalid metal bar")
+```
+# ❌ Don't catch your own exceptions
+```python
+    # don't do this
+    def craft_sword(metal_bar):
+        try:
+            if metal_bar == "bronze":
+                return "bronze sword"
+            if metal_bar == "iron":
+                return "iron sword"
+            if metal_bar == "steel":
+                return "steel sword"
+            raise Exception("invalid metal bar")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+```
+
+# ✅ do this
+```python 
+        try:
+            craft_sword("gold bar")
+        except Exception as e:
+            print(e)
+```
+
+# Different types of exceptions
+there are different types of exceptions, and we can handle them differently depending on the situation. Some 
+exceptions are more specific, like ZeroDivisionError (which happens when you divide by zero) or IndexError (which happens when you try to access a list element at an invalid index—either too high or too low). Others are more general, like the base Exception.
+
+```python
+    try:
+        10/0
+    except ZeroDivisionError:
+        print("0 division")
+    except Exception as e:
+        print(e)
+    
+    try:
+        nums = [0, 1]
+        print(nums[2])
+    except IndexError:
+        print("index error")
+    except Exception as e:
+        print(e)
+```
+
+When handling exceptions, it’s important to catch the most specific ones first, because Python stops checking once it finds a matching exception handler. If you catch a more general Exception first, any specific errors will never get handled individually.
+```python
+    try:
+        nums = [0, 1]
+        print(nums[2])
+    except Exception: # ❌
+        print("An error occurred")
+    except IndexError:
+        print("Index error")
+        
+        
+        # this will print "other"
+        try:
+            raise Exception("zero division")
+        except ZeroDivisionError as e:
+            print("zero")
+        except Exception as e:
+            print("other")
+```
+
+# infinity
+```python
+     my_infinity = float("inf")
+     lowest_number = float("-inf")
+```
+
+# type()
+```python
+    type(1) == int
+    # True
+
+    type("1") == str
+    # True
+    
+    type(1.0) == float
+    # True
+    
+    type("seventy-six") == int
+    # False
+    
+    def remove_nonints(nums):
+        integers = []
+        for num in nums:
+            if type(num) == int:
+                integers.append(num)
+        return integers
+```
+
+# factorial

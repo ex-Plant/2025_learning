@@ -1,4 +1,4 @@
-first_ids = [1, 1, 1, 2, 2, 2, 3]
-s1 = set(first_ids)
-
-print(s1)
+try:
+  10 / 0
+except Exception as e:
+  print('got you', e)

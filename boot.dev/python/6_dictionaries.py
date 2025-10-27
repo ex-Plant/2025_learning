@@ -50,3 +50,15 @@ def merge(dict1, dict2):
     for key in dict2:
         empty[key] = dict2[key]
     return empty
+
+
+rec = {
+  "height": 5,
+  "width": 6
+}
+
+def area_sum(rectangles):
+    sum = 0
+    for rec in rectangles:
+        sum += rec["height"] * rec["width"]
+    return sum
