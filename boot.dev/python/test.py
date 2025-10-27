@@ -1,15 +1,4 @@
-def factorial(num):
-    if num == 0:
-        return 1
-    nums = []
-    for i in range(0, num):
-        nums.append(i + 1)
+first_ids = [1, 1, 1, 2, 2, 2, 3]
+s1 = set(first_ids)
 
-    print(nums)
-    result = 1
-    for num in nums:
-        result *= num
-
-    return result
-
-print(factorial(5))
+print(s1)

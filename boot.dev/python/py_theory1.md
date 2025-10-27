@@ -1017,3 +1017,62 @@ The takeaway is that if you're on Python 3.7 or later, you'll be able to iterate
             empty[key] = dict2[key]
         return empty
 ```
+
+# Sets
+- Like lists but unordered and with unique values
+
+```python
+    first_ids = [1, 1, 1, 2, 2, 2, 3]
+    s1 = set(first_ids)
+    print(s1) # {1, 2, 3}
+
+    fruits = {"apple", "banana", "grape"}
+    print(type(fruits))
+    # Prints: <class 'set'>
+    
+```
+
+
+
+# .add()
+```python
+    fruits = {"apple", "banana", "grape"}
+    fruits.add("pear")
+    print(fruits)
+    # Prints: {'banana', 'grape', 'pear', 'apple'}
+    
+    fruits2 = set()
+    fruits2.add("pear")
+    print(fruits2)
+    # Prints: {'pear'}
+```
+
+# remove()
+
+```python
+    fruits = {"apple", "banana", "grape"}
+    fruits.remove("apple")
+```
+
+# set iteration
+```pyton
+    fruits = {"apple", "banana", "grape"}
+    for fruit in fruits:
+        print(fruit)
+        # Prints:
+        # banana
+        # grape
+        # apple
+```
+
+# sets subtraction
+You can use some of the "normal" mathematical operations on sets. For example, you can subtract one set from another. It removes all the values in the second set from the first set.
+
+```python
+    set1 = {"apple", "banana", "grape"}
+    set2 = {"apple", "banana"}
+    set3 = set1 - set2
+    
+    print(set3)
+    # Prints: {'grape'}
+```
