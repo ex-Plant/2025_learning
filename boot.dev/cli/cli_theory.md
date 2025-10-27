@@ -236,7 +236,7 @@ Use the grep command to find all the lines with the text "CRITICAL" (all caps) i
 ```
 
 # FIND
-Powerful tool for finding files and directories by name, not by their contents.
+Powerful tool for finding files and directories by name, not by their contents.io
 
 # FIND BY NAME
    ```zsh
