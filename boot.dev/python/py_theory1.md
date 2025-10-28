@@ -1272,3 +1272,112 @@ sort() automatically passes each element of the list to the function assigned to
             fileName = args[1]
             print(generateReport(fileName))
 ```
+
+# Class
+- special type in OOP 
+- templates for creating objects
+- object is aa instance of a class
+- classes provide structure
+- can have methods
+```pyton
+    class Soldier:
+        health = 5
+        armor = 3
+        damage = 2
+        
+    # instance of integer typ        
+    health = 50
+    # instance of Soldier class
+    aragorn = Soldier()
+    print(aragorn.health)
+    # 5
+```
+
+# Methods
+- methods are defined within class declaration
+```python
+    class Soldier:
+    health = 5
+
+    # This is a method that reduces the
+    # health of the soldier
+    def take_damage(self, damage):
+        self.health -= damage
+
+    soldier_one = Soldier()
+    soldier_one.take_damage(2)
+    print(soldier_one.health)
+    # prints "3"    
+```
+
+# Self
+- used to read and update properties of an object
+- you need to pass self as an argument to the method body
+```python
+    class Wall:
+    armor = 10
+    height = 5
+
+    def fortify(self):
+        self.armor *= 2
+```
+
+# Method with returned vals
+- can but don't have to return any value as they are used primarily to modify properties of an object
+```python
+    class Soldier:
+        armor = 2
+        num_weapons = 2
+    
+        def get_speed(self):
+            speed = 10
+            speed -= self.armor
+            speed -= self.num_weapons
+            return speed
+    
+    soldier_one = Soldier()
+    print(soldier_one.get_speed()) 
+    # prints "6"
+```
+
+# Method vs function
+- method and function are exact same thing, the only difference being that methods are tied to an object and can 
+  access given object properties
+- A method  receives the object it was called on as its first parameter (self)
+```python
+    # helm_of_mordune (object itself) will be a method first parameter
+    helm_of_mordune.enchant(mana, power)
+```
+
+# Constructor 
+- proper way of creating classes is by using a *constructor* witch in python is a special method __init__
+```python
+  class Proper_soldier:
+    def __init__(self, name, armor = 1, weapon = 1):
+      self.name = name
+      self.armor = armor
+      self.weapon = weapon
+
+    soldier_one = Proper_soldier("Aragorn", 20, 50)
+    print(soldier_one.name)
+    print(soldier_one)
+``` 
+
+# Avoid class variables❗and use instance variables 
+- Just like global variables, class variables are usually a bad idea because they make it hard to keep track of which parts of your program are making updates.
+```python
+    # ❌ class variable
+    class Human:
+      height = 10
+    
+    person = Human()
+    Human.height = 20 # updates all instances of a Human ❗
+    
+    
+    # ✅ instance variable
+    class ProperHuman:
+      def __init__(self):
+        height = self.height
+    
+    propertPerson = ProperHuman(100)
+```
