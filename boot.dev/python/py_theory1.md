@@ -1193,4 +1193,82 @@ When handling exceptions, it’s important to catch the most specific ones first
         return integers
 ```
 
-# factorial
+
+# list(dictionary.items())
+- retrieve key value pairs from dictionary and turn it into a list of tuples
+- ℹ️see bookbot project for examples
+```python
+    dict = {}
+    l = list(dict.items()) # <class 'list'>
+    print(type(l)) # <class 'list'>
+```
+
+# list.sort()
+Sorts original list, and returns None
+sort() automatically passes each element of the list to the function assigned to key
+
+```python
+    dict =  [('t', {'num': 29493}), ('h', {'num': 19176})]
+
+    def getSingleItemCount(tuple):
+        return tuple[1]["num"]
+        
+  l = list(dict.items()) 
+  sorted =  l.sort(key=getSingleItemCount, reverse=True )
+  # print('❌ .sort() is sorting in place and returns nothing we need to return original list:', sorted, )
+```
+
+# the same with lambda function
+```python
+    dict =  [('t', {'num': 29493}), ('h', {'num': 19176})]
+
+  l = list(dict.items()) 
+  sorted =  l.sort(key=lambda x: x[1]["num"], reverse=True )
+  # print('❌ .sort() is sorting in place and returns nothing we need to return original list:', sorted, )
+```
+
+# lambda function 
+- anonymous
+- single expression
+- no return statement - expression is automatically returned 
+```python
+    add_five = lambda x: x + 5
+    add = lambda a, b: a + b
+    print(add(2, 3))  # Output: 5
+```
+#  regular function
+```python
+    def add_five(x):
+        return x + 5
+```
+
+# importing built in modules 
+```python
+    import sys
+```
+
+# importing custom modules
+```python
+    from stats import count_words, count_chars, sort_dictionary, generateReport
+```
+
+# sys()
+- The built in sys module provides access to command line arguments.
+- Can be used for example to read contents of the file based on the file name received from the command line argument
+
+```shell
+    python3 main.py books/mobydick.txt          
+```
+
+```python
+    print(sys.argv)
+    # Prints [<current directory>]
+    
+      args = sys.argv
+        if len(args) < 2:
+            print('Usage: python3 main.py <path_to_book>')
+            sys.exit(1)
+        else:
+            fileName = args[1]
+            print(generateReport(fileName))
+```
