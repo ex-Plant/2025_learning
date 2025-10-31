@@ -1,6 +1,5 @@
 **Simple slide in animation**
 
-
 `@keyframes slideUp {
 0% {
 opacity: 0;

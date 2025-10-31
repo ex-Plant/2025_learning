@@ -231,3 +231,55 @@ mapper.set("2", "b");
 **RULES OF HOOKS**
 - Generally only use hooks at the top level of React components, do not use it inside loops, conditions, event 
   handlers etc. 
+
+
+  
+# useEffectEvent(callback) React 19.2^
+https://www.youtube.com/watch?v=uQpky6ygfk0
+Call useEffectEvent at the top level of your component to declare an Effect Event. Effect Events are functions you 
+can call inside Effects, such as useEffect and *you do not have to include them in the dependency array.*
+Only call inside Effects: Effect Events should only be called within Effects. Define them just before the Effect that uses them.
+Use for non-reactive logic: Only use useEffectEvent to extract logic that does not depend on changing values.
+In some cases, you may want to read the most recent props or state inside an Effect without causing the Effect
+to re-run when those values change.
+```js
+  import { useEffect, useContext, useEffectEvent } from 'react';
+   
+  export default function Page({ url }) {
+    const { items } = useContext(ShoppingCartContext);
+    const numberOfItems = items.length;
+  
+    // add reactive values as an argument to callback - this will tell it to re run use effect only if this value changes
+    const onNavigate = useEffectEvent((url) => {
+      logVisit(url, numberOfItems);
+    });
+  
+    /*
+     In this example, the Effect should re-run after a render when url changes (to log the new page visit), but it 
+     should not re-run when numberOfItems changes. By wrapping the logging logic in an Effect Event, numberOfItems 
+     becomes non-reactive. It’s always read from the latest value without triggering the Effect. Before we would have
+     */
+    useEffect(() => {
+      onNavigate(url);
+    }, [url])
+  }
+  
+  function OldWay({ url }) {
+    const { items } = useContext(ShoppingCartContext);
+    const numberOfItems = items.length;
+    
+    //  Before we would have to do something like this, 
+    useEffect(() => {
+      function logVisit() {
+        console.log(url, numberOfItems)
+      }
+      
+      logVisit()
+    }, [url, numberOfItems])
+  
+    /* Since we only want to rerun the effect if url changes, not when number of items changes we had a few workarounds.
+     Our options where to store same vals in ref and check if it changed, or to disable eslint complaining about non 
+     exhasustive deps. Now we can do it the right way. 
+     */
+  }
+```
