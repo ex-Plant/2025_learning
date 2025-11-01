@@ -6,11 +6,15 @@
   "scripts": {
     "start": "node main.js"
   },
+  "type": "module",
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.28.3",
     "@babel/core": "^7.28.5",
     "@babel/preset-env": "^7.28.5"
+  },
+  "dependencies": {
+    "cowsay": "^1.6.0"
   }
 }

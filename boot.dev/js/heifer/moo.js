@@ -1,7 +1,8 @@
-function moo(name) {
-  return `moo!  ${name}`
-}
+// function moo(name) {
+//   return `moo!  ${name}`
+// }
 
-module.exports = {
-  moo
+
+export function moo(name) {
+  return `moo!  ${name}`
 }
