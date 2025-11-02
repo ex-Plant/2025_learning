@@ -1,5 +1,11 @@
 *.zshrc*
 
+# ifconfig.me - public IP
+- get ip address of local network
+
+# ipconfig getiffaddr en0 - local IP
+- address of the device (router) in your local network
+
 # history
 - print history of commands: `history`
 
