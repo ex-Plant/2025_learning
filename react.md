@@ -1,239 +1,79 @@
-**TYPESCRIPT**
-
-_type for style properties_
-
-`type ElementProps = {
-properties: React.CSSProperties
-}`
-
-_union type_
-type TUnion = 'test1' | 'test2' | 'test3' | 'test4'
-
-_Html properties type_
-
-`type TT = {
-children: React.ReactNode;
-jsxEl:Element
-} & ElementProps
-`
-
-`export const TypescriptRecap = ({
-properties,
-}: TT) => {
-return (
-<><button style={{ backgroundColor:properties.backgroundColor }}</button></>
-)}`
-
-**INTERFACES**
-Main difference between interface and type is that type is more elastic, for example in
-interface you can't do something like:
-`interface Inter1 = "string"`
-Interface is always an object!
-
-interface InterfaceName {
-inter1: string
-}
-
-_types_
-type Inter1 = `string`;
-
-When typing complicated types yon can simply hover over element where it was defined and you
-will get intellisense of what exact type it is, it is ok to copy paste from there
-
-_Extending types_
-type SomeType1 = { } & SomeType2
-
-_Extending interface_
-interface SomeInterface {
-name: string
-}
-interface SomeInterface1 extends SomeInterface{
-}
-
-// to get all default possible attributes, events etc. of a certain element like onClick,
-// autofocus etc
-`type ComponentElementProps = React.ComponentPropsWithoutRef<'button'>`
-
-export function ElementComponent ({
-autoFocus,
-}: ComponentElementProps) {
-return <button autoFocus={autoFocus}>
-
-  </button>
-    <ElementComponent2/>
-
-}
-
+To get all default possible attributes, events etc. of a certain element like onClick, autofocus etc
+```ts
 type ComponentElementPropsWithRef = React.ComponentPropsWithRef<'button'>
 
 export function ElementComponent2 ({
-autoFocus,
-...rest // in this context this is rest
+  autoFocus,
+  ...rest // in this context this is rest
 }: ComponentElementPropsWithRef) {
-
-//we can see this complicated type when hovering over an element where it is used
-function handleClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-console.log(e);
+  return <div>Hello</div>
 }
+```
 
-return <>
-<button autoFocus={autoFocus}
-onClick={e => () => handleClick(e)}
-
-          {...rest}>  // spread
-
-</button></>
-}
-
-**typing tuples**
-
-const buttonTextOptions = [
-"option1",
-"options2",
-"option3",
-] as `const`
-
-`adding as const will give as intellisense and will tell typescript that this is a tuple,
-meaning an array of a certain length and structure
-it will also be readonly`
-
-**OMIT**
-`lets say that we need only some values from a certain type, in such scenarios we can use Omit`
-
-type User = {
-sessionId: number,
-name: string,
-}
-
-we are ommitting sessionId
-type Guest = Omit<User, "sessionId"> // only name is left
-
-// any type - anything goes it is much better to use unknown
-
-_GENERICS_
-
-`function someGenericFoo<T>(value: T): T[] {
-return [value]
-}`
+  
+# GENERICS
+        
+```ts
+    function someGenericFoo<T>(value: T): T[] {
+      return [value]
+    }
 
 //with this syntax you need a coma after T, otherwise TSX will think that we are trying to
 // create a jsx element like <div>
 
-`const someGenericFoo2 = <T, >(value: T): T[] => {
-return [value]
-}`
+  const someGenericFoo2 = <T, >(value: T): T[] => {
+    return [value]
+  }
 
-console.log(someGenericFoo2, someGenericFoo))
-
-`type GenericPropst<T> ={
-name:T
-nameArr: T
-}`
-
-`export const T = ({}) => {
-return <></>
-}`
-
-`function SomeGenericComponentConstT<T>({nameArr, name}: GenericPropst<T>) {
-console.log(nameArr);
-console.log(name);
-return<></>
-}`
-
-`const SomeGenericComponentConst = <T, >({name, nameArr}: GenericPropst<T> ) => {
-console.log(name);
-console.log(nameArr );
-return <>
-</>
-}`
-
-console.log(SomeGenericComponentConstT, ), SomeGenericComponentConst;
+```
 
 
-**OptimizeGettingInitialState**
-import { useEffect, useState } from "react";
+# OptimizeGettingInitialState
+Render timing:
+  *useState callback: The calculation happens before the first render.*
+  *useEffect: The calculation happens after the first render*
+Initial render content:
+  useState callback: The component renders with the calculated data immediately.
+  useEffect: The component first renders with null (or whatever initial state you set), then re-renders with the calculated date
+Performance:
+  useState callback is slightly more efficient as it avoids an extra render.
 
-// If we have some function that we need to execute to get this initial state, and we do not want it to execute every time the component renders, we can actually use a function as a value, this will only  run once!!
-//
-// Another thing, you don't need useEffect to get data from local storage!!
+```ts
+  import { useEffect, useState } from "react";
 
-
-export const OptimizeGettingInitialState = ({name}: any) => {
-
-// If we store
-const [testname, setTestname] = useState(name);
-console.log(testname);
-console.log(`rendering... this will run every time name changes and this is fine`);
-
-
-// But what if the initial value is something we want to get once, and not rerender it when
-// component re-renders? We can store this data as a function.
-
-    const [data, setData] = useState(() => {
-      // This function will only run once on initial render
-      console.log('Calculating initial state...');
-
-      // Simulate an expensive operation
-      const result = Array.from({ length: 1000000 }, (_, i) => i).reduce((sum, num) => sum + num, 0);
-
-      return result;
-    });
+  // If we have some function that we need to execute to get this initial state, and we do not want it to execute every time the component renders, we can actually use a function as a value, this will only  run once!!
+  //
+  // Another thing, you don't need useEffect to get data from local storage!!
 
 
-    // Now this is quite simillar to using useEffect with an empty dependency array but there
-// are some differences:
-
-const [data2, setData2] = useState(null);
-
-useEffect(() => {
-console.log('Calculating initial state...');
-setData(() => {
-console.log(`rendering`);
-return JSON.parse(localStorage.getItem(`count`)) ??
-0
-}
-);
-}, []);
+  export const OptimizeGettingInitialState = ({name}: any) => {
+      const [data, setData] = useState(() => {
+        // This function will only run once on initial render
+        console.log('Calculating initial state...');
+        // Simulate an expensive operation
+        const result = Array.from({ length: 1000000 }, (_, i) => i).reduce((sum, num) => sum + num, 0);
+        return result;
+      })
+  }
+```
 
 
-// Render timing:
-//   useState callback: The calculation happens before the first render.
-//   useEffect: The calculation happens after the first render.
-
-// Initial render content:
-//   useState callback: The component renders with the calculated data immediately.
-//   useEffect: The component first renders with null (or whatever initial state you set), then re-renders with the calculated data.
-
-// Performance:
-//   useState callback is slightly more efficient as it avoids an extra render.
-
-
-return (
-<>
-
-    </>
-);
-};
-
-**INITIALIZING MAP**
-
-const mapper = new Map([
-["1", "a"],
-["2", "b"],
-]);
-
-**the same as**
-const mapper = new Map();
-mapper.set("1", "a");
-mapper.set("2", "b");
-
+# INITIALIZING MAP
+```ts
+  const mapper = new Map([["1", "a"], ["2", "b"]]);
+  
+  // the same as
+  const mapper2 = new Map();
+  mapper.set("1", "a");
+  mapper.set("2", "b");
+```
 
 **RULES OF HOOKS**
 - Generally only use hooks at the top level of React components, do not use it inside loops, conditions, event 
   handlers etc. 
 
-
   
+
 # useEffectEvent(callback) React 19.2^
 https://www.youtube.com/watch?v=uQpky6ygfk0
 Call useEffectEvent at the top level of your component to declare an Effect Event. Effect Events are functions you 
@@ -283,3 +123,117 @@ to re-run when those values change.
      */
   }
 ```
+
+
+# RENDERING
+In react it means executing component function body, this way React knows what it must paint on the screen.  
+Rendering can happen when:
+- component is mounted - added to the DOM - initial render
+- components state changes
+- component props changes
+- parent component re-renders
+
+Each render produces a new React element tree (Virtual DOM) that is later compared with the previous one (the diff) 
+and real dom is updated only where it is necessary
+
+# Mounting / unmounting
+Adding / removing component to the DOM. 
+It happens once in a component's lifecycle, when it first appears on the screen.
+React creates the DOM nodes and inserts them into actual document.
+The mounting step includes an initial render, but with an important side effect — the real DOM now contains those elements.
+
+A component can render many times, but it mounts only once (unless it’s removed and then added to the tree again).
+
+Mounting / unmounting can happen for example if we have some conditional logic 
+
+```js
+  function Example() {
+    const [show, setShow] = useState(true);
+    return (
+      <div>
+        <button onClick={() => setShow(!show)}>Toggle</button>
+        {show && <Child />} {/* Child mounts/unmounts here */}
+      </div>
+    );
+}
+```
+
+
+# NEXT JS DATA FETCHING
+- CSR
+- SSR - server rendered on demand
+- ISR - revalidate
+- Streaming - mix of SSR and ISR
+
+
+# SSR (Server‑Side Rendering)
+- Happens on every request.
+- When a user requests /product/123, the server:
+  - Fetches data (e.g. from your API or DB).
+  - Renders the React component to HTML.
+  - Sends that HTML to the browser — it's immediately visible.
+  - Then React hydrates it (attaches event listeners) client‑side.
+
+Use when data changes often or must be personalized per request.
+Trade‑off: slightly slower than static because it always runs on demand.
+
+
+# SSG (Static Site Generation)
+- Happens at build‑time.
+- Next.js pre‑renders pages as static HTML files (plus minimal JS).
+- This means no server computation per request.
+
+Use when content is mostly static — e.g. marketing pages, blog posts, docs.
+Trade‑off: must rebuild the site to reflect content updates.
+
+
+# ISR (Incremental Static Regeneration)
+- A hybrid between SSG and SSR.
+- Pages are initially generated at build‑time (like SSG).
+- But Next can regenerate them in the background after a set revalidate interval (say every 60 seconds).
+This gives the feel of live content updates—without expensive per‑request rendering.
+Use when data updates occasionally or can tolerate small staleness.
+
+# CSR (Client‑Side Rendering)
+- This is traditional React SPA rendering.
+- The page is just a skeleton delivered from server; JS runs and fetches data client‑side.
+Use when the page is highly interactive, dynamic per user, or doesn’t need SEO pre‑rendering.
+
+
+# Streaming / Server Components (Next 13+)
+- React 18 introduced Server Components and Streaming Rendering.
+- These let components run partly on the server — e.g., safe access to DB or secrets — and stream HTML chunks to the browser progressively.
+- This gives the immediacy of SSR + the efficiency of static hydration.
+
+
+# HYDRATION
+1. What happens before hydration?
+Imagine a page that renders via SSR (server‑side rendering).
+When a user requests /home, the server runs your React components, producing pure HTML — no event listeners, no React state.
+Hydration is the process by which React (running in the browser) attaches event handlers and rebuilds internal 
+   component state by matching the static HTML structure already in the DOM.
+React “reclaims” the server-rendered HTML and makes it interactive.
+It reuses the existing DOM rather than re-rendering from scratch — that’s crucial for performance.
+
+Roughly, hydration looks like this:
+1. The page loads the JS bundle.
+2. React runs on the client with the same component tree the server used.
+3. React walks the DOM, comparing its virtual DOM output with the existing HTML.
+4. If everything matches, React simply attaches event listeners instead of replacing nodes.
+5. The page becomes fully “live”.
+
+# Why not just render client‑side directly?
+Because SSR gives you:
+- Faster First Contentful Paint (FCP) — user sees UI instantly.
+- SEO — search engines can index meaningful HTML.
+And hydration then “activates” that HTML, turning it into an interactive app.
+
+# Hydration in Next.js specifically
+
+- SSR, SSG, or ISR pages all get HTML + JS bundles.
+- Next injects the necessary script tags automatically.
+- React hydrates once the JS loads.
+
+In the App Router (React Server Components), hydration is more optimized:
+# Server Components render on the server and are never hydrated (they’re not interactive).
+# Only Client Components (declared with "use client") hydrate.

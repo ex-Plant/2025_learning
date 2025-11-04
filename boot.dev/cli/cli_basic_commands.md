@@ -22,7 +22,7 @@
 */* - search
 *n* - next result
 *N* go back
-
+3
 
 # nano
 - command to edit files within the terminal

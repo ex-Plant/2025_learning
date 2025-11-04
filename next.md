@@ -42,3 +42,20 @@ export const dynamic = 'force-dynamic'
   importing server one component into client component. When using children pattern we are actually doing just that
 
 ****
+
+
+# Preventing resetting form after submit via form action
+By default, after form action form will be reset. But since we can return whatever we want from form action, we can 
+pass a form object, and use it's value as a default value to populate the fields again. 
+```js
+	const [state, formAction, pending] = useActionState(actionTest, initData);
+  <Input
+        defaultValue={state?.company_name}
+        placeholder={'Nazwa firmy / pracowni'}
+        name={'company_name'}
+  />
+  export async function actionTest(prevState: FormT, formData: FormData) {
+    if (formData) console.log(formData?.get('company_name'));
+    return { company_name: 'test' };
+  }
+```

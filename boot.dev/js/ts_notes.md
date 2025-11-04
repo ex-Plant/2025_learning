@@ -274,3 +274,10 @@ import type { User, Post } from "./models";
 
 # Type masturbation is a bad thing ❗ 
 # Creating to complex types, with endless possibilities will result in ts errors and is very bad for performance and compilation speed
+
+
+# INTERFACES
+Main difference between interface and type is that type is more elastic, for example in
+interface you can't do something like:
+`interface Inter1 = "string"`
+Interface is always an object!
