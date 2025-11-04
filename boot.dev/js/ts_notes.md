@@ -52,7 +52,7 @@ type Lesson = MultipleChoiceLesson | CodingLesson;
 
 function isCorrect(lesson: Lesson): boolean {
   switch (lesson.kind) {
-    case "multiple-choice":
+    case "multiple-choice":w
       return lesson.studentAnswer === lesson.correctAnswer;
     case "coding":
       return lesson.studentCode === lesson.solutionCode;

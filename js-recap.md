@@ -67,6 +67,18 @@ Var is function scoped, not block scoped
   console.log(test); // 2 
 ```
 
+# Identifier
+- var, let, const
+```js
+    const test = 1;
+    console.log(window.test); // undefined
+    var test2 = 1;
+    // by using var we are adding new property to the window object
+    console.log(window.test2); //1
+    delete window.test2;
+    console.log(test2); // 1
+```
+
 # ✅ let 
 ```js
   let testLet  = 1
@@ -84,3 +96,28 @@ Var is function scoped, not block scoped
   }
   console.log(testLet); // 1
 ```
+
+# Array.with()
+Creates a new array with a modified element at a specific index, while keeping the original array unchanged.
+```js
+    const newArray = array.with(index, newValue);
+
+    const arr = [1, 2, 3, 4, 5];
+    const newArr = arr.with(2, 6); // Change index 2 to 6
+    console.log(newArr); // [1, 2, 6, 4, 5]
+    console.log(arr);    // [1, 2, 3, 4, 5] (original unchanged)
+```
+
+# <b></b>
+bring attention to an element, for bold text, stuff like that
+
+# Falsy values
+After conversion t bool they will return false
+- false
+- 0
+- "" (empty string)
+- null
+- undefined
+- NaN
+
+console.log( typeof null ); // "object"

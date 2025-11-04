@@ -237,3 +237,20 @@ And hydration then “activates” that HTML, turning it into an interactive app
 In the App Router (React Server Components), hydration is more optimized:
 # Server Components render on the server and are never hydrated (they’re not interactive).
 # Only Client Components (declared with "use client") hydrate.
+
+
+# Timeout type
+```ts
+    type TimeoutId = ReturnType<typeof setTimeout>
+    const t = useRef<TimeoutId | null>(null)
+    
+    useEffect(() => {
+    if (t.current) clearTimeout(t.current)
+    t.current = setTimeout(() => {
+      console.log('')
+    }, 500)
+    return () => {
+      if (t.current) cleartTimeout(t.current)
+    }
+    }, [])  
+```
