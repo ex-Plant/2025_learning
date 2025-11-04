@@ -11,3 +11,10 @@
 
 **other stuff**
 - js full stack course
+- python
+- dbs
+- sql
+- http
+- data structures 
+- algorithms
+- 
