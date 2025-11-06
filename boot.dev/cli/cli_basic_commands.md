@@ -1,5 +1,13 @@
 *.zshrc*
 
+
+# du -sh *
+Directory usage
+Get directories sizes in mb
+```shell
+    du -sm *
+```
+
 # ifconfig.me - public IP
 - get ip address of local network
 

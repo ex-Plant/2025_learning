@@ -10,9 +10,7 @@ export function ElementComponent2 ({
 }
 ```
 
-  
 # GENERICS
-        
 ```ts
     function someGenericFoo<T>(value: T): T[] {
       return [value]
@@ -24,9 +22,7 @@ export function ElementComponent2 ({
   const someGenericFoo2 = <T, >(value: T): T[] => {
     return [value]
   }
-
 ```
-
 
 # OptimizeGettingInitialState
 Render timing:
@@ -40,11 +36,9 @@ Performance:
 
 ```ts
   import { useEffect, useState } from "react";
-
   // If we have some function that we need to execute to get this initial state, and we do not want it to execute every time the component renders, we can actually use a function as a value, this will only  run once!!
   //
   // Another thing, you don't need useEffect to get data from local storage!!
-
 
   export const OptimizeGettingInitialState = ({name}: any) => {
       const [data, setData] = useState(() => {
@@ -57,7 +51,6 @@ Performance:
   }
 ```
 
-
 # INITIALIZING MAP
 ```ts
   const mapper = new Map([["1", "a"], ["2", "b"]]);
@@ -68,11 +61,9 @@ Performance:
   mapper.set("2", "b");
 ```
 
-**RULES OF HOOKS**
+# RULES OF HOOKS
 - Generally only use hooks at the top level of React components, do not use it inside loops, conditions, event 
-  handlers etc. 
-
-  
+  handlers etc.
 
 # useEffectEvent(callback) React 19.2^
 https://www.youtube.com/watch?v=uQpky6ygfk0

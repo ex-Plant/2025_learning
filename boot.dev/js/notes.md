@@ -1,5 +1,53 @@
 https://www.youtube.com/watch?v=OOOfBC1grl0
 
+# Table of Contents
+
+## Core JavaScript (Lines 6-19)
+- Variable Hoisting (Line 53)
+- Multiple Return Values (Line 57)
+- Variable Scoping (Line 61)
+- Anonymous Functions (Line 75)
+- Named Functions (Line 79)
+- IIFE (Line 108)
+- The `this` Keyword (Line 141)
+  - Expected Behavior (Line 142)
+  - Window Context (Line 155)
+  - Node Context (Line 162, 165)
+  - Arrow Functions (Line 168)
+- Arrow Functions (Line 185)
+- Spread Operator (Line 234)
+- Function Binding (Line 246)
+  - Callback Example (Line 274)
+
+## Object-Oriented Programming (Lines 21-29)
+- Classes (Line 302)
+  - Private Properties (Line 326)
+  - Static Methods (Line 347, 379)
+  - Getters & Setters (Line 409)
+  - Private Methods
+- Inheritance (Line 467)
+  - Using `super` (Line 499)
+  - Method Overriding (Line 532)
+
+## Prototypes & Inheritance (Lines 31-34)
+- Prototype Chain (Line 569)
+- Object.getPrototypeOf() (Line 611)
+- Property Lookup (Line 632)
+
+## Control Flow (Lines 36-42)
+- For Loop (Line 669)
+- While Loop (Line 803)
+- For...in (Line 830)
+- Prime Numbers (Line 715)
+  - Optimized Algorithm (Line 756)
+
+## Data Manipulation (Lines 44-50)
+- String Operations (Line 842, 855)
+- Object Iteration (Line 1000)
+- Data Structures
+  - Sets (Line 899)
+  - Maps (Line 943)
+
 # HOISTING 
 JavaScript Hoisting refers to the process whereby the interpreter appears to move the declaration of functions, variables, classes, or imports to the top of their scope, prior to execution of the code
 
