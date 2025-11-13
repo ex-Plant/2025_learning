@@ -1,3 +1,59 @@
+# Adding fonts 
+Import variable fonts in layout.
+If you add variable option Next.js automatically creates a CSS variable  and injects it into the DOM.
+
+```js
+    const inclusive_Sans = Inclusive_Sans({
+      variable: '--font-inclusive',
+      subsets: ['latin'],
+    });
+    
+    const geist = Geist({
+      variable: '--font-geist',
+      subsets: ['latin'],
+    });
+    <body 
+            className={cn(
+                    geist.variable,
+                    inclusive_Sans.variable,
+                    'font-inclusive'
+            )}>
+    </body>
+```
+
+# Tailwind 4
+Add imported variable fonts as css variables in global.css
+```css
+	/* noinspection CssUnresolvedCustomProperty */
+	--font-inclusive: var(--font-inclusive);
+	/* noinspection CssUnresolvedCustomProperty */
+	--font-geist: var(--font-geist);
+	/* noinspection CssUnresolvedCustomProperty */
+```
+
+# Tailwind 3
+I tailwind 3 we need to add variable fonts to tailwind.config
+```
+      fontFamily: {
+        sans: ['var(--font-inclusive)'],
+        geist: ['var(--font-geist)'],
+      },
+```
+
+
+
+# next 16 images fix
+❌ next 16 image error:
+upstream image http://localhost:3000/api/media/file/output-onlinejpgtools-2.jpg?2025-11-11T21%3A43%3A06.468Z resolved to private ip ["::1","127.0.0.1"]
+
+to fix this add this to nextImage
+```js
+    <Image 
+        unoptimized={src.toString().includes('localhost') || src.toString().includes('127.0.0.1')}
+    />
+```
+
+
 # SERVER ACTIONS
 async functions that run on the server
 
