@@ -510,6 +510,11 @@ function setParams(newParam: string) {
     return newParams;
   });
 }
+
+setSearchParams("?tab=1");
+setSearchParams({ tab: "1" });
+setSearchParams({ brand: ["nike", "reebok"] });
+setSearchParams(new URLSearchParams("?tab=1"));
 ```
 
 ### Page transition animations with framer
