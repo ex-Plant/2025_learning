@@ -402,3 +402,93 @@ useEffect(() => {
   };
 }, []);
 ```
+
+### Sending email using anchor tag
+
+```js
+function ContactLink() {
+  return (
+    <a href="mailto:support@example.com?subject=Support%20Request&body=Hello%2C%20I%20need%20help%20with...">
+      Contact Support
+    </a>
+  );
+}
+``;
+```
+
+### Symbols
+
+1. How Often Are They Used in Modern JavaScript?
+
+-
+
+Everyday Code:
+
+In typical application logic, you might not see symbols being used regularly. Most developers rely on strings or numbers as object keys because those fit many straightforward use cases.
+
+- Library and Framework Code:
+
+Symbols become much more prominent in the internals of libraries and frameworks. They’re used to define properties or protocols in a way that minimizes naming collisions, especially in larger or distributed codebases.
+
+- Built-in Protocols:
+
+JavaScript itself makes heavy use of symbols (known as well-known symbols) for built-in operations. For example, symbols like \(\text{Symbol.iterator}\) and \(\text{Symbol.toStringTag}\) support runtime protocols that allow objects to be iterated over or provide custom string representations.
+
+Unique Property Keys:
+
+```js
+const uniqueKey = Symbol("unique");
+const obj = {
+  [uniqueKey]: "Hidden value",
+};
+```
+
+Defining “Private” or Internal Properties:
+
+Since symbol-keyed properties don’t appear in standard enumeration methods (like for...in or Object.keys), they can serve as a mechanism to hide implementation details:
+
+```js
+const internalId = Symbol("id");
+class MyClass {
+  constructor(id) {
+    this[internalId] = id;
+  }
+
+  getId() {
+    return this[internalId];
+  }
+}
+```
+
+Meta-programming and Reflection:
+
+Symbols also play a role in advanced patterns where you may need to attach metadata or influence object behavior without interfering with the object’s main API.
+
+Summary
+
+-
+
+Frequency of Use:
+
+While symbols might not appear much in everyday, high-level application code, they’re essential for internal library design, for setting up robust and collision-proof APIs, and for implementing JavaScript’s core protocols.
+
+- Scenarios:
+
+They are commonly used for creating unique object keys, hiding internal or “private” properties, and enabling protocol-driven features (like iteration and custom behavior on built-in operations).
+
+You're correct that an object cannot have two properties with the same key. However, the power of symbols lies in the fact that every symbol is unique, even if they share the same description. This means that two symbols created separately with the same descriptive text are considered distinct and will not collide as object keys.
+
+Consider the following example:
+
+```js
+const symbolA = Symbol("konrad");
+const symbolB = Symbol("konrad");
+
+const obj = {
+  [symbolA]: "value from symbolA",
+  [symbolB]: "value from symbolB",
+};
+
+console.log(obj[symbolA]); // "value from symbolA"
+console.log(obj[symbolB]); // "value from symbolB"
+```
