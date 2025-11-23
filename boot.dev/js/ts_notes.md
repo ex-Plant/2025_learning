@@ -417,3 +417,35 @@ const palo = new SecureDog("Palo", "LapDog", 7, "Mieszaniec");
 // ❌ runtime error
 palo.#breed = "Jamnik";
 ```
+
+### Omit
+
+```ts
+type User = {
+  id: number;
+  name: string;
+  email: string;
+  age: number;
+};
+
+type OmittedUser = Omit<User, "email" | "age">;
+```
+
+### PICK
+
+```ts
+type User = {
+  id: number;
+  name: string;
+  email: string;
+  age: number;
+};
+
+type PickedUser = Pick<User, "id" | "name">;
+
+// PickedUser type is now:
+// {
+//     id: number;
+//     name: string;
+// }
+```
