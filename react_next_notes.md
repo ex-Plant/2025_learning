@@ -890,3 +890,189 @@ In production, generate one dynamically so Google can see fresh pages.
 - Use robots.txt + noindex + environment logic.
 - Confirm status via Google Search Console.
 - Publish openly only when your site is ready.
+
+### Creating a csv
+
+- Each row is simply a string with values divided by comas
+- To create a table we need to join each row (string) with "\n"
+
+```js
+  function convertToCSV(data): string {
+
+    // Get headers from the first object
+    const colNames = Object.keys(data[0]))
+
+    // Create CSV header row
+    const csvRows = [colNames.join(',')]
+
+    // Convert each object to CSV row
+    for (const item of data) {
+      const values = colNames.map((col) => {
+        const value = item[col]
+        // Handle values that contain commas or quotes
+        if (
+          typeof value === 'string' &&
+          (value.includes(',') || value.includes('"') || value.includes('\n'))
+        ) {
+          return `"${value.replace(/"/g, '""')}"` // Escape quotes by doubling them
+        }
+        return value || '' // Convert null/undefined to empty string
+      })
+      csvRows.push(values.join(','))
+    }
+
+    return csvRows.join('\n')
+  }
+```
+
+Then to expose this to the front end we can simply return a response from api route
+
+- Content-Type: text/csv
+- Content-Disposition: attachment; filename="filename.csv"
+
+```js
+return new Response(csv, {
+  headers: {
+    "Content-Type": "text/csv",
+    "Content-Disposition": 'attachment; filename="clients.csv"',
+  },
+});
+```
+
+By default next expects we would return
+
+```js
+return Response.json({});
+```
+
+but we do not want to do that here, we want to response text, not json, this is the reason to return a Response
+To handle this on the front end
+
+```js
+const handleFileDownload = async (link: string, title: string) => {
+  // linkt to the api route that returns text/csv
+  const res = await fetch(link);
+  if (!res.ok) throw new Error(`Download failed: ${res.status}`);
+
+  // we need to create a blob to store this temporarily within browser window
+  const blob = await res.blob();
+  const url = window.URL.createObjectURL(blob);
+
+  // than we need to create an anchor tag and click it
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = title;
+  document.body.appendChild(a);
+  a.click();
+
+  // finally clean up
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(url);
+};
+```
+
+### HMAC
+
+`Hash-Based Message Authentication Code `  
+Digital signature created using a secret key and a message.
+It is used to verify that the message was sent by a legitimate sender (who knows secret) and that it was not modified during transmisison.
+
+An Hmac takes a message, secret key and hash algorithm (like sha256), then mixes it together
+
+In practical example:
+Shopify sends a webhook to the backend and sings request body with the Secret. This signature is send in the request header.
+This header needs to be verified to proof that request is coming from legitimate source.
+
+To create a hash we use crypto library.
+
+```js
+const generatedHash = createHmac("sha256", secret) // initialize HMAC generator with API secret
+  .update(rawBody, "utf-8") // feed the message into HMAC foo
+  .digest("base64"); // finalizes the hash and encodes in a Base 64 string format
+```
+
+generatedHash is a string like "Q9MyGB7OK4bBZpZz/WC9Zmu2aKzFkrztpI1Hveb1Jcw="
+
+HMAC proves authenticity and integrity.
+
+### Hash
+
+A one way mathematical function that turns any data into a fixed-length string of bytes
+
+```text
+Input:  "hello"
+Output: "2cf24dba5fb0a..."
+```
+
+- irreversible - you can't get original message from hash
+- always the same for the same input (secret + content)
+- changes completely if you alter one character
+
+### Digest
+
+Final output of a hash function - what is produced after processing (digesting) the data.
+
+```js
+// produce output in a base 64 string format
+.digest('base64')
+// hex format
+.digest('hex')
+// raw bytes
+.digest()
+```
+
+What hapens next is we need to compare received message with generated hash
+
+```js
+const rawBody = await request.text();
+
+const generatedHash = createHmac("sha256", secret)
+  .update(rawBody, "utf8")
+  .digest();
+
+// We need to decode from base64 string that shopify is sending into raw bytes to match our generatedHash
+const checksum = Buffer.from(hmacHeader, "base64");
+
+if (
+  // this is a fast sanity-check it checks the structure
+  generatedHash.length !== checksum.length ||
+  // security comparison
+  !timingSafeEqual(generatedHash, checksum)
+) {
+  console.warn("🚨 Shopify HMAC mismatch");
+  return new NextResponse("Unauthorized", { status: 401 });
+}
+```
+
+### Buffer.from()
+
+Buffer is simply a sequence of raw bytes
+String is a sequence of characters (encoded somehow)
+
+Buffer.from(string, encoding) converts chars into bytes
+
+Typical encoding in crypto
+
+- utf8 - interpret the string as normal text
+- hex - interpret as hexadecimal-encoded-bytes
+- base64 - interpret as base64-encoded binary
+- Omit entirely - Return raw binary (node Buffer)
+
+### Reversing from bytes to string
+
+```js
+const buf = Buffer.from("abc", "utf8");
+buf.toString("utf8"); // 'abc'
+buf.toString("base64"); // 'YWJj'
+buf.toString("hex"); // '616263'
+```
+
+### timingSafeEqual()
+
+Is a safe comparison function (like checking a === b)
+Without timingSafeEqual, using something naïve like a === b or Buffer.compare(a, b) leaks subtle time differences an attacker could measure remotely.
+If you only compare .length, then any 32‑byte Base64 hash passes as long as it’s the correct length — meaningless check.
+Length validates structure, not authenticity.
+Even if you also compared content with a regular equality operator, you’d expose yourself to timing leaks, because JS string/Buffer comparison returns as soon as a mismatch is detected.
+
+An attacker can iterate over possibilities byte‑by‑byte, exploiting network‑timing differences, to infer the correct digest progressively.

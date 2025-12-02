@@ -492,3 +492,27 @@ const obj = {
 console.log(obj[symbolA]); // "value from symbolA"
 console.log(obj[symbolB]); // "value from symbolB"
 ```
+
+### Reduce
+
+```js
+/*  1. Extract and Normalize Attributes from 
+    { "name": "Nazwa firmy / pracowni", "value": "ABC Studio" },
+     To object {"Nazwa firmy / pracowin" : "ABC Studio"}
+  */
+
+const rawAttributes = (order?.note_attributes || []).reduce(
+  (acc: Record<string, any>, attr) => {
+    acc[attr.name] = attr.value;
+    return acc;
+  },
+  {}
+);
+
+/* This is equivalent to using a loop  */
+
+const rawAttributes: Record<string, string> = {};
+for (const attr of order.note_attributes ?? []) {
+  rawAttributes[attr.name] = attr.value;
+}
+```
