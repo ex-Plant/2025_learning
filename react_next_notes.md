@@ -973,7 +973,7 @@ const handleFileDownload = async (link: string, title: string) => {
 
 ### HMAC
 
-`Hash-Based Message Authentication Code `  
+`Hash-Based Message Authentication Code`  
 Digital signature created using a secret key and a message.
 It is used to verify that the message was sent by a legitimate sender (who knows secret) and that it was not modified during transmisison.
 

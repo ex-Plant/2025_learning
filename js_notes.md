@@ -516,3 +516,127 @@ for (const attr of order.note_attributes ?? []) {
   rawAttributes[attr.name] = attr.value;
 }
 ```
+
+### Higher-order function composition.
+
+Does on or both of the following:
+
+- takes another function as an argument
+- returns new function
+
+If a normal function is a worker that does a task,
+a higher-order function is a manager that takes or produces workers.
+
+```js
+function higherOrder(fn) {
+  return function composed() {
+    return fn();
+  };
+}
+```
+
+Real worlds scenario is a zustand store with persist
+create returns a store creator
+persist returns enhanced initializer
+The outer call injects the enhancer into the creator
+
+```js
+create()  → returns [factory function]
+persist() → returns [enhanced factory initializer]
+create()(persist(...)) → executes both and links them
+```
+
+```js
+function test() {
+  console.log(`1`);
+  return function () {
+    console.log("2");
+    return function () {
+      console.log(3);
+      return function () {
+        console.log(4);
+      };
+    };
+  };
+}
+test()()()();
+// 1 2 3 4
+
+// test now holds inner function of test so fn() prints 2
+const fn = test();
+```
+
+1. Function as a Returned Value
+   In JavaScript, a function can:
+
+- be stored in a variable,
+- be passed as an argument,
+- be returned from another function.
+  Since functions are first‑class values, they persist as return values and can be instantly executed via ().
+
+### Currying
+
+Transforming a function that takes mutliple arguments
+Ordinary foo:
+
+```js
+function sum(a, b, c) {
+  return a + b + c;
+}
+sum(1, 2, 3); // 6
+```
+
+Curried:
+
+```js
+const curriedSum = (a) => (b) => (c) => a + b + c;
+curriedSum(1)(2)(3); // 6
+```
+
+Each returned function carries context from the previous one (via closures).
+
+1. It allows partial application
+
+```js
+const add = curriedSum(2)(3);
+add5(10); // 15
+```
+
+2. Configuration chaining
+   uses function returns (or method returns) to carry progressively built configuration objects.
+
+Each call configures part of a final object
+
+```js
+const configureServer = (host) => (port) => (useSSL) => ({
+  host,
+  port,
+  useSSL,
+});
+
+const config = configureServer("localhost")(8080)(true);
+```
+
+Libraries often wrap this into method‑based chaining, which conceptually = “return a function or object with methods returning itself.”
+
+```js
+const builder = {
+  name: "",
+  age: 0,
+  setName(n) {
+    this.name = n;
+    return this; // allows chaining
+  },
+  setAge(a) {
+    this.age = a;
+    return this;
+  },
+  build() {
+    return { name: this.name, age: this.age };
+  },
+};
+
+const user = builder.setName("Alice").setAge(30).build();
+```
+
+Configuration chaining in function form is the functional analogue of the Builder pattern from object‑oriented design.
