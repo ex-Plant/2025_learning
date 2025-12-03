@@ -1,5 +1,7 @@
 # DESIGN PATTERNS 🚀
 
+## Intro
+
 Reusable structural solution to a common problem in software design. It's a template for reasoning.
 Formally each pattern defines:
 
@@ -15,7 +17,7 @@ Patterns gives us cohernt naming to common code structures (factory, singleton, 
 Enourage decoupled architectures
 Enhance predictibililty in code organization
 
-Originated in a book "A gang of four" - foundation of modern OOP design thinking.
+Originated in a book "A gang of four" - foundataion of modern OOP design thinking.
 
 Examples:
 
@@ -26,7 +28,7 @@ Examples:
 
 React hooks are factories returning internally managed singletons.
 
-### Factory pattern 🏭
+## Factory pattern 🏭
 
 `Creator of objects`
 
@@ -199,7 +201,407 @@ function Button({ variant }) {
 
 `A factory is a function (or class) that produces ready‑made, pre‑configured objects or components`
 
-### Builder pattern
+## Singleton pattern 🤖
+
+## Observer pattern 👁️
+
+`Define a one‑to‑many dependency between objects so that when one object (the subject) changes state, all its dependents (observers) are notified automatically - when X changes, Y updates.`
+
+Foundation of react used in stores or in a simple component tree
+Formally speaking, this is the Observer pattern, just implicit — implemented by React itself.
+
+- Parent’s setCount changes “subject state.”
+- React’s reconciliation algorithm notifies all children that observe count.
+- Children re‑render.
+
+We could implement the same pattern manually
+
+```js
+const state = { count: 0 };
+const observers = new Set();
+
+function setCount(newValue) {
+  state.count = newValue;
+  observers.forEach((fn) => fn());
+}
+
+function subscribe(fn) {
+  observers.add(fn);
+  return () => observers.delete(fn);
+}
+```
+
+- Parent acts as a subject whose state changes.
+
+- Children are observers, implicitly notified through React’s internal dataflow.
+
+- The pattern is present conceptually, not as an implementation.
+
+- Moving to explicit Observers (stores, signals, RxJS) becomes necessary only when you need cross‑component reactivity without direct prop flow.
+
+1. THE INTENT  
+   `Ensure one and only one instance of a a particular object exists throughout the entire app, and provide a global access point to it`
+   object uniqueness constraint
+
+2. The problem
+   Before modules and dep injection programs often need to share a single resource:
+
+- config obj
+- db connection
+- cache
+- logger
+  Instead of passing it everywhere it was exposed globally
+
+Modern js modules gives us natural singletones since a module is loaded only once per process.
+
+```js
+// dbClient.js
+import { createConnection } from "./driver";
+
+const dbClient = createConnection(process.env.DATABASE_URL);
+
+export default dbClient;
+```
+
+Every import of dbClient gets the same instance.
+
+SINGLETONS IN REACT / NEXT.JS CONTEXT
+React apps (especially with SSR) need singletons cautiously — they can leak state between requests.
+But they’re valid for:
+
+- Database or API clients (MongoDB, Prisma, Redis, etc.)
+- Configuration or logger objects
+- External service SDKs (e.g. Firebase)
+
+Safe modern pattern:
+
+```js
+import { PrismaClient } from '@prisma/client'
+
+const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient }
+
+export const prisma =
+  globalForPrisma.prisma || new PrismaClient()
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+```
+
+This ensures:
+
+- One instance during hot reloads in dev.
+- No duplicate connections in prod.
+
+## Strategy
+
+`Separate what needs to happen from how it happens.`
+
+Define a family of algorithms, encapsulate each one, and make them interchangeable.
+Strategy lets the algorithm vary independently from the code that uses it.
+
+❌
+
+```js
+if (paymentMethod === "stripe") doStripe();
+else if (paymentMethod === "paypal") doPaypal();
+else if (paymentMethod === "crypto") doCrypto();
+```
+
+✅
+
+```js
+const strategies = {
+  stripe: (amount) => console.log(`Paid ${amount} with Stripe`),
+  paypal: (amount) => console.log(`Paid ${amount} with PayPal`),
+  crypto: (amount) => console.log(`Paid ${amount} with Crypto`),
+};
+
+function pay(method, amount) {
+  const strategy = strategies[method];
+  if (!strategy) throw new Error("Unsupported payment method");
+  strategy(amount);
+}
+
+pay("stripe", 100);
+pay("crypto", 0.2);
+```
+
+Combining strategy with factories
+
+```js
+const createPaymentStrategy = (method) => {
+  switch (method) {
+    case "stripe":
+      return (amount) => console.log(`Stripe ${amount}`);
+    case "paypal":
+      return (amount) => console.log(`PayPal ${amount}`);
+    default:
+      throw new Error("Unknown");
+  }
+};
+
+const pay = createPaymentStrategy("stripe");
+pay(50);
+```
+
+- Factory decides which strategy to give you.
+- You execute it, agnostic to what’s inside.
+
+That’s clean separation between decision and behavior.
+
+React Example
+
+```js
+const validators = {
+  email: (value) => value.includes("@"),
+  password: (value) => value.length > 6,
+  username: (value) => /^[a-z0-9]+$/i.test(value),
+};
+
+function InputField({ type, value, onChange }) {
+  const validate = validators[type];
+  const isValid = validate(value);
+
+  return (
+    <div>
+      <input type="text" value={value} onChange={onChange} />
+      {!isValid && <p className="text-red-500">Invalid {type}</p>}
+    </div>
+  );
+}
+```
+
+validators = Strategy collection (family of interchangeable logic).  
+The component just selects and applies strategy based on type.  
+No switch/if trees across the codebase.
+
+- Encapsulation: Each strategy is a self-contained function/class with uniform interface
+- Replaceability: Strategies can be swapped without affecting consumers
+- Extensibility: Add new behavior without touching existing logic
+- Testability: Each strategy tested separately
+
+Not to confuse with❗:
+
+- State Pattern: changes behavior based on current state internally, not external selection.
+- Factory Pattern: creates objects; Strategy decides which algorithm the objects use.
+
+## State Pattern
+
+`Code that changes its own behavior when its internal condition changes.`
+
+- Strategy = You choose the behavior from outside.
+- State = The object chooses the behavior based on its own condition.
+
+❌
+
+```js
+if (gamePhase === "start") startPhase();
+if (gamePhase === "run") runPhase();
+if (gamePhase === "end") endPhase();
+```
+
+✅
+
+```js
+const states = {
+  loading: () => console.log("Loading..."),
+  success: () => console.log("Success!"),
+  error: () => console.log("Error!"),
+};
+
+let currentState = "loading";
+
+function setState(state) {
+  currentState = state;
+}
+
+function run() {
+  states[currentState]();
+}
+```
+
+React example:
+
+```js
+function PaymentButton() {
+  const [status, setStatus] = useState("idle");
+
+  const handleClick = async () => {
+    setStatus("loading");
+    // simulate
+    await new Promise((r) => setTimeout(r, 1000));
+    setStatus(Math.random() > 0.5 ? "success" : "error");
+  };
+
+  const renderByState = {
+    idle: <button onClick={handleClick}>Pay now</button>,
+    loading: <p>Processing...</p>,
+    success: <p>Payment successful!</p>,
+    error: <p>Something went wrong</p>,
+  };
+  return renderByState[status];
+}
+```
+
+## Command Pattern
+
+`Encapsulate a request or operation as an object, allowing you to parameterize, queue, cancel, or log actions independently of the object that calls them.`
+When actions start mixing with UI logic or control flow, you lose flexibility:
+undo, redo, retry, batching, or deferred execution become messy.
+Command separates invoking an action from executing it.
+
+```js
+const makeCommand = (action) => ({
+  execute: (...args) => action(...args),
+});
+
+const logToServer = makeCommand((msg) =>
+  fetch("/log", {
+    method: "POST",
+    body: JSON.stringify({ msg }),
+  })
+);
+
+logToServer.execute("User logged in");
+```
+
+Now we could simply do this
+
+```js
+function logToServer(msg) {
+  fetch("/log", {
+    method: "POST",
+    body: JSON.stringify(msg),
+  });
+}
+```
+
+But if we want to for example queue it we could use a command pattern
+
+```js
+const queue = [];
+
+// this callback is now a command pattern, it can be queued or retried etc.
+queue.push(() => logToServer("deferred log"));
+
+// later
+for (const cmd of queue) cmd();
+```
+
+Undo / redo or batch operations
+
+```js
+const undoStack = [];
+
+const createCommand = (doFn, undoFn) => ({
+  execute: doFn,
+  undo: undoFn,
+});
+
+const turnOnLight = createCommand(
+  () => console.log("Light ON"),
+  () => console.log("Light OFF")
+);
+
+turnOnLight.execute(); // Light ON
+undoStack.push(turnOnLight);
+
+undoStack.pop().undo(); // Light OFF
+```
+
+- callApiAction = command template (behavior definition)
+- () => callApiAction({ ... data ... }) = command instance (action ready to run)
+
+Batching operations = grouping multiple actions together to:
+
+- execute them as one unit,
+- optimize performance or consistency,
+- reduce repetitive overhead (e.g., network calls, re-renders, transactions).
+
+It’s basically:  
+“Do these n things together instead of one by one.”
+
+This might re-render separately - not optimal
+❌
+
+```js
+increment();
+increment();
+increment();
+```
+
+✅
+
+```js
+batch(() => {
+  increment();
+  increment();
+  increment();
+});
+```
+
+## Adapter pattern
+
+`Make two pieces of code that don’t naturally fit together, work together — without changing either.`  
+Convert the interface of one class, function, or module into another interface that the client expects.
+
+Used when:
+
+- You integrate an API that returns data in a different shape.
+
+- You switch libraries but keep your internal interface.
+
+- You wrap third‑party or legacy code within your app conventions.
+
+It is basically a transition layer
+
+Example
+Let's say we are using the following function for loggin
+
+```js
+function log(message, level) {
+  console.log(`[${level.toUpperCase()}] ${message}`);
+}
+```
+
+But we want to use a third party logger
+
+```js
+thirdPartyLogger.write({ text, priority });
+```
+
+We could find each original log call within the code base and change it to a new logger but this is far from perfect.
+Instead a better idea is to write an adapter
+
+```js
+function log(message, level) {
+  console.log(`[${level.toUpperCase()}] ${message}`);
+}
+
+const thirdPartyLogger = {
+  write({ text, priority }) {
+    // fake implementation for demonstration
+    console.log(`Third‑party logger → [${priority}] ${text}`);
+  },
+};
+
+function loggerAdapter(message, level) {
+  const priorityMap = {
+    info: "normal",
+    warn: "medium",
+    error: "high",
+  };
+
+  thirdPartyLogger.write({
+    text: message,
+    priority: priorityMap[level] || "normal",
+  });
+}
+
+// replace old interface
+const log = loggerAdapter;
+```
+
+## Builder pattern
 
 Intent:
 
