@@ -1,5 +1,3 @@
-# DESIGN PATTERNS 🚀
-
 ## Intro
 
 Reusable structural solution to a common problem in software design. It's a template for reasoning.

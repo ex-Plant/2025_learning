@@ -426,3 +426,31 @@ alternate-reverse: Animation alternates direction each cycle, but starts in reve
 ### animation property values\*
 
 animation: [name] [duration] [timing-function] [delay] [iteration-count] [direction] [fill-mode] [play-state];
+
+### Flex basis
+
+- flex-initial (default)
+  flex: 0 1 auto
+  `Shrink only don't grow`
+
+- flex-1  
+  flex: 1 1 0%
+  Fully flexible item filling remaining space
+  `each item starts as if it has 0px width and equally divides the available space.Flexible but size starts from content or width`
+
+- flex-auto
+  flex: 1 1 auto;
+  Flexible, but content aware
+  `each item starts at its content width (or its defined width), then grows or shrinks proportionally if there’s leftover or insufficient space`
+
+  - flex-none
+    flex: 0 0 auto
+    `fixed`
+
+- flex-0
+  flex: 0 1 0%
+  `Shrinks only takes minimal space`
+  There is no equivalent in tailwind as it is very rare and not very useful
+
+- custom
+  flex-[0_1_0%]

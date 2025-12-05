@@ -16,16 +16,14 @@ const issuesByStatus = Array.from(issuesMap);
 const issuesByStatus: IssuesByStatusT = Array.from(issuesByStatusMap.entries());
 ```
 
-### Reduce
+### REDUCE
 
 ```js
 const numbersArr = [1, 2, 3, 4];
 const newArr = numbersArr.reduce((acc, item) => acc + item, 0);
 ```
 
-## REDUCE + MAP
-
-Grouping items into a Map using reduce
+Grouping items into a Map using reduce.  
 Initial accumulator is a new Map and than we accumulate results into this map
 
 ```js
@@ -37,13 +35,33 @@ const testArr = currentlySelectedIssues.reduce((acc, issue) => {
   }
   return acc
 }, new Map()
-
 ```
 
-This will not work in next.js - in next.js useSearchParams is readonly❗
-const [searchParams, setSearchParams] = useSearchParams()
+Similarly we can reduce an array to a single object
 
-## CHECK IF VALUE IS OF CERTAIN TYPE
+```js
+/*  1. Extract and Normalize Attributes from 
+    { "name": "Nazwa firmy / pracowni", "value": "ABC Studio" },
+     To object {"Nazwa firmy / pracowin" : "ABC Studio"}
+  */
+
+const rawAttributes = (order?.note_attributes || []).reduce(
+  (acc: Record<string, any>, attr) => {
+    acc[attr.name] = attr.value;
+    return acc;
+  },
+  {}
+);
+
+/* This is equivalent to using a loop  */
+
+const rawAttributes: Record<string, string> = {};
+for (const attr of order.note_attributes ?? []) {
+  rawAttributes[attr.name] = attr.value;
+}
+```
+
+### CHECK IF VALUE IS OF CERTAIN TYPE
 
 ```js
 function isTargetFilter(val: string): val is IssuesTargetFilterT {
@@ -138,7 +156,15 @@ function safeParseDate(dateStr: string): Date | undefined {
 
 `%2F` to `/` w query stringu
 
-### for of + continue
+### MAP ENTRIES
+
+```js
+const issuesByStatus: [string, IssueT[]][] = Array.from(
+  issuesByStatusMap.entries()
+);
+```
+
+### for of + continue + map
 
 ```js
 const { issuesByStatusMap, issuesAssignedToMe, issuesCreatedByMe } = useMemo(() => {
@@ -148,20 +174,11 @@ const { issuesByStatusMap, issuesAssignedToMe, issuesCreatedByMe } = useMemo(() 
   const userId = `/users/${user?.id}`
 
     for (const issue of currentlySelectedIssues) {
-      if (issue.createdBy === userId) {
-        createdBy.push(issue)
-      }
-      if (issue.recipient === userId) {
-        assignedTo.push(issue)
-      }
-
+      if (issue.createdBy === userId) createdBy.push(issue)
+      if (issue.recipient === userId) assignedTo.push(issue)
       if (!issue.status) continue
-
-      if (!map.has(issue.status)) {
-        map.set(issue.status, [issue])
-      } else {
-        map.get(issue.status)!.push(issue)
-      }
+      if (!map.has(issue.status)) map.set(issue.status, [issue])
+      else map.get(issue.status)!.push(issue)
     }
 ```
 
@@ -177,7 +194,7 @@ function updateStores() {
 }
 ```
 
-### ZUSTAND RE-RENDERS
+### Zustand selectors
 
 Trggers rerender whenever anything within the store changes:
 
@@ -199,14 +216,6 @@ if (!Array.isArray(statusesArr)) {
   console.error(`statuses is not an array`);
   return true;
 }
-```
-
-### MAP ENTRIES
-
-```js
-const issuesByStatus: [string, IssueT[]][] = Array.from(
-  issuesByStatusMap.entries()
-);
 ```
 
 ### prevent bubbling
@@ -238,7 +247,7 @@ for (const file of filesArr) {
 
 ### URL.createObjectURL(file)
 
-Create an img preview
+`Create an img preview`
 
 ```js
 <img src={URL.createObjectURL(file)} alt="" />
@@ -304,7 +313,7 @@ type Data = Awaited<ReturnType<typeof fetchData>>;
 // Data is now of type 'string'
 ```
 
-## PROMISIFYING CALLBACK-BASED APIS
+### PROMISIFYING CALLBACK-BASED APIS
 
 ```js
   //Standard
@@ -357,7 +366,7 @@ export function ElementComponent2({
 }
 ```
 
-# GENERICS
+### GENERICS
 
 ```ts
 function someGenericFoo<T>(value: T): T[] {
@@ -418,19 +427,9 @@ function ContactLink() {
 
 ### Symbols
 
-1. How Often Are They Used in Modern JavaScript?
-
--
-
-Everyday Code:
-
-In typical application logic, you might not see symbols being used regularly. Most developers rely on strings or numbers as object keys because those fit many straightforward use cases.
-
-- Library and Framework Code:
+In typical application logic, you might not see symbols being used regularly.
 
 Symbols become much more prominent in the internals of libraries and frameworks. They’re used to define properties or protocols in a way that minimizes naming collisions, especially in larger or distributed codebases.
-
-- Built-in Protocols:
 
 JavaScript itself makes heavy use of symbols (known as well-known symbols) for built-in operations. For example, symbols like \(\text{Symbol.iterator}\) and \(\text{Symbol.toStringTag}\) support runtime protocols that allow objects to be iterated over or provide custom string representations.
 
@@ -460,25 +459,13 @@ class MyClass {
 }
 ```
 
-Meta-programming and Reflection:
-
 Symbols also play a role in advanced patterns where you may need to attach metadata or influence object behavior without interfering with the object’s main API.
-
-Summary
-
--
-
-Frequency of Use:
 
 While symbols might not appear much in everyday, high-level application code, they’re essential for internal library design, for setting up robust and collision-proof APIs, and for implementing JavaScript’s core protocols.
 
-- Scenarios:
-
 They are commonly used for creating unique object keys, hiding internal or “private” properties, and enabling protocol-driven features (like iteration and custom behavior on built-in operations).
 
-You're correct that an object cannot have two properties with the same key. However, the power of symbols lies in the fact that every symbol is unique, even if they share the same description. This means that two symbols created separately with the same descriptive text are considered distinct and will not collide as object keys.
-
-Consider the following example:
+`Every symbol is unique, even if they share the same description.` This means that two symbols created separately with the same descriptive text are considered distinct and will not collide as object keys.
 
 ```js
 const symbolA = Symbol("konrad");
@@ -490,31 +477,7 @@ const obj = {
 };
 
 console.log(obj[symbolA]); // "value from symbolA"
-console.log(obj[symbolB]); // "value from symbolB"
-```
-
-### Reduce
-
-```js
-/*  1. Extract and Normalize Attributes from 
-    { "name": "Nazwa firmy / pracowni", "value": "ABC Studio" },
-     To object {"Nazwa firmy / pracowin" : "ABC Studio"}
-  */
-
-const rawAttributes = (order?.note_attributes || []).reduce(
-  (acc: Record<string, any>, attr) => {
-    acc[attr.name] = attr.value;
-    return acc;
-  },
-  {}
-);
-
-/* This is equivalent to using a loop  */
-
-const rawAttributes: Record<string, string> = {};
-for (const attr of order.note_attributes ?? []) {
-  rawAttributes[attr.name] = attr.value;
-}
+console.log(obj[symbolB]); // "value from symbolB"e
 ```
 
 ### Higher-order function composition.
@@ -602,8 +565,9 @@ const add = curriedSum(2)(3);
 add5(10); // 15
 ```
 
-2. Configuration chaining
-   uses function returns (or method returns) to carry progressively built configuration objects.
+### Builder pattern
+
+Configuration chaining uses function returns (or method returns) to carry progressively built configuration objects.
 
 Each call configures part of a final object
 
@@ -640,3 +604,29 @@ const user = builder.setName("Alice").setAge(30).build();
 ```
 
 Configuration chaining in function form is the functional analogue of the Builder pattern from object‑oriented design.
+
+### Closures
+
+Happens when a function remembers vars from where it was created even after a the outer scope has finished executing.  
+`A closure lets a function access variables from its parent function’s scope, even after the parent function has returned.`
+
+```js
+function makeCounter() {
+  count = 0;
+
+  return function () {
+    count++;
+    console.log(count);
+  };
+}
+
+const counter = makeCounter();
+counter(); // 1
+counter(); // 2
+```
+
+Why Closures Matter
+
+- Encapsulation: You can hide data and expose only what must be used.
+- Persistence: Variables can “stay alive” between calls.
+- Modularity: Helps create factory functions, private methods, etc.

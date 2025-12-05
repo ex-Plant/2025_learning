@@ -9,10 +9,11 @@ Get directories sizes in mb
     du -sm *
 ```
 
-# ifconfig.me - public IP
+### Get public ip
 
-Might not work, in such case we can curl ipify.org
-t
+```shell
+curl ifconfig.me
+```
 
 # ipconfig getiffaddr en0 - local IP
 

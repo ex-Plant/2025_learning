@@ -96,7 +96,7 @@ function Example() {
 
 ### useEffect
 
-`USE EFFECT RUNS AFTER THE RENDER` - when component is mounted
+`USE EFFECT RUNS AFTER THE FIRST RENDER` - when component is mounted
 
 - runs when the component mounts and unmounts
 - runs whenever the dependency changes
@@ -389,15 +389,15 @@ where this data will be used. Data to this component will be streamed in by next
 block rendering or interacting with the page. You can also incorporate your own strategy what you want to do with
 that component while it is being streamed.
 
-# dynamic rendering
+### dynamic rendering
 
 - NO CACHING - PAGE ALWAYS HAS A FRESH ACTUAL DATA - COMPONENT IS RENDERED WHENEVER THSE USER MAKES A REQUEST
 
-# static rendering
+### static rendering
 
 - data fetched during build and only then
 
-# export const dynamic = 'force-dynamic'
+### export const dynamic = 'force-dynamic'
 
 - this will make every component in the current route dynamic
 - to do that on the fetch level you can add no-cache option
@@ -580,7 +580,7 @@ fontFamily: {
 },
 ```
 
-# next 16 images fix
+### next 16 images fix
 
 ❌ next 16 image error:
 upstream image http://localhost:3000/api/media/file/output-onlinejpgtools-2.jpg?2025-11-11T21%3A43%3A06.468Z resolved to private ip ["::1","127.0.0.1"]
@@ -716,7 +716,7 @@ if (cart?.checkoutUrl) {
 <input type='hidden' name='project_type' value={formSelects.project_type} />
 ```
 
-# Preventing resetting form after submit via form action
+### Preventing resetting form after submit via form action
 
 By default, after form action form will be reset. But since we can return whatever we want from form action, we can
 pass a form object, and use it's value as a default value to populate the fields again.
@@ -737,6 +737,11 @@ export async function actionTest(prevState: FormT, formData: FormData) {
 ### useTransition
 
 `Perform non-blocking updates with Actions`
+Transitions let you keep the user interface updates responsive even on slow devices.
+
+You can download startTransition directly from react, but then there is no pending state available. If pending state is needed we need useTransition.
+
+With a Transition, your UI stays responsive in the middle of a re-render. For example, if the user clicks a tab but then change their mind and click another tab, they can do that without waiting for the first re-render to finish.
 
 ```js
 const [isPending, startTransition] = useTransition();
@@ -756,6 +761,17 @@ async function handleRegister(formData: FormData) {
       toast.error(`Something went wrong 🚨:` + res.message);
     }
   });
+}
+
+function TabContainer() {
+  const [tab, setTab] = useState("about");
+
+  function selectTab(nextTab) {
+    startTransition(() => {
+      setTab(nextTab);
+    });
+  }
+  // ...
 }
 ```
 
@@ -1076,3 +1092,192 @@ Length validates structure, not authenticity.
 Even if you also compared content with a regular equality operator, you’d expose yourself to timing leaks, because JS string/Buffer comparison returns as soon as a mismatch is detected.
 
 An attacker can iterate over possibilities byte‑by‑byte, exploiting network‑timing differences, to infer the correct digest progressively.
+
+### UseLayoutEffect()
+
+❗ Use only when necessary - can hurt performance. Also this will not work on the server.
+
+Most components don’t need to know their position and size on the screen to decide what to render. They only return some JSX. Then the browser calculates their layout (position and size) and repaints the screen.
+
+`The purpose of useLayoutEffect is to let your component use layout information for rendering:`
+Render the initial content.  
+Measure the layout before the browser repaints the screen.  
+Render the final content using the layout information you’ve read.
+A version of useEffect that runs before the browser repaints the screen.
+
+```js
+function Tooltip() {
+  const ref = useRef(null);
+  const [tooltipHeight, setTooltipHeight] = useState(0);
+
+  useLayoutEffect(() => {
+    const { height } = ref.current.getBoundingClientRect();
+    setTooltipHeight(height);
+  }, []);
+```
+
+React guarantees that the code inside useLayoutEffect and any state updates scheduled inside it will be processed before the browser repaints the screen. This lets you render the tooltip, measure it, and re-render the tooltip again without the user noticing the first extra render. In other words, useLayoutEffect blocks the browser from painting.
+
+### createPortal()
+
+`createPortal lets you render some children into a different part of the DOM.`
+
+Portals let your components render some of their children into a different place in the DOM. This lets a part of your component “escape” from whatever containers it may be in. For example, a component can display a modal dialog or a tooltip that appears above and outside of the rest of the page even if the component that summons the dialog is inside a container with overflow: hidden or other styles that interfere with the dialog.
+
+```js
+<div>
+  <p>This child is placed in the parent div.</p>
+  {createPortal(
+    <p>This child is placed in the document body.</p>,
+    document.body
+  )}
+</div>
+```
+
+```html
+<body>
+  <div id="root">
+    ...
+    <div style="border: 2px solid black">
+      <p>This child is placed inside the parent div.</p>
+    </div>
+    ...
+  </div>
+  <p>This child is placed in the document body.</p>
+</body>
+```
+
+A portal only changes the physical placement of the DOM node. In every other way, the JSX you render into a portal acts as a child node of the React component that renders it. For example, the child can access the context provided by the parent tree, and events still bubble up from children to parents according to the React tree.
+
+### React.lazy()
+
+`Don’t import UserProfile at build time. Instead, create a function that will dynamically import it when React tries to render it for the first time.`
+lazy lets you defer loading component’s code until it is rendered for the first time.
+
+```js
+import { lazy, Suspense } from "react";
+const UserProfile = lazy(() => import("./UserProfile"));
+
+...
+
+<Suspense fallback={<div>Loading...</div>}>
+  <UserProfile />
+</Suspense>;
+```
+
+- Build time (e.g., with Vite or Webpack):
+
+The bundler sees the dynamic import() and splits UserProfile into its own separate JS file (“chunk”).
+
+- Initial load:
+
+The main bundle doesn’t include UserProfile; it only has a small stub that knows how to fetch it later.
+When React renders <UserProfile /> the first time:
+
+- React calls the function from lazy(), which triggers a dynamic import.
+- The browser downloads that separate JS chunk.
+- Until it finishes loading, React suspends rendering at that boundary.
+
+Why it matters
+
+- Reduces initial bundle size → faster initial load.
+- You only pay the cost of downloading a component when it’s actually used.
+- Prevents loading rarely visited routes, modals, or dashboard panels upfront.
+
+❗ React.lazy() is redundant in most Next.js scenarios.
+Next.js already performs automatic code splitting and lazy loading for route and component boundaries at build time. When you import a component normally inside a page or dynamic route, Next.js ensures the bundle is split correctly.
+Use lazy loading for client components that are:
+
+- heavy (charts, maps, visualizations),
+- below the fold (modals, rarely-used widgets).
+
+### dynamic()
+
+In Next.js, the idiomatic way isn’t React.lazy() — it’s Next’s own helper:
+
+```js
+import dynamic from "next/dynamic";
+const Chart = dynamic(() => import("@/components/Chart"), {
+  ssr: false,
+  loading: () => <p>Loading chart...</p>,
+});
+```
+
+### NextResponse.redirect(url)
+
+```js
+loginRedirectUrl = new URL("/eng/login", request.url);
+return NextResponse.redirect(loginRedirectUrl);
+```
+
+### Populating zustand store
+
+Benefits of using zustand combined with context is that now we can limit the scope of zustand store, that is by default a global scope.
+
+Creating a store context
+
+```js
+
+import { createStore, StoreApi, useStore } from 'zustand';
+import { ProfileDataT } from '@/utils/types/profileTypes';
+import { createContext, useContext, useMemo, useState } from 'react';
+
+type ProfileState = {
+	profileData: ProfileDataT | null;
+	setProfileData: (profileData: ProfileDataT | null) => void;
+};
+
+type PropsT = {
+	children: React.ReactNode;
+	data: ProfileDataT | null;
+};
+
+const ProfileContext = createContext<StoreApi<ProfileState> | undefined>(undefined);
+
+export default function ProfileProvider({ children, data }: PropsT) {
+
+  // We are creating a store using createStore not create❗
+  const store = useMemo(() => {
+		return createStore<ProfileState>((set) => ({
+			profileData: data,
+			setProfileData: (profileData: ProfileDataT | null) => set({ profileData }),
+		}));
+	}, [data]);
+
+	return <ProfileContext.Provider value={store}>{children}</ProfileContext.Provider>;
+}
+
+// this is just a standard way of using context
+export function useProfileStore<T>(selector: (state: ProfileState) => T) {
+	const context = useContext(ProfileContext);
+
+	if (!context) {
+		throw new Error(`❌ missing profile context!`);
+	}
+	return useStore(context, selector);
+}
+
+export function useProfileD() {
+	return useProfileStore((s) => s.profileData);
+}
+
+```
+
+Using it
+
+```js
+export default async function Layout({ children }: LayoutProps) {
+  const res = await getProfileData();
+  const profileData: ProfileDataT = {
+    res,
+  };
+
+  return <ProfileProvider data={profileData}>{children}</ProfileProvider>;
+}
+```
+
+And now we can use this inside ProfileProviderContext components
+
+```js
+const data = useProfieStore();
+```
