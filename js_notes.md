@@ -630,3 +630,7 @@ Why Closures Matter
 - Encapsulation: You can hide data and expose only what must be used.
 - Persistence: Variables can “stay alive” between calls.
 - Modularity: Helps create factory functions, private methods, etc.
+
+### Event loop
+
+https://www.lydiahallie.com/blog/event-loop

@@ -1,7 +1,7 @@
 isNan()  
 substring()  
 React.lazy()
-useEffectEvent()
+useEffectEvent()t
 
 ### RULES OF HOOKS
 
@@ -955,6 +955,8 @@ return new Response(csv, {
 });
 ```
 
+### handleFileDownload
+
 By default next expects we would return
 
 ```js
@@ -1281,3 +1283,331 @@ And now we can use this inside ProfileProviderContext components
 ```js
 const data = useProfieStore();
 ```
+
+### Streaming
+
+Component fetching data needs to be wrapped with a supsense by a parent! Otherwise it will block rendering of the whole page!
+
+```js
+export default async function ShopifyProductsServer(
+  props: ShopifyProductsBlock
+) {
+  const limitTxt = props["Limit info"] ?? "";
+
+  return (
+    <Suspense fallback={null}>
+      <FetchedCollection limitTxt={limitTxt} />
+    </Suspense>
+  );
+}
+
+async function FetchedCollection({ limitTxt }: { limitTxt: string }) {
+  async function wait() {
+    return new Promise((res) => setTimeout(res, 5000));
+  }
+
+  await wait();
+  const productsByCollection = await getCachedProductsByCollection();
+  return (
+    <Collections
+      productsByCollection={productsByCollection}
+      limitTxt={limitTxt}
+    />
+  );
+}
+```
+
+### ResizeObserver
+
+What is ResizeObserver?
+It is a browser API that fires a callback whenever a specific DOM element changes size. Unlike window.addEventListener('resize', ...), which only detects viewport changes, ResizeObserver detects changes to specific elements (e.g., an image loading, a sidebar expanding).
+
+```js
+useEffect(() => {
+  if (!setImgHeight || !ref.current) return;
+  const element = ref.current;
+
+  const observer = new ResizeObserver((entries) => {
+    window.requestAnimationFrame(() => {
+      const entry = entries[0];
+      if (!entry) return;
+
+      // setImgHeight(entry.target.scrollHeight);
+
+      // OPTIMIZATION: Use entry.contentRect.height instead of entry.target.scrollHeight
+      // Reading .scrollHeight forces a browser reflow (slow).
+      // contentRect is pre-calculated by the observer (fast).
+      setImgHeight(entry.contentRect.height);
+    });
+  });
+
+  observer.observe(element);
+
+  return () => observer.disconnect();
+}, [setImgHeight]);
+```
+
+### ResizeObserverEntry
+
+What are entries?
+`entries is always an array`, even if you observe only one element because The ResizeObserver API allows a single observer instance to watch multiple elements simultaneously.
+
+You can do this:
+observer.observe(div1);
+observer.observe(div2);
+observer.observe(div3);
+
+The callback receives a batch of ALL elemens
+
+Each entry is an object with some useful properties
+
+- contentBoxSize (default)
+- borderBoxSize (padding and border included in w and h)
+- contentRect
+  {
+  "x": 0,
+  "y": 0,
+  "width": 424,
+  "height": 424,
+  "top": 0,
+  "right": 424,
+  "bottom": 424,
+  "left": 0
+  }
+  - target (target element)
+
+### window.requestAnimationFrame(() => )
+
+It tells the browser: "Execute this function right before the next repaint."
+It ensures your code runs exactly once per frame (usually 60 times/second), aligned with the browser's rendering cycle.
+
+✅ Rule of Thumb: Never update React state (which triggers render/layout) directly inside a ResizeObserver callback without requestAnimationFrame.
+
+In your code, you are calling setImgHeight inside the observer. This updates React state, triggering a re-render.
+
+❌ Without raf
+ResizeObserver detects a size change.
+You call setImgHeight immediately.
+React re-renders the component.
+The re-render slightly alters the DOM layout/size.
+ResizeObserver detects another change immediately within the same frame.
+Result: Browser throws "ResizeObserver loop limit exceeded" because you created an infinite layout-render loop.
+
+✅ The Fix (With rAF):
+Wrapping the state update in requestAnimationFrame pushes the execution to the next frame. It breaks the synchronous loop effectively saying: "Wait until this paint is finished before updating the state."
+
+### Reflow (layout)
+
+Triggered when the geometry of the DOM changes (size, position, structure)
+Browser must recalculate layouot of all affected elements.
+Triggered by changes of width, height, paddings, margins, display etc.
+It i an expensive operation.
+
+`❗Reading layout properties (offsetHeight, scrollTop, scrollHeight) forces a sync layout flush — particularly costly.`
+
+### Repaint
+
+Triggered when something visual changes like color, outline, visibility etc.
+Cheaper but still not trivial when repaits affect a large area.
+
+### IntersectionObserver
+
+```ts
+new IntersectionObserver(callback, options);
+```
+
+```js
+import { useEffect, useRef } from "react";
+
+export default function ObserverDemo() {
+  const elementRef = (useRef < HTMLDivElement) | (null > null);
+
+  useEffect(() => {
+    const element = elementRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            console.log("Fully visible:", entry.target);
+          }
+        }
+      },
+      {
+        threshold: 1, // callback fires when element is fully visible within container
+        rootMargin: "50px 0px 50px 0px", // extended viewport
+        // container: // add different container then default viewport
+      }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={elementRef}
+      style={{ height: "200px", background: "lightcoral", marginTop: "100vh" }}
+    >
+      Watch me intersect
+    </div>
+  );
+}
+```
+
+Threshold:
+
+- 0 → triggers as soon as one pixel enters or leaves the viewport.
+- 0.5 → triggers when half of the element’s total area is visible.
+- 1 → triggers when the element is fully visible.
+
+Entry:
+{
+target: Element,
+isIntersecting: boolean,
+intersectionRatio: number,
+boundingClientRect: DOMRect, // target rect
+rootBounds: DOMRect,
+intersectionRect: DOMRect,
+time: DOMHighResTimeStamp
+}
+
+The API allows an array of ratios, letting you decide at which visibility points the callback should trigger.
+Default treshold is 0 (fire when entering)
+rootMargin → Expands/shrinks the root’s bounding box before intersection is calculated.
+
+### element.boundingClientRect
+
+top Distance from viewport’s top edge to element’s top
+right Distance from viewport’s left edge to element’s right edge
+bottom Distance from viewport’s top edge to element’s bottom
+left Distance from viewport’s left edge to element’s left edge
+width Layout width of the element
+height Layout height of the element
+x, y Aliases for left and top (modern API addition)
+
+### Window size
+
+```js
+useEffect(() => {
+  console.log(window.innerHeight); // only visible height
+  console.log(document.documentElement.scrollHeight); // full
+}, []);
+```
+
+### element.boundingClientRect
+
+top Distance from viewport’s top edge to element’s top
+right Distance from viewport’s left edge to element’s right edge
+bottom Distance from viewport’s top edge to element’s bottom
+left Distance from viewport’s left edge to element’s left edge
+width Layout width of the element
+height Layout height of the element
+x, y Aliases for left and top (modern API addition)
+
+### Window size
+
+```js
+useEffect(() => {
+  console.log(window.innerHeight); // only visible height
+  console.log(document.documentElement.scrollHeight); // full
+}, []);
+```
+
+### assigning ref dynamically in a callback
+
+```js
+  const list = new Array(10).fill("");
+  const betterRefs = useRef<Record<number, HTMLElement | null>>({});
+
+    {list.map((el, i) => {
+        return (
+          <div
+            key={i}
+            ref={(el) => void (betterRefs.current[i] = el)}
+            className={`h-[80vh] bg-red-200`}
+          >
+            ref number: {i}
+          </div>
+        );
+      })}
+
+```
+
+Or even better with a map instead of an object
+
+```js
+
+  // ✅ better to create just one ref object and assign refs dynamically
+  const elementsRef = useRef<Map<number, HTMLDivElement>>(new Map());
+
+  // track elements that intersected
+  const hasEnteredInitiallyRef = useRef<Set<Element>>(new Set());
+
+  useEffect(() => {
+    // const validRefs = refs.filter((el) => el !== null);
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          console.log(`🚀  ${entry.target.textContent} is intersecting`, entry);
+          hasEnteredInitiallyRef.current.add(entry.target);
+        } else if (hasEnteredInitiallyRef.current.has(entry.target)) {
+          console.log(`👋  ${entry.target.textContent}  stopped intersecting`);
+          hasEnteredInitiallyRef.current.delete(entry.target);
+        }
+      });
+    });
+
+    elementsRef.current.forEach((ref) => {
+      observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, [list.length]);
+
+    {list.map((el, i) => {
+        return (
+          <div
+            key={i}
+            ref={(el) => {
+              if (el ) void betterRefs.current.set(i, el)
+              }}
+            className={`h-[80vh] bg-red-200`}
+          >
+            ref number: {i}
+          </div>
+        );
+      })}
+```
+
+### Element size
+
+```js
+useEffect(() => {
+  if (ref.current) {
+    console.log(``, ref.current.scrollHeight);
+    console.log(``, ref.current.scrollTop);
+  }
+}, []);
+```
+
+```js
+const viewportHeight = window.innerHeight;
+console.log("100vh =", viewportHeight, "px");
+
+console.log(window.scrollY);
+```
+
+window.addEventListener('scroll', () => {
+console.log(window.scrollY);
+});
+
+window.scrollY Vertical scroll offset (from top of document) number
+window.scrollX Horizontal scroll offset
+
+document.documentElement.scrollHeight
+
+const viewportHeight = window.innerHeight;
+console.log('100vh =', viewportHeight, 'px');
