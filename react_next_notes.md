@@ -1611,3 +1611,109 @@ document.documentElement.scrollHeight
 
 const viewportHeight = window.innerHeight;
 console.log('100vh =', viewportHeight, 'px');
+
+### Disable double loggin inside useEffect with strict mode
+
+Dev Tools -> Components (React Profiler) -> Debug icon -> Hide logs during second render in Strict Mode
+
+### Diabling strict mode in React app
+
+Next config option
+reactStrictMode: false,
+
+### Debugger React app
+
+- check pause on uncaught exception to show exact place of an error if we go to sources tab
+- simply go to debugger tab and select web app from dropdown
+
+### Debugger Next.js
+
+Go to https://nextjs.org/docs/app/guides/debugging
+Copy paste file inside ./.vscode/launch.json
+
+### React dev tools interesting features
+
+### Components Tab
+
+- Debugging suspense - trigger suspens state
+- Trigger component Error state
+
+### static properties and methods
+
+Static Properties and Methods
+Static properties are shared among all instances of a class and are declared using the static keyword.​
+
+Static methods can also be defined with static and are called using the class name, not an instance.​
+
+```js
+class Circle {
+  static pi: number = 3.14;
+
+  static calculateArea(radius: number): number {
+    return this.pi * radius * radius;
+  }
+}
+
+// No need to create an instance
+console.log(Circle.pi); // 3.14
+console.log(Circle.calculateArea(5)); // 78.5
+```
+
+### Error Boundaries
+
+A JavaScript error in a part of the UI shouldn’t break the whole app. To solve this problem for React users, React 16 introduces a new concept of an “error boundary”.
+
+Error boundaries are React components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of the component tree that crashed. Error boundaries catch errors during rendering, in lifecycle methods, and in constructors of the whole tree below them.
+
+Note
+
+Error boundaries do not catch errors for:
+
+Event handlers (learn more)
+Asynchronous code (e.g. setTimeout or requestAnimationFrame callbacks)
+Server side rendering
+Errors thrown in the error boundary itself (rather than its children)
+
+React doesn’t need error boundaries to recover from errors in event handlers. Unlike the render method and lifecycle methods, the event handlers don’t happen during rendering. So if they throw, React still knows what to display on the screen.
+
+If you need to catch an error inside an event handler, use the regular JavaScript try / catch
+
+```js
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    // You can also log the error to an error reporting service
+    logErrorToMyService(error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <h1>Something went wrong.</h1>;
+    }
+
+    return this.props.children;
+  }
+}
+```
+
+✅
+
+```js
+<ErrorBoundary>
+  <MyWidget />
+</ErrorBoundary>
+```
+
+Error boundaries work like a JavaScript catch {} block, but for components. Only class components can be error boundaries. In practice, most of the time you’ll want to declare an error boundary component once and use it throughout your application.
+
+The granularity of error boundaries is up to you. You may wrap top-level route components to display a “Something went wrong” message to the user, just like how server-side frameworks often handle crashes. You may also wrap individual widgets in an error boundary to protect them from crashing the rest of the application.

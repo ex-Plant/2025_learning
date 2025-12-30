@@ -634,3 +634,25 @@ Why Closures Matter
 ### Event loop
 
 https://www.lydiahallie.com/blog/event-loop
+
+### console.dir
+
+Useful to see what is inside objects on the server when loggin inside terminal
+
+console.dir() is a method that displays an interactive, collapsible tree representation of objects in the console. Unlike console.log() which uses toString() or default string conversion, console.dir() shows the object's structure with properties, methods, and nested objects.
+
+Key differences from console.log():
+Shows full object structure instead of string representation
+Can display non-enumerable properties
+Supports options for customization (depth, colors, etc.)
+In browsers, it often shows DOM elements with their properties
+
+Common options:
+depth: How deep to expand nested objects (default: 2, use null for unlimited)
+colors: Add ANSI colors to output (default: false)
+showHidden: Show non-enumerable properties (default: false)
+
+```js
+const myObj = {};
+console.dir(myObj, { depth: null, colors: true });
+```
