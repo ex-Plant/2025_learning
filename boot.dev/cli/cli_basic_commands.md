@@ -1,3 +1,51 @@
+### Mise
+
+Mise is tool version manager
+Something to replace nvm etc.
+It can be used to run tools, execute tasks, manage env variables.
+
+Run node 24
+This is a "one-off" command. It tells Mise: "Temporarily download/load Node 24 just for this one command, then go back to whatever I was doing.
+
+```shell
+mise exec node@24 -- node -v
+```
+
+mise exec is for scripts or CI/CD pipelines. For your daily development work, you use mise activate + mise use.
+
+❗️ mise exec is rarely used by developers
+What we usually want to do is:
+
+```sh
+mise use --global node@24 # install node 24 and set it as the global default
+```
+
+###
+
+Setting up automatic node versioning
+Something to use instead of nvm use ... every time when starting a project
+
+1. Add this to the bottom of .zshrc
+
+```sh
+eval "$(mise activate zsh)"
+```
+
+2. Set global default
+
+```sh
+mise use --global node@24
+```
+
+3. Pin project version
+   Inside project directory execute and voila!
+
+```sh
+mise use node@24.11.1
+```
+
+The "Magic": Mise creates a .mise.toml file in that folder. Now, the moment you cd into that folder, your node version switches to 24.11.1. When you cd .. out, it switches back to your global default.
+
 _.zshrc_
 
 # du -sh \*
