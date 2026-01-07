@@ -14,6 +14,14 @@ mise exec node@24 -- node -v
 
 # mise use + automatic node versioning
 
+# which
+
+Will tell you where the program is installed. For example the following command will tell us where shell program is installed.
+
+```zsh
+    which sh
+```
+
 mise exec is for scripts or CI/CD pipelines. For daily development work, you use mise activate + mise use.
 
 ```sh
@@ -97,6 +105,20 @@ man grep
 / - search  
 n - next result
 
+# help
+
+Usually less detailed than man output.
+
+```zsh
+--help
+-h
+help
+```
+
+# curl
+
+Programm that allows making network requests from the terminal
+
 # nano
 
 - command to edit files within the terminal
@@ -106,13 +128,6 @@ n - next result
 ```
 
 # chown
-
-`change ownership`
-
-```zsh
-    sudo chown newUserName fileName
-    sudo chown -R root contacts
-```
 
 # chmod
 
@@ -339,6 +354,6 @@ _esc_ - back to normal mode
 _:w_ - save
 _q_ - quit
 
-```
+# env
 
-```
+See all global variables
