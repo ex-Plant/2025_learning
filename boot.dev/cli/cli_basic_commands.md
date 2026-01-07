@@ -127,8 +127,6 @@ Programm that allows making network requests from the terminal
     nano .zshrc
 ```
 
-# chown
-
 # chmod
 
 ```zsh
